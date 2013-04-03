@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using WR.Blog.Data.Models;
+using WR.Blog.Data.Repositories;
+
+namespace WR.Blog.Business.Services
+{
+    public class SiteManagerService : BaseService, ISiteManagerService
+    {
+        public SiteManagerService(IBlogRepository br) : base(br)
+        {
+        }
+
+        #region Site Settings Methods
+        /// <summary>
+        /// Gets the site settings.
+        /// </summary>
+        /// <returns>
+        /// Returns site settings.
+        /// </returns>
+        public SiteSettings GetSiteSettings()
+        {
+                return br.GetSiteSettings() ?? new SiteSettings
+                                                        {
+                                                            Id = 0,
+                                                            AllowComments = true,
+                                                            PostsPerPage = 10
+                                                        }; 
+        }
+
+        /// <summary>
+        /// Adds the settings if they do not exist or updates site settings if they do.
+        /// </summary>
+        /// <param name="settings">The settings to add or update.</param>
+        /// <exception cref="System.UnauthorizedAccessException">Throws unauthorized exception if user is not found.</exception>
+        public void AddOrUpdateSiteSettings(SiteSettings settings)
+        {
+                br.AddOrUpdateSiteSettings(settings); 
+        }
+        #endregion
+
+        public void Dispose()
+        {
+            base.Dispose();
+        }
+    }
+}

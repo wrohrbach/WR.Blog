@@ -1,0 +1,31 @@
+﻿@model IEnumerable<WR.Blog.Data.Models.BlogPage>
+
+@{
+    ViewBag.Title = "Yet Another Web Log";
+}
+
+@if (@ViewBag.IsAdmin)
+{
+    <p class="float-right">@Html.ActionLink("Create New Post »", "Create", "BlogAdmin", routeValues: new { Area = "SiteAdmin" }, htmlAttributes: new { @class = "button" })</p>
+}
+
+@foreach (var item in Model) {
+    <div class="blog-title"><h1>@Html.ActionLink(@item.Title, "Index", "Blog", routeValues: new { year = item.PublishedDate.Year, month = item.PublishedDate.Month, day = item.PublishedDate.Day, urlSegment = item.UrlSegment, Area = "" }, htmlAttributes: new { @class = "" })</h1></div>
+    <div class="blog-byline">By @item.Author.DisplayName</div>
+    <div class="blog-publish-date">@item.PublishedDate</div>
+    <div class="blog-content">@Html.Raw(item.AboveTheFold)</div>
+    <div>
+        @Html.ActionLink("Read More »", "Index", "Blog", routeValues: new { year = item.PublishedDate.Year, month = item.PublishedDate.Month, day = item.PublishedDate.Day, urlSegment = item.UrlSegment, Area = "" }, htmlAttributes: new { @class = "" })
+        @if (ViewBag.IsAdmin)
+        {
+            @:| @Html.ActionLink("Edit", "Edit", "BlogAdmin", routeValues: new { Area = "SiteAdmin", id = item.Id }, htmlAttributes: null)
+        }
+    </div>
+    <hr />
+}
+
+@if (Model.Count() == 0)
+{
+    <h1>Oops... No results.</h1>
+    <p><a href="@Url.Content("~/")">Go home.</a></p>
+}

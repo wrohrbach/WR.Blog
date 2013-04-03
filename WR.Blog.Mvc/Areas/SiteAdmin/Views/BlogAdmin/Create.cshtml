@@ -1,0 +1,23 @@
+﻿@model WR.Blog.Data.Models.BlogPage
+
+@{
+    ViewBag.Title = "New Post";
+}
+
+<h1>New Post</h1>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    @Html.Partial("EditForm", Model)
+    <hr />
+    <div class="input-buttons">
+        <input type="submit" value="Create" />&nbsp;
+        @Html.ActionLink("Cancel", "Index", routeValues: null, htmlAttributes: new { @class = "button" })
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/tiny_mce/tiny_mce_js")
+}

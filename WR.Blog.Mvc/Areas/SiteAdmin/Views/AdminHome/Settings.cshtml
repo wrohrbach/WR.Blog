@@ -1,0 +1,85 @@
+﻿@model WR.Blog.Data.Models.SiteSettings
+
+@{
+    ViewBag.Title = "Settings";
+}
+
+<h1>Settings</h1>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>SiteSettings</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SiteTitle)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SiteTitle)
+            @Html.ValidationMessageFor(model => model.SiteTitle)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Tagline)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Tagline)
+            @Html.ValidationMessageFor(model => model.Tagline)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AltTagline)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.AltTagline)
+            @Html.ValidationMessageFor(model => model.AltTagline)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MenuLinks)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MenuLinks)
+            @Html.ValidationMessageFor(model => model.MenuLinks)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PostsPerPage)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PostsPerPage)
+            @Html.ValidationMessageFor(model => model.PostsPerPage)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AllowComments)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.AllowComments)
+            @Html.ValidationMessageFor(model => model.AllowComments)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.GoogleAccount)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.GoogleAccount)
+            @Html.ValidationMessageFor(model => model.GoogleAccount)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
