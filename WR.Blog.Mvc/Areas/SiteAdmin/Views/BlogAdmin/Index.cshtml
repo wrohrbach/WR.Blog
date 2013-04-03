@@ -1,0 +1,63 @@
+﻿@model IEnumerable<WR.Blog.Data.Models.BlogPage>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    @Html.ActionLink("Create New", "Create", routeValues: null, htmlAttributes: new { @class = "button" })
+</p>
+<table class="index">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsPublished)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PublishedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastModifiedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AllowComments)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Author)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            
+        @Html.ActionLink(item.Title, "Index", "Blog", routeValues: new { year = item.PublishedDate.Year, month = item.PublishedDate.Month, day = item.PublishedDate.Day, urlSegment = item.UrlSegment, Area = "" }, htmlAttributes: null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsPublished)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PublishedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastModifiedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AllowComments)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Author.DisplayName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

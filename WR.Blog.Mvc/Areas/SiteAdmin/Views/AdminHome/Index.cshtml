@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Site Admin";
+}
+
+<h1>Site Admin</h1>
+
+<ul>
+    <li>@Html.ActionLink("Blog Admin", "Index", "BlogAdmin")</li>
+    <li>@Html.ActionLink("Site Settings", "Settings")</li>
+    <li>@using (Html.BeginForm("LogOff", "Account", new { Area = "SiteAdmin" }, FormMethod.Post, new { id = "logoutForm" })) {
+            @Html.AntiForgeryToken()
+            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+        }</li>
+</ul>

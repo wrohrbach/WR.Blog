@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section asides{
+                <div class="four columns">
+                    <aside>
+                        @Html.Partial("_AsidesPartial")
+                        @RenderSection("aside", required: false)
+                    </aside>                    
+                </div>
+}
+@RenderBody()
