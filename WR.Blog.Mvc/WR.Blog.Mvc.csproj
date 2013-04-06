@@ -280,7 +280,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
-    <Content Include="Scripts\modernizr-2.6.2-respond-1.1.0.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2-respond-1.1.0.js" />
     <Content Include="Scripts\syntaxhighlighter\scripts\shAutoloader.js" />
     <Content Include="Scripts\syntaxhighlighter\scripts\shBrushAppleScript.js" />
     <Content Include="Scripts\syntaxhighlighter\scripts\shBrushAS3.js" />

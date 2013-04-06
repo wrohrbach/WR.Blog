@@ -58,6 +58,7 @@
   position: relative !important;
   overflow: auto !important;
   font-size: .8em !important;
+  padding-bottom: 1px;
 }
 .syntaxhighlighter.source {
   overflow: hidden !important;

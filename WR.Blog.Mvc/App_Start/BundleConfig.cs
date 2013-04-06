@@ -34,6 +34,11 @@ namespace WR.Blog.Mvc
                         "~/Scripts/syntaxhighlighter/scripts/shBrushXml.js",
                         "~/Scripts/syntaxhighlighter/scripts/initSyntax.js"));
 
+            // Use the development version of Modernizr to develop with and learn from. Then, when you're
+            // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
+            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
+                        "~/Scripts/modernizr-2.6.2-respond-1.1.0.js"));
+
             // Skeleton
             bundles.Add(new StyleBundle("~/Content/css/styles").Include(
                 "~/content/css/base.css",
@@ -45,11 +50,6 @@ namespace WR.Blog.Mvc
             bundles.Add(new StyleBundle("~/Content/css/syntax").Include(
                         "~/Scripts/syntaxhighlighter/styles/shCoreRDark.css",
                         "~/Scripts/syntaxhighlighter/styles/shThemeRDark.css"));
-
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",
