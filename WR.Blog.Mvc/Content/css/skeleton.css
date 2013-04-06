@@ -99,6 +99,8 @@
 
         /* menu */
         ul.menu { margin: 10 0 0; padding 10px 0; }
+        
+        img.so-flair { width: 160px; height: 45px; }
     
         .container                                  { width: 768px; }
         .container .column,
