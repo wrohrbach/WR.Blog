@@ -25,6 +25,8 @@ namespace WR.Blog.Business.Services
                 return br.GetSiteSettings() ?? new SiteSettings
                                                         {
                                                             Id = 0,
+                                                            SiteTitle = "Your Site Title",
+                                                            MenuLinks = "",
                                                             AllowComments = true,
                                                             PostsPerPage = 10
                                                         }; 
@@ -40,10 +42,5 @@ namespace WR.Blog.Business.Services
                 br.AddOrUpdateSiteSettings(settings); 
         }
         #endregion
-
-        public void Dispose()
-        {
-            base.Dispose();
-        }
     }
 }
