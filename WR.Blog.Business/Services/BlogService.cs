@@ -208,13 +208,5 @@ namespace WR.Blog.Business.Services
                 br.DeleteBlogPage(id);
         }
         #endregion
-
-        public void Dispose()
-        {
-            if (br != null)
-            {
-                br.Dispose();
-            }
-        }
     }
 }
