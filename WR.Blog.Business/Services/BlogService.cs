@@ -16,19 +16,21 @@ namespace WR.Blog.Business.Services
 
         public BlogPage GetBlogPage(int id)
         {
-                return br.GetBlogPageById(id);
-            
+            return br.GetBlogPageById(id);            
         }
 
         /// <summary>
-        /// Gets all blog pages that are currently published.
+        /// Gets all blog pages using supplied skip, take, published, content, and orderByPublishedDesc values.
         /// </summary>
+        /// <param name="skip">Number of groups of blog pages to skip (skip * take).</param>
+        /// <param name="take">Number of blog pages in a group.</param>
         /// <param name="published">If set to true, only return published blog pages.</param>
         /// <param name="content">If set to true, also return content pages.</param>
+        /// <param name="orderByPublishedDescending">If set to true, order by published date descending.</param>
         /// <returns>
-        /// Returns a collection of published blog pages.
+        /// Returns a collection of blog pages.
         /// </returns>
-        private IQueryable<BlogPage> GetBlogPages(bool published = false, bool content = false)
+        public IEnumerable<BlogPage> GetBlogPages(int? skip, int? take, bool published = false, bool content = false, bool orderByPublishedDescending = true)
         {
             var blogPages = br.GetBlogPages();
 
@@ -42,22 +44,10 @@ namespace WR.Blog.Business.Services
                 blogPages = blogPages.Where(b => b.IsPublished && b.PublishedDate <= DateTime.Now);
             }
 
-            return blogPages.OrderByDescending(b => b.PublishedDate);
-        }
-
-        /// <summary>
-        /// Gets all blog pages using supplied skip, take, and published values.
-        /// </summary>
-        /// <param name="skip">Number of groups of blog pages to skip (skip * take).</param>
-        /// <param name="take">Number of blog pages in a group.</param>
-        /// <param name="published">If set to true, only return published blog pages.</param>
-        /// <param name="content">If set to true, also return content pages.</param>
-        /// <returns>
-        /// Returns a collection of blog pages.
-        /// </returns>
-        public IEnumerable<BlogPage> GetBlogPages(int? skip, int? take, bool published = false, bool content = false)
-        {
-            var blogPages = GetBlogPages(published, content);
+            if (orderByPublishedDescending)
+            {
+                blogPages = blogPages.OrderByDescending(b => b.PublishedDate);
+            }
 
             if (skip.HasValue && take.HasValue)
             {
@@ -83,19 +73,18 @@ namespace WR.Blog.Business.Services
         /// </returns>
         public BlogPage GetBlogPageByUrlSegment(string urlSegment, bool isContentPage = false)
         {
-                var blogPages = br.GetBlogPages();
+            var blogPages = br.GetBlogPages();
 
-                if (isContentPage)
-                {
-                    blogPages = blogPages.Where(b => b.IsContentPage == true);
-                }
+            if (isContentPage)
+            {
+                blogPages = blogPages.Where(b => b.IsContentPage == true);
+            }
 
-                return blogPages.Where(b => b.UrlSegment == urlSegment).FirstOrDefault(); 
-            
+            return blogPages.Where(b => b.UrlSegment == urlSegment).FirstOrDefault();             
         }
 
         /// <summary>
-        /// Gets the blog pages by permalink information.
+        /// Gets the blog pages by permalink information (excludes content pages).
         /// </summary>
         /// <param name="year">The year to search. If year is null, null is returned.</param>
         /// <param name="month">The month to search. Pass null to search by year.</param>
@@ -107,7 +96,7 @@ namespace WR.Blog.Business.Services
         /// </returns>
         public BlogPage GetBlogPageByPermalink(int? year, int? month, int? day, string urlSegment, bool isPublished = true)
         {
-            var blogPages = GetBlogPagesByDate(year, month, day);
+            var blogPages = GetBlogPagesByDate(year, month, day, isPublished);
 
             if (blogPages == null)
             {
@@ -123,7 +112,7 @@ namespace WR.Blog.Business.Services
         }
         
         /// <summary>
-        /// Gets the blog pages by date.
+        /// Gets the blog pages by date (excludes content pages).
         /// </summary>
         /// <param name="year">The year to search. If year is null, null is returned.</param>
         /// <param name="month">The month to search. Pass null to search by year.</param>
@@ -134,32 +123,11 @@ namespace WR.Blog.Business.Services
         /// </returns>
         public IEnumerable<BlogPage> GetBlogPagesByDate(int? year, int? month, int? day, bool isPublished = true)
         {
-            var blogPages = GetBlogPagesByDate(year, month, day);
-
-            if (isPublished)
-            {
-                blogPages = blogPages.Where(b => b.IsPublished);
-            }
-
-            return blogPages.ToList();
-        }
-
-        /// <summary>
-        /// Gets the blog pages by date.
-        /// </summary>
-        /// <param name="year">The year to search. If year is null, null is returned.</param>
-        /// <param name="month">The month to search. Pass null to search by year.</param>
-        /// <param name="day">The day to search. Pass null to search by month.</param>
-        /// <returns>
-        /// Returns a collection of blog pages published within the specified date range.
-        /// </returns>
-        public IQueryable<BlogPage> GetBlogPagesByDate(int? year, int? month, int? day)
-        {
             int y = year ?? DateTime.MinValue.Year;
             int m = month ?? 0;
             int d = day ?? 0;
 
-            if (y == DateTime.MinValue.Year && m == 0 && d == 0)
+            if (y == DateTime.MinValue.Year || (y == DateTime.MinValue.Year && m == 0 && d == 0))
             {
                 return null;
             }
@@ -190,22 +158,41 @@ namespace WR.Blog.Business.Services
                 return null;
             }
 
-            return br.GetBlogPages().Where(b => b.PublishedDate > dateFrom && b.PublishedDate < dateTo && !b.IsContentPage);
+            var blogPages = br.GetBlogPages().Where(b => b.PublishedDate >= dateFrom && b.PublishedDate <= dateTo && !b.IsContentPage);
+        
+            if (isPublished)
+            {
+                blogPages = blogPages.Where(b => b.IsPublished);
+            }
+
+            return blogPages.ToList();
         }
 
+        /// <summary>
+        /// Adds the blog page.
+        /// </summary>
+        /// <param name="blogPage">The blog page to add.</param>
         public void AddBlogPage(BlogPage blogPage)
         {
-                br.AddBlogPage(blogPage);            
+            br.AddBlogPage(blogPage);            
         }
 
+        /// <summary>
+        /// Updates the blog page.
+        /// </summary>
+        /// <param name="blogPage">The blog page to update.</param>
         public void UpdateBlogPage(BlogPage blogPage)
         {
-                br.UpdateBlogPage(blogPage);
+            br.UpdateBlogPage(blogPage);
         }
 
+        /// <summary>
+        /// Deletes the blog page.
+        /// </summary>
+        /// <param name="id">The id of the blog page to delete.</param>
         public void DeleteBlogPage(int id)
         {
-                br.DeleteBlogPage(id);
+            br.DeleteBlogPage(id);
         }
         #endregion
     }

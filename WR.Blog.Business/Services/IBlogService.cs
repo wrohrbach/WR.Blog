@@ -18,16 +18,17 @@ namespace WR.Blog.Business.Services
         BlogPage GetBlogPage(int id);
 
         /// <summary>
-        /// Gets all blog pages using supplied skip, take, and published values.
+        /// Gets all blog pages using supplied skip, take, published, content, and orderByPublishedDesc values.
         /// </summary>
         /// <param name="skip">Number of groups of blog pages to skip (skip * take).</param>
         /// <param name="take">Number of blog pages in a group.</param>
         /// <param name="published">If set to true, only return published blog pages.</param>
         /// <param name="content">If set to true, also return content pages.</param>
+        /// <param name="orderByPublishedDescending">If set to true, order by published date descending.</param>
         /// <returns>
         /// Returns a collection of blog pages.
         /// </returns>
-        IEnumerable<BlogPage> GetBlogPages(int? skip, int? take, bool published = false, bool content = false);
+        IEnumerable<BlogPage> GetBlogPages(int? skip, int? take, bool published = false, bool content = false, bool orderByPublishedDescending = true);
 
         /// <summary>
         /// Gets the blog page by URL segment.
@@ -38,7 +39,7 @@ namespace WR.Blog.Business.Services
         BlogPage GetBlogPageByUrlSegment(string urlSegment, bool isContentPage = false);
 
         /// <summary>
-        /// Gets the blog pages by permalink information.
+        /// Gets the blog pages by permalink information (excludes content pages).
         /// </summary>
         /// <param name="year">The year to search. If year is null, null is returned.</param>
         /// <param name="month">The month to search. Pass null to search by year.</param>
@@ -49,7 +50,7 @@ namespace WR.Blog.Business.Services
         BlogPage GetBlogPageByPermalink(int? year, int? month, int? day, string urlSegment, bool isPublished = true);
 
         /// <summary>
-        /// Gets the blog pages by date.
+        /// Gets the blog pages by date (excludes content pages).
         /// </summary>
         /// <param name="year">The year to search. If year is null, null is returned.</param>
         /// <param name="month">The month to search. Pass null to search by year.</param>
