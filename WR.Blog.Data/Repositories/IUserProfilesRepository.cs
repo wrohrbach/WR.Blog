@@ -6,6 +6,7 @@ using WR.Blog.Data.Models;
 
 namespace WR.Blog.Data.Repositories
 {
+    [Obsolete("Do not use IUserProfilesRepository. Use IBlogRepository instead.", true)]
     public interface IUserProfilesRepository : IDisposable
     {
         #region User Profile Methods
