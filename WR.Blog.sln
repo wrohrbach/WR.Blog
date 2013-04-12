@@ -7,6 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WR.Blog.Mvc", "WR.Blog.Mvc\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WR.Blog.Business", "WR.Blog.Business\WR.Blog.Business.csproj", "{8103C2B3-7782-4B0B-AE1A-E8E7BB9D0243}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2956F7E1-8273-44F5-9293-5B32F3551A85}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WR.Blog.Tests", "WR.Blog.Tests\WR.Blog.Tests.csproj", "{B6A23F6A-D5DD-4A5C-A35C-7145A9A62419}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +32,10 @@ Global
 		{8103C2B3-7782-4B0B-AE1A-E8E7BB9D0243}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8103C2B3-7782-4B0B-AE1A-E8E7BB9D0243}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8103C2B3-7782-4B0B-AE1A-E8E7BB9D0243}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6A23F6A-D5DD-4A5C-A35C-7145A9A62419}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6A23F6A-D5DD-4A5C-A35C-7145A9A62419}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6A23F6A-D5DD-4A5C-A35C-7145A9A62419}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6A23F6A-D5DD-4A5C-A35C-7145A9A62419}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
