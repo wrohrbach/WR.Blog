@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var siteSettings = (WR.Blog.Data.Models.SiteSettings)ViewBag.SiteSettings;
+}
+
+<!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -6,7 +10,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>@ViewBag.Title | @ViewBag.SiteTitle</title>
+        <title>@ViewBag.Title | @siteSettings.SiteTitle</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         
@@ -25,9 +29,9 @@
             <header>
                 <div id="header" class="sixteen columns half-bottom">
                     <p class="site-title">
-                        @Html.ActionLink((string)ViewBag.SiteTitle, "List", "Blog", routeValues: new { Area = "" }, htmlAttributes: null)<br />
-                        <span class="caption">@ViewBag.Tagline</span>
-                        <span class="caption alternate">@ViewBag.AltTagline</span>
+                        @Html.ActionLink(siteSettings.SiteTitle, "List", "Blog", routeValues: new { Area = "" }, htmlAttributes: null)<br />
+                        <span class="caption">@siteSettings.Tagline</span>
+                        <span class="caption alternate">@siteSettings.AltTagline</span>
                     </p>
                 </div>
             </header>
@@ -37,7 +41,7 @@
                         <div class="left-nav">
                             <ul class="menu nodisc">
                                     <li><h3>@Html.ActionLink("Home", "List", "Blog", new { Area = "" }, null)</h3></li>
-                                @foreach (var link in ((string)ViewBag.MenuLinks).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                                @foreach (var link in (siteSettings.MenuLinks).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                                 {
                                     <li><h3>@Html.RouteLink(link.Trim(), "Content", new { urlSegment = link.Trim(), Area = "" }, null)</h3></li>
                                 }
@@ -63,7 +67,7 @@
 
         </div> <!-- /container -->
 
-        @if (!string.IsNullOrWhiteSpace(ViewBag.GoogleAccount))
+        @if (!string.IsNullOrWhiteSpace(siteSettings.GoogleAccount))
         {
             @Html.Partial("_GoogleAnalyticsPartial")
         }
