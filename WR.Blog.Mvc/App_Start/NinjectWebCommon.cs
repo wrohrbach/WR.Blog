@@ -61,8 +61,6 @@ namespace WR.Blog.Mvc.App_Start
             kernel.Bind<ISiteManagerService>().To<SiteManagerService>().InRequestScope();
             kernel.Bind<IBlogService>().To<BlogService>().InRequestScope();
             kernel.Bind<IBlogRepository>().To<BlogRepository>().InRequestScope();
-            kernel.Bind<ISiteSettingsRepository>().To<SiteSettingsRepository>().InRequestScope();
-            kernel.Bind<IUserProfilesRepository>().To<UserProfilesRepository>().InRequestScope();
 
             kernel.BindFilter<LoadSiteSettingsFilter>(System.Web.Mvc.FilterScope.Global, 0).InRequestScope();
         }        
