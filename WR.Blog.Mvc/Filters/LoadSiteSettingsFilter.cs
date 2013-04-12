@@ -24,18 +24,19 @@ namespace WR.Blog.Mvc.Filters
 
             if (settings == null)
             {
-                viewBag.SiteTitle = "Site Title";
-                viewBag.Tagline = "Your blog's tagline.";
-                viewBag.AlternateTagline = "Alternate Tagline";
-                viewBag.MenuLinks = "";
+                viewBag.SiteSettings = new SiteSettings{
+                    SiteTitle = "Site Title",
+                    Tagline = "Your blog's tagline.",
+                    AltTagline = "Alternate Tagline",
+                    MenuLinks = "",
+                    PostsPerPage = 10,
+                    AllowComments = true,
+                    GoogleAccount = ""
+                };
             }
             else
             {
-                viewBag.SiteTitle = settings.SiteTitle;
-                viewBag.Tagline = settings.Tagline;
-                viewBag.AltTagline = settings.AltTagline;
-                viewBag.MenuLinks = settings.MenuLinks;
-                viewBag.GoogleAccount = settings.GoogleAccount;
+                viewBag.SiteSettings = settings;
             }
 
             viewBag.IsAdmin = filterContext.HttpContext.User.IsInRole(System.Configuration.ConfigurationManager.AppSettings["AdministratorRole"]);
