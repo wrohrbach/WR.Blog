@@ -6,6 +6,7 @@ using WR.Blog.Data.Models;
 
 namespace WR.Blog.Data.Repositories
 {
+    [Obsolete("Do not use ISiteSettingsRepository. Use IBlogRepository instead.", true)]
     public interface ISiteSettingsRepository : IDisposable
     {
         #region Site Settings Methods
