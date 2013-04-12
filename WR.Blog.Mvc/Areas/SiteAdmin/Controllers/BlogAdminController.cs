@@ -26,7 +26,7 @@ namespace WR.Blog.Mvc.Areas.SiteAdmin.Controllers
 
         public ActionResult Index(int? page)
         {
-            return View(blogger.GetBlogPages(page, null, content: true));
+            return View(blogger.GetBlogPages(page, take: null, content: true));
         }
 
         //
