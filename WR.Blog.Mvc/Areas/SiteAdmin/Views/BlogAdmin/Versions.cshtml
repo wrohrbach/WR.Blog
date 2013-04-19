@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WR.Blog.Mvc.Areas.SiteAdmin.Models.BlogVersion>
+
+@{
+    ViewBag.Title = "Versions of \"" + ViewBag.BlogPostTitle + "\"";
+}
+
+<h1>Versions of "@ViewBag.BlogPostTitle"</h1>
+
+<p>
+    @Html.ActionLink("Back to Blog Post List", "Index", routeValues: null, htmlAttributes: new { @class = "button" })
+</p>
+
+<table class="index">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastModifiedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsContentPage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Author)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.Title, "PreviewVersion", "BlogAdmin", routeValues: new { id = item.Id, Area = "SiteAdmin" }, htmlAttributes: null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastModifiedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsContentPage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Author)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditVersion", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "DeleteVersion", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

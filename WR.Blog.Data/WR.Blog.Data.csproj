@@ -48,8 +48,10 @@
   <ItemGroup>
     <Compile Include="Contexts\BlogDatabaseContext.cs" />
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\BlogPage.cs" />
-    <Compile Include="Models\SiteSettings.cs" />
+    <Compile Include="Models\BlogPostDto.cs" />
+    <Compile Include="Models\BlogPostBaseDto.cs" />
+    <Compile Include="Models\BlogVersionDto.cs" />
+    <Compile Include="Models\SiteSettingsDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BlogRepository.cs" />
     <Compile Include="Repositories\IUserProfilesRepository.cs" />
@@ -58,7 +60,6 @@
     <Compile Include="Repositories\ISiteSettingsRepository.cs" />
     <Compile Include="Repositories\SiteSettingsRepository.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

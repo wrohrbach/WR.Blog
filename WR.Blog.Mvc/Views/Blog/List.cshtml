@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WR.Blog.Data.Models.BlogPage>
+﻿@model IEnumerable<WR.Blog.Mvc.Areas.SiteAdmin.Models.BlogPost>
 
 @{
     ViewBag.Title = "Yet Another Web Log";
@@ -11,7 +11,7 @@
 
 @foreach (var item in Model) {
     <div class="blog-title"><h1>@Html.ActionLink(@item.Title, "Index", "Blog", routeValues: new { year = item.PublishedDate.Year, month = item.PublishedDate.Month, day = item.PublishedDate.Day, urlSegment = item.UrlSegment, Area = "" }, htmlAttributes: new { @class = "" })</h1></div>
-    <div class="blog-byline">By @item.Author.DisplayName</div>
+    <div class="blog-byline">By @item.Author</div>
     <div class="blog-publish-date">@item.PublishedDate</div>
     <div class="blog-content">@Html.Raw(item.AboveTheFold)</div>
     <div>

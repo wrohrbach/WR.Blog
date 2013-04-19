@@ -1,0 +1,23 @@
+﻿@model WR.Blog.Mvc.Areas.SiteAdmin.Models.BlogVersion
+
+@{
+    ViewBag.Title = "Delete Version";
+}
+
+<h1>Delete Version</h1>
+
+<h2>Are you sure you want to delete the following Version?</h2>
+
+@using (Html.BeginForm()) {
+    <div class="input-buttons">
+        <input type="submit" value="Delete" />&nbsp;
+        @Html.HiddenFor(m => Model.VersionOfId)
+        @Html.ActionLink("Cancel", "Versions", routeValues: new { id = Model.VersionOfId }, htmlAttributes: new { @class = "button" })
+    </div>
+}
+<hr />
+<div class="blog-title"><h1>@Model.Title</h1></div>
+<div class="blog-byline">By: @Model.Author</div>
+<div class="blog-publish-date">@Model.PublishedDate</div>
+<div class="blog-content">@Html.Raw(Model.Text)</div>
+

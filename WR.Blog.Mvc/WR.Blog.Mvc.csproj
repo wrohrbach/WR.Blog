@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=2.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.2.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
@@ -169,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AuthConfig.cs" />
+    <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
@@ -177,6 +181,8 @@
     <Compile Include="Areas\SiteAdmin\Controllers\BlogAdminController.cs" />
     <Compile Include="Areas\SiteAdmin\Controllers\AdminHomeController.cs" />
     <Compile Include="Areas\SiteAdmin\Controllers\SiteAdminBaseController.cs" />
+    <Compile Include="Areas\SiteAdmin\Models\BlogVersion.cs" />
+    <Compile Include="Areas\SiteAdmin\Models\BlogPost.cs" />
     <Compile Include="Areas\SiteAdmin\SiteAdminAreaRegistration.cs" />
     <Compile Include="Areas\SiteAdmin\Controllers\AccountController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
@@ -195,6 +201,10 @@
     <Compile Include="Migrations\201303311235003_GoogleAccountSiteSetting.cs" />
     <Compile Include="Migrations\201303311235003_GoogleAccountSiteSetting.Designer.cs">
       <DependentUpon>201303311235003_GoogleAccountSiteSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201304161536281_BlogPageVersions.cs" />
+    <Compile Include="Migrations\201304161536281_BlogPageVersions.Designer.cs">
+      <DependentUpon>201304161536281_BlogPageVersions.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -629,7 +639,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\SiteAdmin\Models\" />
     <Folder Include="Areas\SiteAdmin\Views\Shared\" />
     <Folder Include="Images\" />
     <Folder Include="Models\" />
@@ -649,6 +658,10 @@
     <Content Include="Areas\SiteAdmin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\SiteAdmin\Views\BlogAdmin\EditForm.cshtml" />
     <Content Include="Areas\SiteAdmin\Views\AdminHome\Settings.cshtml" />
+    <Content Include="Areas\SiteAdmin\Views\BlogAdmin\Versions.cshtml" />
+    <Content Include="Areas\SiteAdmin\Views\BlogAdmin\PreviewVersion.cshtml" />
+    <Content Include="Areas\SiteAdmin\Views\BlogAdmin\EditVersion.cshtml" />
+    <Content Include="Areas\SiteAdmin\Views\BlogAdmin\DeleteVersion.cshtml" />
     <None Include="Properties\PublishProfiles\deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
     <None Include="Scripts\jquery-1.9.1.min.map" />
@@ -678,14 +691,7 @@
     <Content Include="Views\Shared\_AsidesPartial.cshtml" />
     <Content Include="Views\Blog\ContentPage.cshtml" />
     <Content Include="Views\Shared\_GoogleAnalyticsPartial.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201303270110288_initialMigration.resx">
-      <DependentUpon>201303270110288_initialMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201303311235003_GoogleAccountSiteSetting.resx">
-      <DependentUpon>201303311235003_GoogleAccountSiteSetting.cs</DependentUpon>
-    </EmbeddedResource>
+    <Content Include="Views\Blog\BlogBody.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WR.Blog.Business\WR.Blog.Business.csproj">
@@ -696,6 +702,17 @@
       <Project>{C9F9C3A0-97C0-40AF-9D29-0533EFC63B7A}</Project>
       <Name>WR.Blog.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201303270110288_initialMigration.resx">
+      <DependentUpon>201303270110288_initialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201303311235003_GoogleAccountSiteSetting.resx">
+      <DependentUpon>201303311235003_GoogleAccountSiteSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201304161536281_BlogPageVersions.resx">
+      <DependentUpon>201304161536281_BlogPageVersions.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

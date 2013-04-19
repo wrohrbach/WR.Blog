@@ -1,16 +1,15 @@
-﻿@model WR.Blog.Data.Models.BlogPage
+﻿@model WR.Blog.Mvc.Areas.SiteAdmin.Models.BlogPost
 
 @{
     ViewBag.Title = @Model.Title;
 }
 
-<div class="blog-title"><h1>@Model.Title</h1></div>
-<div class="blog-byline">By @Model.Author.DisplayName</div>
-<div class="blog-publish-date">@Model.PublishedDate</div>
-<div class="blog-content">@Html.Raw(Model.Text)</div>
 <div>
     @if (ViewBag.IsAdmin)
     {
-        @Html.ActionLink("Edit", "Edit", "BlogAdmin", routeValues: new { Area = "SiteAdmin", id = Model.Id }, htmlAttributes: null)
+        @Html.ActionLink("Edit Post", "Edit", "BlogAdmin", routeValues: new { Area = "SiteAdmin", id = Model.Id }, htmlAttributes: new { @class = "button" })
     }
 </div>
+
+@Html.Partial("BlogBody", Model)
+

@@ -44,8 +44,8 @@ a {
         text-decoration: none;
     }
 
-h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { color: #333 !important; }
-h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover { color: #5ba1cf !important; text-shadow: 0 0 10px rgba(91, 177, 207, .3); }
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, .site-title a { color: #333 !important; }
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover, .site-title a:hover { color: #5ba1cf !important; text-shadow: 0 0 10px rgba(91, 177, 207, .3); }
 
 .float-left {
     float: left;
@@ -72,7 +72,6 @@ div#header { margin: 0; }
     text-align: right;
 }
 .site-title a, .site-title {
-    color: #666666 !important;
     font-family: Rockwell, Consolas, "Courier New", Courier, monospace;
     margin: 0;
 }

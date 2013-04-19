@@ -1,13 +1,13 @@
-﻿@model IEnumerable<WR.Blog.Data.Models.BlogPage>
+﻿@model IEnumerable<WR.Blog.Mvc.Areas.SiteAdmin.Models.BlogPost>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Blog Posts";
 }
 
-<h1>Index</h1>
+<h1>Blog Pages</h1>
 
 <p>
-    @Html.ActionLink("Create New", "Create", routeValues: null, htmlAttributes: new { @class = "button" })
+    @Html.ActionLink("Create New Post", "Create", routeValues: null, htmlAttributes: new { @class = "button" })
 </p>
 <table class="index">
     <tr>
@@ -34,9 +34,8 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            
-        @Html.ActionLink(item.Title, "Index", "Blog", routeValues: new { year = item.PublishedDate.Year, month = item.PublishedDate.Month, day = item.PublishedDate.Day, urlSegment = item.UrlSegment, Area = "" }, htmlAttributes: null)
+        <td>            
+            @Html.ActionLink(item.Title, "Index", "Blog", routeValues: new { year = item.PublishedDate.Year, month = item.PublishedDate.Month, day = item.PublishedDate.Day, urlSegment = item.UrlSegment, Area = "" }, htmlAttributes: null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.IsPublished)
@@ -51,11 +50,12 @@
             @Html.DisplayFor(modelItem => item.AllowComments)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Author.DisplayName)
+            @Html.DisplayFor(modelItem => item.Author)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Versions", "Versions", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         </td>
     </tr>
 }

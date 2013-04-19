@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using AutoMapper;
 using WR.Blog.Data.Models;
 using WR.Blog.Data.Repositories;
 
@@ -13,115 +15,121 @@ namespace WR.Blog.Business.Services
         { }
 
         #region Blog Methods
-
-        public BlogPage GetBlogPage(int id)
+        /// <summary>
+        /// Gets the blog post by id.
+        /// </summary>
+        /// <param name="id">The id of the blog post to get.</param>
+        /// <returns>
+        /// The specified blog post.
+        /// </returns>
+        public BlogPostDto GetBlogPost(int id)
         {
-            return br.GetBlogPageById(id);            
+            return br.GetBlogPostById(id);            
         }
 
         /// <summary>
-        /// Gets all blog pages using supplied skip, take, published, content, and orderByPublishedDesc values.
+        /// Gets all blog posts using supplied skip, take, published, content, and orderByPublishedDesc values.
         /// </summary>
-        /// <param name="skip">Number of groups of blog pages to skip (skip * take).</param>
-        /// <param name="take">Number of blog pages in a group.</param>
-        /// <param name="published">If set to true, only return published blog pages.</param>
+        /// <param name="skip">Number of groups of blog posts to skip (skip * take).</param>
+        /// <param name="take">Number of blog posts in a group.</param>
+        /// <param name="published">If set to true, only return published blog posts.</param>
         /// <param name="content">If set to true, also return content pages.</param>
         /// <param name="orderByPublishedDescending">If set to true, order by published date descending.</param>
         /// <returns>
-        /// Returns a collection of blog pages.
+        /// Returns a collection of blog posts.
         /// </returns>
-        public IEnumerable<BlogPage> GetBlogPages(int? skip, int? take, bool published = false, bool content = false, bool orderByPublishedDescending = true)
+        public IEnumerable<BlogPostDto> GetBlogPosts(int? skip, int? take, bool published = false, bool content = false, bool orderByPublishedDescending = true)
         {
-            var blogPages = br.GetBlogPages();
+            var blogPosts = br.GetBlogPosts();
 
             if (!content)
             {
-                blogPages = blogPages.Where(b => !b.IsContentPage);
+                blogPosts = blogPosts.Where(b => !b.IsContentPage);
             }
 
             if (published)
             {
-                blogPages = blogPages.Where(b => b.IsPublished && b.PublishedDate <= DateTime.Now);
+                blogPosts = blogPosts.Where(b => b.IsPublished && b.PublishedDate <= DateTime.Now);
             }
 
             if (orderByPublishedDescending)
             {
-                blogPages = blogPages.OrderByDescending(b => b.PublishedDate);
+                blogPosts = blogPosts.OrderByDescending(b => b.PublishedDate);
             }
 
             if (skip.HasValue && take.HasValue)
             {
                 skip = (skip.Value - 1) * take.Value;
-                blogPages = blogPages.Skip(skip.Value);
+                blogPosts = blogPosts.Skip(skip.Value);
             }
 
             if (take.HasValue)
             {
-                blogPages = blogPages.Take(take.Value);
+                blogPosts = blogPosts.Take(take.Value);
             }
 
-            return blogPages.ToList(); 
+            return blogPosts.ToList(); 
         }
 
         /// <summary>
-        /// Gets the blog page by URL segment.
+        /// Gets the blog post by URL segment.
         /// </summary>
         /// <param name="urlSegment">The url segment to search by.</param>
         /// <param name="isContentPage">If set to true, only return a content page.</param>
         /// <returns>
-        /// Returns the first blog page encountered by url segment.
+        /// Returns the first blog post encountered by url segment.
         /// </returns>
-        public BlogPage GetBlogPageByUrlSegment(string urlSegment, bool isContentPage = false)
+        public BlogPostDto GetBlogPostByUrlSegment(string urlSegment, bool isContentPage = false)
         {
-            var blogPages = br.GetBlogPages();
+            var blogPosts = br.GetBlogPosts();
 
             if (isContentPage)
             {
-                blogPages = blogPages.Where(b => b.IsContentPage == true);
+                blogPosts = blogPosts.Where(b => b.IsContentPage == true);
             }
 
-            return blogPages.Where(b => b.UrlSegment == urlSegment).FirstOrDefault();             
+            return blogPosts.Where(b => b.UrlSegment == urlSegment).FirstOrDefault();             
         }
 
         /// <summary>
-        /// Gets the blog pages by permalink information (excludes content pages).
+        /// Gets the blog posts by permalink information (excludes content pages).
         /// </summary>
         /// <param name="year">The year to search. If year is null, null is returned.</param>
         /// <param name="month">The month to search. Pass null to search by year.</param>
         /// <param name="day">The day to search. Pass null to search by month.</param>
         /// <param name="urlSegment">The url segment derived from the blog post title.</param>
-        /// <param name="isPublished">If true, only return blog pages marked as published.</param>
+        /// <param name="isPublished">If true, only return blog posts marked as published.</param>
         /// <returns>
-        /// Returns a collection of blog pages published within the specified date range.
+        /// Returns a collection of blog posts published within the specified date range.
         /// </returns>
-        public BlogPage GetBlogPageByPermalink(int? year, int? month, int? day, string urlSegment, bool isPublished = true)
+        public BlogPostDto GetBlogPostByPermalink(int? year, int? month, int? day, string urlSegment, bool isPublished = true)
         {
-            var blogPages = GetBlogPagesByDate(year, month, day, isPublished);
+            var blogPosts = GetBlogPostsByDate(year, month, day, isPublished);
 
-            if (blogPages == null)
+            if (blogPosts == null)
             {
                 return null;
             }
 
             if (isPublished)
             {
-                blogPages = blogPages.Where(b => b.IsPublished);
+                blogPosts = blogPosts.Where(b => b.IsPublished);
             }
 
-            return blogPages.Where(b => b.UrlSegment == urlSegment).FirstOrDefault();
+            return blogPosts.Where(b => b.UrlSegment == urlSegment).FirstOrDefault();
         }
         
         /// <summary>
-        /// Gets the blog pages by date (excludes content pages).
+        /// Gets the blog posts by date (excludes content pages).
         /// </summary>
         /// <param name="year">The year to search. If year is null, null is returned.</param>
         /// <param name="month">The month to search. Pass null to search by year.</param>
         /// <param name="day">The day to search. Pass null to search by month.</param>
-        /// <param name="isPublished">If true, only return blog pages where the IsPublished flag is set.</param>
+        /// <param name="isPublished">If true, only return blog posts where the IsPublished flag is set.</param>
         /// <returns>
-        /// Returns a collection of blog pages published within the specified date range.
+        /// Returns a collection of blog posts published within the specified date range.
         /// </returns>
-        public IEnumerable<BlogPage> GetBlogPagesByDate(int? year, int? month, int? day, bool isPublished = true)
+        public IEnumerable<BlogPostDto> GetBlogPostsByDate(int? year, int? month, int? day, bool isPublished = true)
         {
             int y = year ?? DateTime.MinValue.Year;
             int m = month ?? 0;
@@ -158,41 +166,144 @@ namespace WR.Blog.Business.Services
                 return null;
             }
 
-            var blogPages = br.GetBlogPages().Where(b => b.PublishedDate >= dateFrom && b.PublishedDate <= dateTo && !b.IsContentPage);
+            var blogPosts = br.GetBlogPosts().Where(b => b.PublishedDate >= dateFrom && b.PublishedDate <= dateTo && !b.IsContentPage);
         
             if (isPublished)
             {
-                blogPages = blogPages.Where(b => b.IsPublished);
+                blogPosts = blogPosts.Where(b => b.IsPublished);
             }
 
-            return blogPages.ToList();
+            return blogPosts.ToList();
         }
 
         /// <summary>
-        /// Adds the blog page.
+        /// Adds the blog post.
         /// </summary>
-        /// <param name="blogPage">The blog page to add.</param>
-        public void AddBlogPage(BlogPage blogPage)
+        /// <param name="blogPost">The blog post to add.</param>
+        public void AddBlogPost(BlogPostDto blogPost)
         {
-            br.AddBlogPage(blogPage);            
+            br.AddBlogPost(blogPost);            
         }
 
         /// <summary>
-        /// Updates the blog page.
+        /// Updates the blog post.
         /// </summary>
-        /// <param name="blogPage">The blog page to update.</param>
-        public void UpdateBlogPage(BlogPage blogPage)
+        /// <param name="blogPost">The blog post to update.</param>
+        public void UpdateBlogPost(BlogPostDto blogPost)
         {
-            br.UpdateBlogPage(blogPage);
+            br.UpdateBlogPost(blogPost);
         }
 
         /// <summary>
-        /// Deletes the blog page.
+        /// Deletes the blog post.
         /// </summary>
-        /// <param name="id">The id of the blog page to delete.</param>
-        public void DeleteBlogPage(int id)
+        /// <param name="id">The id of the blog post to delete.</param>
+        public void DeleteBlogPost(int id)
         {
-            br.DeleteBlogPage(id);
+            br.DeleteAllBlogPostVersions(id);
+            br.DeleteBlogPost(id);
+        }
+        #endregion
+
+        #region Blog Version Methods
+        /// <summary>
+        /// Gets a blog post version.
+        /// </summary>
+        /// <param name="id">The version id.</param>
+        /// <returns>
+        /// The specified version by id.
+        /// </returns>
+        public BlogVersionDto GetVersion(int id)
+        {
+            return br.GetBlogPostVersionById(id);
+        }
+
+        /// <summary>
+        /// Saves the blog post as a version.
+        /// </summary>
+        /// <param name="blogPost">The blog post to save as a version.</param>
+        /// <returns>
+        /// The new version id.
+        /// </returns>
+        public int SaveBlogPostAsVersion(BlogPostDto blogPost)
+        {
+            BlogVersionDto version = Mapper.Map<BlogVersionDto>(blogPost);
+            version.VersionOf = blogPost;
+
+            return br.AddBlogPostVersion(version);
+        }
+
+        /// <summary>
+        /// Saves the blog post as a version.
+        /// </summary>
+        /// <param name="blogPostId">The id of the blog post to save as a version.</param>
+        /// <returns>
+        /// The new version id.
+        /// </returns>
+        public int SaveBlogPostAsVersion(int blogPostId)
+        {
+            BlogPostDto blogPost = GetBlogPost(blogPostId);
+
+            return SaveBlogPostAsVersion(blogPost);
+        }
+
+        /// <summary>
+        /// Publishes the supplied version.
+        /// </summary>
+        /// <param name="version">The version to publish.</param>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public void PublishVersion(BlogVersionDto version)
+        {
+            SaveBlogPostAsVersion(version.VersionOf);
+
+            Mapper.Map<BlogVersionDto, BlogPostDto>(version, version.VersionOf);
+
+            br.UpdateBlogPostVersion(version);
+        }
+
+        /// <summary>
+        /// Gets the versions for the specified blog post.
+        /// </summary>
+        /// <param name="blogPostId">The id of the blog post to retrieve versions for.</param>
+        /// <returns>
+        /// A collection of versions for the given blog post.
+        /// </returns>
+        public IEnumerable<BlogVersionDto> GetVersionsByBlogPost(int blogPostId)
+        {
+            return br.GetBlogPostVersions()
+                .Where(v => v.VersionOf.Id == blogPostId)
+                .OrderByDescending(v => v.LastModifiedDate)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Gets the versions for the specified blog post.
+        /// </summary>
+        /// <param name="blogPost">The blog post to retrieve versions for.</param>
+        /// <returns>
+        /// A collection of versions for the given blog post.
+        /// </returns>
+        public IEnumerable<BlogVersionDto> GetVersionsByBlogPost(BlogPostDto blogPost)
+        {
+            return GetVersionsByBlogPost(blogPost.Id);
+        }
+
+        /// <summary>
+        /// Updates and saves changes to the version.
+        /// </summary>
+        /// <param name="version">The modified version to update.</param>
+        public void UpdateVersion(BlogVersionDto version)
+        {
+            br.UpdateBlogPostVersion(version);
+        }
+
+        /// <summary>
+        /// Deletes the specified version.
+        /// </summary>
+        /// <param name="id">The id of the version to delete.</param>
+        public void DeleteVersion(int id)
+        {
+            br.DeleteBlogPostVersion(id);
         }
         #endregion
     }

@@ -1,5 +1,5 @@
 ﻿@{
-    var siteSettings = (WR.Blog.Data.Models.SiteSettings)ViewBag.SiteSettings;
+    var siteSettings = (WR.Blog.Data.Models.SiteSettingsDto)ViewBag.SiteSettings;
 }
 
 <!DOCTYPE html>
@@ -41,9 +41,15 @@
                         <div class="left-nav">
                             <ul class="menu nodisc">
                                     <li><h3>@Html.ActionLink("Home", "List", "Blog", new { Area = "" }, null)</h3></li>
-                                @foreach (var link in (siteSettings.MenuLinks).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                                @if (!string.IsNullOrWhiteSpace(siteSettings.MenuLinks))
                                 {
-                                    <li><h3>@Html.RouteLink(link.Trim(), "Content", new { urlSegment = link.Trim(), Area = "" }, null)</h3></li>
+                                    foreach (var link in (siteSettings.MenuLinks).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                                    {
+                                        if (!string.IsNullOrWhiteSpace(link))
+                                        {
+                                            <li><h3>@Html.RouteLink(link.Trim(), "Content", new { urlSegment = link.Trim(), Area = "" }, null)</h3></li>
+                                        }                                    
+                                    }                                    
                                 }
                                 @if (User.IsInRole(System.Configuration.ConfigurationManager.AppSettings["AdministratorRole"]))
                                 {                                

@@ -1,0 +1,17 @@
+﻿@model WR.Blog.Mvc.Areas.SiteAdmin.Models.BlogVersion
+
+@{
+    ViewBag.Title = @Model.Title;
+}
+
+<div>
+    @using (Html.BeginForm("PublishVersion", "BlogAdmin"))
+    {
+        @Html.ActionLink("Edit This Version", "EditVersion", "BlogAdmin", routeValues: new { Area = "SiteAdmin", id = Model.Id }, htmlAttributes: new { @class = "button" })
+        <input type="submit" name="submitButton" value="Publish This Version" />
+        @Html.HiddenFor(m => m.Id)
+        @Html.ActionLink("Back to Version List", "Versions", "BlogAdmin", routeValues: new { Area = "SiteAdmin", id = Model.VersionOfId }, htmlAttributes: new { @class = "button" })
+    }
+</div>
+
+@Html.Partial("~/Views/Blog/BlogBody.cshtml", Model)

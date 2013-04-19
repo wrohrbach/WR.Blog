@@ -20,9 +20,9 @@ namespace WR.Blog.Business.Services
         /// <returns>
         /// Returns site settings.
         /// </returns>
-        public SiteSettings GetSiteSettings()
+        public SiteSettingsDto GetSiteSettings()
         {
-                return br.GetSiteSettings() ?? new SiteSettings
+                return br.GetSiteSettings() ?? new SiteSettingsDto
                                                         {
                                                             Id = 0,
                                                             SiteTitle = "Your Site Title",
@@ -37,7 +37,7 @@ namespace WR.Blog.Business.Services
         /// </summary>
         /// <param name="settings">The settings to add or update.</param>
         /// <exception cref="System.UnauthorizedAccessException">Throws unauthorized exception if user is not found.</exception>
-        public void AddOrUpdateSiteSettings(SiteSettings settings)
+        public void AddOrUpdateSiteSettings(SiteSettingsDto settings)
         {
                 br.AddOrUpdateSiteSettings(settings); 
         }

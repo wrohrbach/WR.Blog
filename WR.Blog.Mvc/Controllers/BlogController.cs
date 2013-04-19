@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using WR.Blog.Data.Models;
 using WR.Blog.Mvc.Helpers;
 using WR.Blog.Business.Services;
+using AutoMapper;
+using WR.Blog.Mvc.Areas.SiteAdmin.Models;
 
 namespace WR.Blog.Mvc.Controllers
 {
@@ -31,26 +33,30 @@ namespace WR.Blog.Mvc.Controllers
 
             if (string.IsNullOrWhiteSpace(urlSegment))
             {
-                var blogPages = blogger.GetBlogPagesByDate(year, month, day, true);
+                var blogPostDtos = blogger.GetBlogPostsByDate(year, month, day, true);
 
                 // Check for issues getting pages by date
-                if (blogPages == null)
+                if (blogPostDtos == null)
                 {
                     throw new HttpException(404, "Not found");
                 }
 
-                return View("List", blogPages);
+                var blogPosts = Mapper.Map<IEnumerable<BlogPostDto>, List<BlogPost>>(blogPostDtos);
+
+                return View("List", blogPosts);
             }
 
             // Get permalinked blog post
-            var blogPage = blogger.GetBlogPageByPermalink(year, month, day, urlSegment, isPublished: !(bool)ViewBag.IsAdmin);
+            var blogPostDto = blogger.GetBlogPostByPermalink(year, month, day, urlSegment, isPublished: !(bool)ViewBag.IsAdmin);
 
-            if (blogPage == null)
+            if (blogPostDto == null)
             {
                 throw new HttpException(404, "Not found");
             }
 
-            return View(blogPage);
+            var blogPost = Mapper.Map<BlogPostDto, BlogPost>(blogPostDto);
+
+            return View(blogPost);
         }
 
         [OutputCache(Location = System.Web.UI.OutputCacheLocation.Client,
@@ -62,14 +68,16 @@ namespace WR.Blog.Mvc.Controllers
                 return List(1);
             }
 
-            var blogPage = blogger.GetBlogPageByUrlSegment(urlSegment, isContentPage: true);
+            var blogPostDto = blogger.GetBlogPostByUrlSegment(urlSegment, isContentPage: true);
 
-            if (blogPage == null || !(ViewBag.IsAdmin || (blogPage.IsPublished && blogPage.PublishedDate < DateTime.Now)))
+            if (blogPostDto == null || !(ViewBag.IsAdmin || (blogPostDto.IsPublished && blogPostDto.PublishedDate < DateTime.Now)))
             {
                 throw new HttpException(404, "Not found");
             }
 
-            return View(blogPage);
+            var blogPost = Mapper.Map<BlogPostDto, BlogPost>(blogPostDto);
+
+            return View(blogPost);
         }
 
         [OutputCache(Location = System.Web.UI.OutputCacheLocation.Client,
@@ -78,9 +86,11 @@ namespace WR.Blog.Mvc.Controllers
         public ActionResult List(int? page)
         {
             // TODO: Paging for blog list.
-            var blogPages = blogger.GetBlogPages(page, null, published: true);
+            var blogPostDtos = blogger.GetBlogPosts(page, null, published: true);
 
-            return View("List", blogPages);
+            var blogPosts = Mapper.Map<IEnumerable<BlogPostDto>, List<BlogPost>>(blogPostDtos);
+
+            return View("List", blogPosts);
         }
     }
 }

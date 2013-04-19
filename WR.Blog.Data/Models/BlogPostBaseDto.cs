@@ -10,15 +10,8 @@ using System.Text;
 
 namespace WR.Blog.Data.Models
 {
-    public class BlogPage
+    public class BlogPostBaseDto
     {
-        public BlogPage()
-        {
-            PublishedDate = DateTime.Now;
-            IsPublished = false;
-            AllowComments = true;
-        }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -52,7 +45,11 @@ namespace WR.Blog.Data.Models
             }
         }
 
-        public virtual UserProfile Author { get; set; }
+        public virtual UserProfileDto Author { get; set; }
+
+        [DataType(DataType.DateTime)]
+        [DisplayName("Date Last Modified")]
+        public DateTime LastModifiedDate { get; set; }
 
         [Required]
         [DisplayName("Published?")]
@@ -61,10 +58,6 @@ namespace WR.Blog.Data.Models
         [DataType(DataType.DateTime)]
         [DisplayName("Publish Date")]
         public DateTime PublishedDate { get; set; }
-
-        [DataType(DataType.DateTime)]
-        [DisplayName("Date Last Modified")]
-        public DateTime LastModifiedDate { get; set; }
 
         [Required]
         [DisplayName("Comments?")]

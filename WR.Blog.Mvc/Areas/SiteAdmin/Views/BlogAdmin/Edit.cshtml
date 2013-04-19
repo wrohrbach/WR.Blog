@@ -1,19 +1,22 @@
-﻿@model WR.Blog.Data.Models.BlogPage
+﻿@model WR.Blog.Mvc.Areas.SiteAdmin.Models.BlogPost
 
 @{
-    ViewBag.Title = "Edit Post";
+    ViewBag.Title = "Edit \"" + Model.Title + "\"";
 }
 
-<h1>Edit Post</h1>
+<h1>Edit "@Model.Title"</h1>
 
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
 
     @Html.Partial("EditForm", Model)
+
+    <span class="em small">Last Modified: @Model.LastModifiedDate</span>
     <hr />
     <div class="input-buttons">
-        <input type="submit" value="Edit" />&nbsp;
+        <input type="submit" name="submitButton" value="Publish Changes" />&nbsp;
+        <input type="submit" name="submitButton" value="Save and Preview" />&nbsp;
         @Html.ActionLink("Cancel", "Index", routeValues: null, htmlAttributes: new { @class = "button" })
     </div>
 }
