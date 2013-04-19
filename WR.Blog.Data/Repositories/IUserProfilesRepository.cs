@@ -15,7 +15,7 @@ namespace WR.Blog.Data.Repositories
         /// </summary>
         /// <param name="username">The username.</param>
         /// <returns>Returns the user profile or null if not found.</returns>
-        UserProfile GetUserByUsername(string username);
+        UserProfileDto GetUserByUsername(string username);
         #endregion
     }
 }

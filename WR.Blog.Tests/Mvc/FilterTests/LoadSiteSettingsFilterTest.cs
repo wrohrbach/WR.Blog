@@ -22,14 +22,14 @@ namespace WR.Blog.Tests.Mvc.FilterTests
     public class LoadSiteSettingsFilterTest
     {
         private Mock<ISiteManagerService> mockSiteManagerService;
-        private IQueryable<SiteSettings> siteSettings;
+        private IQueryable<SiteSettingsDto> siteSettings;
 
         #region Setup Methods
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
-            siteSettings = new List<SiteSettings>{
-                new SiteSettings {
+            siteSettings = new List<SiteSettingsDto>{
+                new SiteSettingsDto {
                     Id = 1,
                     SiteTitle = "My Site Title",
                     Tagline = "Tagline",
@@ -107,7 +107,7 @@ namespace WR.Blog.Tests.Mvc.FilterTests
             attribute.OnActionExecuting(filterContext);
             var viewBag = filterContext.Controller.ViewBag;
 
-            Assert.IsInstanceOf(typeof(SiteSettings), viewBag.SiteSettings);
+            Assert.IsInstanceOf(typeof(SiteSettingsDto), viewBag.SiteSettings);
         }
 
         [Test]
@@ -116,10 +116,10 @@ namespace WR.Blog.Tests.Mvc.FilterTests
             bool isAdmin = true;
             var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
             var filterContext = GetFilterContext(isAdmin);
-            mockSiteManagerService.Setup(br => br.GetSiteSettings()).Returns((SiteSettings)null);
+            mockSiteManagerService.Setup(br => br.GetSiteSettings()).Returns((SiteSettingsDto)null);
 
             attribute.OnActionExecuting(filterContext);
-            var result = (SiteSettings) filterContext.Controller.ViewBag.SiteSettings;
+            var result = (SiteSettingsDto) filterContext.Controller.ViewBag.SiteSettings;
 
             Assert.AreEqual("Site Title", result.SiteTitle);
             Assert.AreEqual("Your blog's tagline.", result.Tagline);
@@ -139,7 +139,7 @@ namespace WR.Blog.Tests.Mvc.FilterTests
             mockSiteManagerService.Setup(br => br.GetSiteSettings()).Returns(siteSettings.FirstOrDefault());
 
             attribute.OnActionExecuting(filterContext);
-            var result = (SiteSettings) filterContext.Controller.ViewBag.SiteSettings;
+            var result = (SiteSettingsDto) filterContext.Controller.ViewBag.SiteSettings;
 
             Assert.AreEqual("My Site Title", result.SiteTitle);
             Assert.AreEqual("Tagline", result.Tagline);
@@ -156,7 +156,7 @@ namespace WR.Blog.Tests.Mvc.FilterTests
             bool isAdmin = true;
             var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
             var filterContext = GetFilterContext(isAdmin);
-            mockSiteManagerService.Setup(br => br.GetSiteSettings()).Returns((SiteSettings)null);
+            mockSiteManagerService.Setup(br => br.GetSiteSettings()).Returns((SiteSettingsDto)null);
 
             attribute.OnActionExecuting(filterContext);
             var viewBag = filterContext.Controller.ViewBag;
@@ -170,7 +170,7 @@ namespace WR.Blog.Tests.Mvc.FilterTests
             bool isAdmin = false;
             var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
             var filterContext = GetFilterContext(isAdmin);
-            mockSiteManagerService.Setup(br => br.GetSiteSettings()).Returns((SiteSettings)null);
+            mockSiteManagerService.Setup(br => br.GetSiteSettings()).Returns((SiteSettingsDto)null);
 
             attribute.OnActionExecuting(filterContext);
             var viewBag = filterContext.Controller.ViewBag;

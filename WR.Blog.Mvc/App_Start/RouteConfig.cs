@@ -32,7 +32,7 @@ namespace WR.Blog.Mvc
             );
 
             routes.MapRoute(
-                name: "BlogPage",
+                name: "BlogPost",
                 url: "Blog/{year}/{month}/{day}/{urlSegment}",
                 defaults: new { controller = "Blog", action = "Index", year = UrlParameter.Optional, month = UrlParameter.Optional, day = UrlParameter.Optional, urlSegment = UrlParameter.Optional }
             );

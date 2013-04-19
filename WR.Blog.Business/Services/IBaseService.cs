@@ -14,7 +14,7 @@ namespace WR.Blog.Business.Services
         /// </summary>
         /// <param name="username">The username.</param>
         /// <returns>Returns the user profile or null if not found.</returns>
-        UserProfile GetUser(string username);
+        UserProfileDto GetUser(string username);
         #endregion
     }
 }

@@ -5,7 +5,7 @@ using System.Web.Mvc;
 namespace WR.Blog.Data.Models
 {
     [Table("UserProfile")]
-    public class UserProfile
+    public class UserProfileDto
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]

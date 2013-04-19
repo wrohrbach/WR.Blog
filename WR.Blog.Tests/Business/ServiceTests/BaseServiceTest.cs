@@ -16,30 +16,30 @@ namespace WR.Blog.Tests.Business.ServiceTests
     public class BaseServiceTest
     {
         private Mock<IBlogRepository> mockBlogRepository;
-        private IQueryable<UserProfile> userProfiles;
+        private IQueryable<UserProfileDto> userProfiles;
         private BaseService service;
 
         #region Setup Methods
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
-            userProfiles = new List<UserProfile>{
-                new UserProfile {
+            userProfiles = new List<UserProfileDto>{
+                new UserProfileDto {
                     UserId = 1,
                     UserName = "user1",
                     DisplayName = "User 1"                    
                 },
-                new UserProfile {
+                new UserProfileDto {
                     UserId = 2,
                     UserName = "user2",
                     DisplayName = "User 2"                    
                 },
-                new UserProfile {
+                new UserProfileDto {
                     UserId = 3,
                     UserName = "user3",
                     DisplayName = "User 3"                    
                 },
-                new UserProfile {
+                new UserProfileDto {
                     UserId = 4,
                     UserName = "user4",
                     DisplayName = "User 4"                    
@@ -74,11 +74,11 @@ namespace WR.Blog.Tests.Business.ServiceTests
             string username = "user1";
 
             mockBlogRepository.Setup(br => br.GetUserByUsername(username))
-                .Returns(new UserProfile());
+                .Returns(new UserProfileDto());
 
             var result = service.GetUser(username);
 
-            Assert.IsInstanceOf(typeof(UserProfile), result);
+            Assert.IsInstanceOf(typeof(UserProfileDto), result);
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace WR.Blog.Tests.Business.ServiceTests
             string username = "user1";
 
             mockBlogRepository.Setup(br => br.GetUserByUsername(username))
-                .Returns((UserProfile)null);
+                .Returns((UserProfileDto)null);
 
             var result = service.GetUser(username);
 

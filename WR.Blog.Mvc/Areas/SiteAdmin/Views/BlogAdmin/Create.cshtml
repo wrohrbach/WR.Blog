@@ -1,4 +1,4 @@
-﻿@model WR.Blog.Data.Models.BlogPage
+﻿@model WR.Blog.Mvc.Areas.SiteAdmin.Models.BlogPost
 
 @{
     ViewBag.Title = "New Post";
@@ -12,7 +12,8 @@
     @Html.Partial("EditForm", Model)
     <hr />
     <div class="input-buttons">
-        <input type="submit" value="Create" />&nbsp;
+        <input type="submit" name="submitButton" value="Post" />&nbsp;
+        <input type="submit" name="submitButton" value="Save and Preview" />&nbsp;
         @Html.ActionLink("Cancel", "Index", routeValues: null, htmlAttributes: new { @class = "button" })
     </div>
 }

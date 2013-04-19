@@ -29,6 +29,7 @@ namespace WR.Blog.Mvc
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+            AutoMapperConfig.CreateMaps();
         }
     }
 }

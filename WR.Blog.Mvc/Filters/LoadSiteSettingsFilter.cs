@@ -18,13 +18,13 @@ namespace WR.Blog.Mvc.Filters
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            SiteSettings settings = manager.GetSiteSettings();
+            SiteSettingsDto settings = manager.GetSiteSettings();
 
             var viewBag = filterContext.Controller.ViewBag;
 
             if (settings == null)
             {
-                viewBag.SiteSettings = new SiteSettings{
+                viewBag.SiteSettings = new SiteSettingsDto{
                     SiteTitle = "Site Title",
                     Tagline = "Your blog's tagline.",
                     AltTagline = "Alternate Tagline",

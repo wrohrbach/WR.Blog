@@ -1,0 +1,29 @@
+﻿@model WR.Blog.Mvc.Areas.SiteAdmin.Models.BlogVersion
+
+@{
+    ViewBag.Title = "Editing Version of \"" + Model.Title + "\"";
+}
+
+<h1>Editing Version of <br />"@Model.Title"</h1>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    @Html.Partial("EditForm", Model)
+    @Html.HiddenFor(m => Model.VersionOfId)
+
+    <span class="em small">Last Modified: @Model.LastModifiedDate</span>
+    <hr />
+    <div class="input-buttons">
+        <input type="submit" name="submitButton" value="Save Version" />&nbsp;
+        <input type="submit" name="submitButton" value="Save and Preview" />&nbsp;
+        <input type="submit" name="submitButton" value="Save and Publish" />&nbsp;
+        @Html.ActionLink("Cancel", "Versions", routeValues: new { id = Model.VersionOfId }, htmlAttributes: new { @class = "button" })
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/tiny_mce/tiny_mce_js")
+}

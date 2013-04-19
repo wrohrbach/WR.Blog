@@ -8,7 +8,7 @@ using System.Web;
 
 namespace WR.Blog.Data.Models
 {
-    public class SiteSettings
+    public class SiteSettingsDto
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -47,6 +47,6 @@ namespace WR.Blog.Data.Models
         public DateTime LastModifiedDate { get; set; }
 
         [DisplayName("Last Modified By")]
-        public UserProfile LastModifiedBy { get; set; }
+        public UserProfileDto LastModifiedBy { get; set; }
     }
 }

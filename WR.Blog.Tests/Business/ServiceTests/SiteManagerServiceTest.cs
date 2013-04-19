@@ -16,15 +16,15 @@ namespace WR.Blog.Tests.Business.ServiceTests
     public class SiteManagerServiceTest
     {
         private Mock<IBlogRepository> mockBlogRepository;
-        private IQueryable<SiteSettings> siteSettings;
+        private IQueryable<SiteSettingsDto> siteSettings;
         private SiteManagerService manager;
 
         #region Setup Methods
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
-            siteSettings = new List<SiteSettings>{
-                new SiteSettings {
+            siteSettings = new List<SiteSettingsDto>{
+                new SiteSettingsDto {
                     Id = 1,
                     SiteTitle = "Site Title",
                     Tagline = "Tagline",
@@ -66,13 +66,13 @@ namespace WR.Blog.Tests.Business.ServiceTests
 
             var result = manager.GetSiteSettings();
 
-            Assert.IsInstanceOf(typeof(SiteSettings), result);
+            Assert.IsInstanceOf(typeof(SiteSettingsDto), result);
         }
 
         [Test]
         public void GetSiteSettings_should_return_new_SiteSettings_object_if_BlogRepository_GetSiteSettings_returns_null()
         {
-            mockBlogRepository.Setup(br => br.GetSiteSettings()).Returns((SiteSettings)null);
+            mockBlogRepository.Setup(br => br.GetSiteSettings()).Returns((SiteSettingsDto)null);
 
             var result = manager.GetSiteSettings();
 
@@ -105,7 +105,7 @@ namespace WR.Blog.Tests.Business.ServiceTests
         [Test]
         public void AddOrUpdateSiteSettings_should_call_BlogRepository_AddOrUpdateSiteSettings()
         {
-            var settings = new SiteSettings();
+            var settings = new SiteSettingsDto();
 
             manager.AddOrUpdateSiteSettings(settings);
 

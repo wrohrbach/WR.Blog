@@ -1,0 +1,6 @@
+﻿@model WR.Blog.Mvc.Areas.SiteAdmin.Models.BlogPost
+
+<div class="blog-title"><h1>@Model.Title</h1></div>
+<div class="blog-byline">By @Model.Author</div>
+<div class="blog-publish-date">@Model.PublishedDate</div>
+<div class="blog-content">@Html.Raw(Model.Text)</div>

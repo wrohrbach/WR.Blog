@@ -17,7 +17,7 @@ namespace WR.Blog.Business.Services
         }
 
         #region User Profile Methods
-        public UserProfile GetUser(string username)
+        public UserProfileDto GetUser(string username)
         {
             return br.GetUserByUsername(username);
         }

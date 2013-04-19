@@ -26,43 +26,128 @@ namespace WR.Blog.Data.Repositories
 
         #region Blog Methods
         /// <summary>
-        /// Gets the blog page by id.
+        /// Gets the blog post by id.
         /// </summary>
-        /// <param name="id">The blog page id.</param>
+        /// <param name="id">The blog post id.</param>
         /// <returns>
-        /// A blog page with the specified id.
+        /// A blog post with the specified id.
         /// </returns>
-        public BlogPage GetBlogPageById(int id)
+        public BlogPostDto GetBlogPostById(int id)
         {
-                return db.BlogPages.Include("Author").Where(b => b.Id == id).SingleOrDefault();            
+            return db.BlogPosts.Include("Author").Where(b => b.Id == id).SingleOrDefault();            
         }
 
         /// <summary>
-        /// Gets all blog pages.
+        /// Gets all blog posts.
         /// </summary>
-        /// <returns>Returns all blog pages.</returns>
-        public IQueryable<BlogPage> GetBlogPages()
+        /// <returns>Returns all blog posts.</returns>
+        public IQueryable<BlogPostDto> GetBlogPosts()
         {
-            return db.BlogPages;
+            return db.BlogPosts;
         }
 
-        public void AddBlogPage(BlogPage blogPage)
+        /// <summary>
+        /// Adds the blog post.
+        /// </summary>
+        /// <param name="blogPost">The blog post to add.</param>
+        public void AddBlogPost(BlogPostDto blogPost)
         {
-                db.BlogPages.Add(blogPage);
-                db.SaveChanges();            
+            db.BlogPosts.Add(blogPost);
+            db.SaveChanges();            
         }
 
-        public void UpdateBlogPage(BlogPage blogPage)
+        /// <summary>
+        /// Updates the blog post.
+        /// </summary>
+        /// <param name="blogPost">The blog post to update.</param>
+        public void UpdateBlogPost(BlogPostDto blogPost)
         {
-                db.Entry(blogPage).State = EntityState.Modified;
-                db.SaveChanges();             
+            db.Entry(blogPost).State = EntityState.Modified;
+            db.SaveChanges();             
         }
 
-        public void DeleteBlogPage(int id)
+        /// <summary>
+        /// Deletes the blog post.
+        /// </summary>
+        /// <param name="id">The id of the blog post to delete.</param>
+        public void DeleteBlogPost(int id)
         {
-                BlogPage blogpage = db.BlogPages.Find(id);
-                db.BlogPages.Remove(blogpage);
-                db.SaveChanges();            
+            BlogPostDto blogpost = db.BlogPosts.Find(id);
+            db.BlogPosts.Remove(blogpost);
+            db.SaveChanges();            
+        }
+        #endregion
+
+        #region Blog Version Methods
+        /// <summary>
+        /// Gets the version by id.
+        /// </summary>
+        /// <param name="id">The blog post version id.</param>
+        /// <returns>
+        /// The version with the specified id.
+        /// </returns>
+        public BlogVersionDto GetBlogPostVersionById(int id)
+        {
+            return db.BlogVersions.Find(id);
+        }
+
+        /// <summary>
+        /// Adds the blog post version.
+        /// </summary>
+        /// <param name="version">The blog post version to add.</param>
+        /// <returns>
+        /// Returns the id of the blog post version.
+        /// </returns>
+        public int AddBlogPostVersion(BlogVersionDto version)
+        {
+            db.Entry(version.VersionOf).State = EntityState.Unchanged;
+            db.BlogVersions.Add(version);
+            db.SaveChanges();
+
+            return version.Id;
+        }
+
+        /// <summary>
+        /// Gets all blog post versions.
+        /// </summary>
+        /// <returns>
+        /// Returns all blog post versions
+        /// </returns>
+        public IQueryable<BlogVersionDto> GetBlogPostVersions()
+        {
+            return db.BlogVersions;
+        }
+
+        /// <summary>
+        /// Updates and saves the blog post version.
+        /// </summary>
+        /// <param name="version">The version to update.</param>
+        public void UpdateBlogPostVersion(BlogVersionDto version)
+        {
+            db.Entry(version).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        /// <summary>
+        /// Deletes the blog post version.
+        /// </summary>
+        /// <param name="id">The id of the version to delete.</param>
+        public void DeleteBlogPostVersion(int id)
+        {
+            BlogVersionDto version = db.BlogVersions.Find(id);
+            db.BlogVersions.Remove(version);
+            db.SaveChanges(); 
+        }
+
+        /// <summary>
+        /// Deletes all versions for this blog post.
+        /// </summary>
+        /// <param name="id">The blog post id.</param>
+        public void DeleteAllBlogPostVersions(int id)
+        {
+            db.BlogVersions.Where(v => v.VersionOf.Id == id)
+                .ToList().ForEach(v => db.BlogVersions.Remove(v));
+            db.SaveChanges();
         }
         #endregion
 
@@ -73,7 +158,7 @@ namespace WR.Blog.Data.Repositories
         /// <returns>
         /// Returns site setttings.
         /// </returns>
-        public SiteSettings GetSiteSettings()
+        public SiteSettingsDto GetSiteSettings()
         {
             return db.SiteSettings.FirstOrDefault();
         }
@@ -82,13 +167,10 @@ namespace WR.Blog.Data.Repositories
         /// Adds the settings if they do not exist or updates site settings if they do.
         /// </summary>
         /// <param name="settings">The settings to add or update.</param>
-        public void AddOrUpdateSiteSettings(SiteSettings settings)
+        public void AddOrUpdateSiteSettings(SiteSettingsDto settings)
         {
             if (settings.Id != 0)
             {
-                var state = db.Entry(settings).State;
-
-                db.SiteSettings.Attach(settings);
                 db.Entry(settings).State = EntityState.Modified;
             }
             else
@@ -108,7 +190,7 @@ namespace WR.Blog.Data.Repositories
         /// <returns>
         /// Returns the user profile or null if not found.
         /// </returns>
-        public UserProfile GetUserByUsername(string username)
+        public UserProfileDto GetUserByUsername(string username)
         {
             return db.UserProfiles.Where(u => u.UserName == username).FirstOrDefault();
         }
