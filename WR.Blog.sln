@@ -1,6 +1,6 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WR.Blog.Data", "WR.Blog.Data\WR.Blog.Data.csproj", "{C9F9C3A0-97C0-40AF-9D29-0533EFC63B7A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WR.Blog.Mvc", "WR.Blog.Mvc\WR.Blog.Mvc.csproj", "{06EF01C4-FA3B-4487-988B-41CF915ED8CF}"

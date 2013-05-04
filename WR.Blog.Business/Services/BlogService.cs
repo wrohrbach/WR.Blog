@@ -350,7 +350,7 @@ namespace WR.Blog.Business.Services
                 comments = comments.Where(c => c.IsApproved == isApproved);
             }
 
-            return comments.OrderByDescending(c => c.CommentDate)
+            return comments.OrderBy(c => c.CommentDate)
                 .ToList();
         }
 
@@ -371,8 +371,7 @@ namespace WR.Blog.Business.Services
                 comments = comments.Where(c => c.IsApproved == isApproved);
             }
 
-            return comments.OrderByDescending(c => c.CommentDate)
-                .Count();
+            return comments.Count();
         }
 
         /// <summary>
@@ -385,6 +384,7 @@ namespace WR.Blog.Business.Services
         {
             return br.GetBlogComments()
                 .Where(c => c.IsApproved == false)
+                .OrderByDescending(c => c.CommentDate)
                 .ToList();
         }
 
@@ -399,6 +399,7 @@ namespace WR.Blog.Business.Services
         {
             return br.GetBlogComments()
                 .Where(c => c.BlogPost.Id == blogPostId && c.IsApproved == false)
+                .OrderByDescending(c => c.CommentDate)
                 .ToList();
         }
 
