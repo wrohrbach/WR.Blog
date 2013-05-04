@@ -1,0 +1,45 @@
+﻿@model WR.Blog.Mvc.Models.BlogComment
+
+@using PoliteCaptcha;
+
+<div class="comment-form">
+    <a id="addcomment" name="addcomment" ></a>
+    @using (Html.BeginForm("AddComment", "Blog")) {
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.BlogPostId)
+        @Html.HiddenFor(model => model.BlogPostPublishedDate)
+        @Html.HiddenFor(model => model.BlogPostUrlSegment)
+        @Html.HiddenFor(model => model.BlogPostId)
+        @Html.HiddenFor(model => model.ReplyToCommentId)
+    
+            <div class="editor-labels two columns align-right inner-shadow-right">
+                <div class="editor-label">@Html.LabelFor(model => model.Name)</div>
+                <div class="editor-label">@Html.LabelFor(model => model.Email)</div>
+                <div class="editor-label">@Html.LabelFor(model => model.Homepage)</div>
+                <div class="editor-label">@Html.LabelFor(model => model.Comment)</div>
+            </div>
+
+            <div class="editor-fields eight columns">
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Name)
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Email)
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Homepage)
+                    @Html.ValidationMessageFor(model => model.Homepage)
+                </div>
+                <div class="editor-field">
+                    @Html.TextAreaFor(model => model.Comment, new { })
+                    @Html.ValidationMessageFor(model => model.Comment)
+                </div>
+                <div class="add-top">
+                    @Html.SpamPreventionFields()
+                    <button type="submit" value="Post Comment" class="button" data-icon="&#xe005;" > Post Comment</button>
+                </div>
+            </div>    
+    }
+</div> 

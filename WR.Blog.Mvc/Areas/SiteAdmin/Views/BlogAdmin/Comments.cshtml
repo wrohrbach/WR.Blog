@@ -1,0 +1,80 @@
+﻿@model IEnumerable<WR.Blog.Mvc.Models.BlogComment>
+
+@{
+    ViewBag.Title = "Comments";
+}
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<h1>Comments</h1>
+
+<p>
+    @Html.IconLink(" Back to Blog Post List", "Index", null, fragment: null, routeValues: null, htmlAttributes: new { @class = "button" }, iconHtmlAttributes: new { @class = "icon-uniF472" })
+</p>
+
+<table class="index">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CommentDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsApproved)
+        </th>
+        <th>Actions</th>
+    </tr>
+
+@foreach (var comment in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => comment.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => comment.Email).ToString().Shorten(30, appendEllipse: true)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => comment.Comment).ToString().Shorten(30, appendEllipse: true)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => comment.CommentDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => comment.IsApproved)
+        </td>
+        <td>
+            @Ajax.ActionLink(" ", "ApproveComment",
+                routeValues: new { id = comment.Id },
+                ajaxOptions: new AjaxOptions
+                {
+                    HttpMethod = "POST"
+                }, 
+                htmlAttributes: new { @class = "icon-checkmark-circle half-right", title = "Approve Comment" })
+            @Ajax.ActionLink(" ", "ApproveComment",
+                routeValues: new { id = comment.Id, isApproved = false },
+                ajaxOptions: new AjaxOptions
+                {
+                    HttpMethod = "POST"
+                }, 
+                htmlAttributes: new { @class = "icon-cancel-circle half-right", title = "Unapprove Comment" })
+            @Ajax.ActionLink(" ", "DeleteComment",
+                routeValues: new { id = comment.Id },
+                ajaxOptions: new AjaxOptions
+                {
+                    HttpMethod = "POST"
+                }, 
+                htmlAttributes: new { @class = "icon-remove half-right", title = "Delete Comment" })
+        </td>
+    </tr>
+}
+
+</table>

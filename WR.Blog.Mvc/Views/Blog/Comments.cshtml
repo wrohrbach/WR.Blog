@@ -1,0 +1,18 @@
+﻿@model IEnumerable<WR.Blog.Mvc.Models.BlogComment>
+
+@foreach (var item in Model) {
+    <div class="comment">
+        <div class="comment-date">
+            <a name="comment@(item.Id)"></a>@Html.DisplayFor(c => item.CommentDate)
+        </div>
+        <div class="comment-body">@Html.Raw(item.Comment)</div>
+        <div class="comment-footer">
+            <span class="comment-gravatar-block">
+                <img class="comment-gravatar" src="@(String.Format(ViewBag.BlogSettings.GravatarUrl, item.GravatarHash))">
+            </span>
+            <a class="comment-permalink" rel="nofollow" href="@(item.Homepage)">@item.Name</a>
+        </div>
+    </div>
+    <hr />
+}
+
