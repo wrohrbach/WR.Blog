@@ -16,15 +16,15 @@ namespace WR.Blog.Tests.Business.ServiceTests
     public class SiteManagerServiceTest
     {
         private Mock<IBlogRepository> mockBlogRepository;
-        private IQueryable<SiteSettingsDto> siteSettings;
+        private IQueryable<BlogSettingsDto> blogSettings;
         private SiteManagerService manager;
 
         #region Setup Methods
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
-            siteSettings = new List<SiteSettingsDto>{
-                new SiteSettingsDto {
+            blogSettings = new List<BlogSettingsDto>{
+                new BlogSettingsDto {
                     Id = 1,
                     SiteTitle = "Site Title",
                     Tagline = "Tagline",
@@ -58,58 +58,58 @@ namespace WR.Blog.Tests.Business.ServiceTests
         }
         #endregion
 
-        #region GetSiteSettings() Tests
+        #region GetBlogSettings() Tests
         [Test]
-        public void GetSiteSettings_should_return_an_object_of_type_SiteSettings()
+        public void GetBlogSettingss_should_return_an_object_of_type_SiteSettings()
         {
-            mockBlogRepository.Setup(br => br.GetSiteSettings()).Returns(siteSettings.FirstOrDefault());
+            mockBlogRepository.Setup(br => br.GetBlogSettings()).Returns(blogSettings.FirstOrDefault());
 
-            var result = manager.GetSiteSettings();
+            var result = manager.GetBlogSettings();
 
-            Assert.IsInstanceOf(typeof(SiteSettingsDto), result);
+            Assert.IsInstanceOf(typeof(BlogSettingsDto), result);
         }
 
         [Test]
-        public void GetSiteSettings_should_return_new_SiteSettings_object_if_BlogRepository_GetSiteSettings_returns_null()
+        public void GetBlogSettings_should_return_new_SiteSettings_object_if_BlogRepository_GetSiteSettings_returns_null()
         {
-            mockBlogRepository.Setup(br => br.GetSiteSettings()).Returns((SiteSettingsDto)null);
+            mockBlogRepository.Setup(br => br.GetBlogSettings()).Returns((BlogSettingsDto)null);
 
-            var result = manager.GetSiteSettings();
+            var result = manager.GetBlogSettings();
 
             Assert.AreEqual(0, result.Id);
         }
 
         [Test]
-        public void GetSiteSettings_should_return_site_settings()
+        public void GetBlogSettings_should_return_site_settings()
         {
-            mockBlogRepository.Setup(br => br.GetSiteSettings()).Returns(siteSettings.FirstOrDefault());
+            mockBlogRepository.Setup(br => br.GetBlogSettings()).Returns(blogSettings.FirstOrDefault());
 
-            var result = manager.GetSiteSettings();
+            var result = manager.GetBlogSettings();
 
             Assert.AreEqual(1, result.Id);
             Assert.AreEqual("2304782-1", result.GoogleAccount);
         }
 
         [Test]
-        public void GetSiteSettings_should_call_BlogRepository_GetSiteSettings()
+        public void GetBlogSettings_should_call_BlogRepository_GetSiteSettings()
         {
-            mockBlogRepository.Setup(br => br.GetSiteSettings()).Returns(siteSettings.FirstOrDefault());
+            mockBlogRepository.Setup(br => br.GetBlogSettings()).Returns(blogSettings.FirstOrDefault());
 
-            var result = manager.GetSiteSettings();
+            var result = manager.GetBlogSettings();
 
-            mockBlogRepository.Verify((br => br.GetSiteSettings()), Times.Exactly(1));
+            mockBlogRepository.Verify((br => br.GetBlogSettings()), Times.Exactly(1));
         }
         #endregion
 
-        #region AddOrUpdateSiteSettings(SiteSettings settings) Tests
+        #region AddOrUpdateBlogSettings(BlogSettings settings) Tests
         [Test]
-        public void AddOrUpdateSiteSettings_should_call_BlogRepository_AddOrUpdateSiteSettings()
+        public void AddOrUpdateBlogSettings_should_call_BlogRepository_AddOrUpdateSiteSettings()
         {
-            var settings = new SiteSettingsDto();
+            var settings = new BlogSettingsDto();
 
-            manager.AddOrUpdateSiteSettings(settings);
+            manager.AddOrUpdateBlogSettings(settings);
 
-            mockBlogRepository.Verify((br => br.AddOrUpdateSiteSettings(settings)), Times.Exactly(1));
+            mockBlogRepository.Verify((br => br.AddOrUpdateBlogSettings(settings)), Times.Exactly(1));
         }
         #endregion
     }

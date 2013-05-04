@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using WR.Blog.Mvc.Models;
 
 namespace WR.Blog.Mvc.Areas.SiteAdmin.Models
 {
@@ -56,15 +57,20 @@ namespace WR.Blog.Mvc.Areas.SiteAdmin.Models
         public bool IsPublished { get; set; }
 
         [DataType(DataType.DateTime)]
-        [DisplayName("Publish Date")]
+        [DisplayName("Publish Date"), DisplayFormat(DataFormatString = "{0: dddd, MMMM d, yyyy} at {0:h:mm tt}")]
         public DateTime PublishedDate { get; set; }
 
         [Required]
         [DisplayName("Comments?")]
         public bool AllowComments { get; set; }
 
+        public BlogComment Comment { get; set; }
+
+        public int CommentCount { get; set; }
+
         [Required]
         [DisplayName("Content Page?")]
         public bool IsContentPage { get; set; }
+
     }
 }

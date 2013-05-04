@@ -18,21 +18,9 @@ namespace WR.Blog.Mvc
                         "~/Scripts/jquery.unobtrusive*",
                         "~/Scripts/jquery.validate*"));
 
-            bundles.Add(new ScriptBundle("~/Scripts/tiny_mce/tiny_mce_js").Include(
-                        "~/Scripts/tiny_mce/tiny_mce_src.js",
-                        "~/Scripts/tiny_mce/tiny_mce_init.js"));
-
-            // Scripts and styles for syntax highlighting
-            bundles.Add(new ScriptBundle("~/bundles/syntax").Include(
-                        "~/Scripts/syntaxhighlighter/scripts/shCore.js",
-                        "~/Scripts/syntaxhighlighter/scripts/shBrushCSharp.js",
-                        "~/Scripts/syntaxhighlighter/scripts/shBrushCss.js",
-                        "~/Scripts/syntaxhighlighter/scripts/shBrushJScript.js",
-                        "~/Scripts/syntaxhighlighter/scripts/shBrushPlain.js",
-                        "~/Scripts/syntaxhighlighter/scripts/shBrushSql.js",
-                        "~/Scripts/syntaxhighlighter/scripts/shBrushVb.js",
-                        "~/Scripts/syntaxhighlighter/scripts/shBrushXml.js",
-                        "~/Scripts/syntaxhighlighter/scripts/initSyntax.js"));
+            bundles.Add(new ScriptBundle("~/Scripts/ckeditor/ckeditor_js").Include(
+                        "~/Scripts/ckeditor/ckeditor.js",
+                        "~/Scripts/ckeditor/ckeditor_init.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -44,7 +32,9 @@ namespace WR.Blog.Mvc
                 "~/content/css/base.css",
                 "~/content/css/skeleton.css",
                 "~/content/css/layout.css",
-                "~/Content/css/Site.css"));
+                "~/Content/css/font.css",
+                "~/Content/css/Site.css",
+                "~/Content/css/prettify/sons-of-obsidian.css"));
 
 
             bundles.Add(new StyleBundle("~/Content/css/syntax").Include(

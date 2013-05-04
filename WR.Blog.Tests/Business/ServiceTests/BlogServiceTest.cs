@@ -20,6 +20,7 @@ namespace WR.Blog.Tests.Business.ServiceTests
         private Mock<IBlogRepository> mockBlogRepository;
         private IQueryable<BlogPostDto> blogPosts;
         private IQueryable<BlogVersionDto> blogPostVersions;
+        private IQueryable<BlogCommentDto> blogComments;
         private BlogService blogger;
 
         #region Setup Methods
@@ -102,15 +103,81 @@ namespace WR.Blog.Tests.Business.ServiceTests
                     LastModifiedDate = new DateTime(2013, 3, 3, 23, 59, 58)
                 },
                 new BlogVersionDto {
-                    Id = 2,
+                    Id = 3,
                     Title = "Title 3",
                     VersionOf = blogPosts.ToList()[0],
                     LastModifiedDate = new DateTime(2013, 3, 4, 23, 59, 58)
                 },
                 new BlogVersionDto {
-                    Id = 2,
+                    Id = 4,
                     Title = "Title 2",
                     VersionOf = blogPosts.ToList()[1]
+                }
+            }.AsQueryable();
+
+            blogComments = new List<BlogCommentDto>{
+                new BlogCommentDto {
+                    Id = 1,
+                    BlogPost = blogPosts.ToList()[0],
+                    Title = "Title 1",
+                    CommentDate = new DateTime(2013, 3, 4),
+                    IsApproved = true
+                },
+                new BlogCommentDto {
+                    Id = 2,
+                    BlogPost = blogPosts.ToList()[0],
+                    Title = "Title 1",
+                    CommentDate = new DateTime(2013, 3, 4, 23, 59, 58),
+                    IsApproved = false
+                },
+                new BlogCommentDto {
+                    Id = 3,
+                    BlogPost = blogPosts.ToList()[0],
+                    Title = "Title 1",
+                    CommentDate = new DateTime(2013, 3, 3, 23, 59, 58),
+                    IsApproved = true
+                },
+                new BlogCommentDto {
+                    Id = 4,
+                    BlogPost = blogPosts.ToList()[2],
+                    Title = "Title 1",
+                    CommentDate = new DateTime(2013, 3, 4),
+                    IsApproved = true
+                },
+                new BlogCommentDto {
+                    Id = 5,
+                    BlogPost = blogPosts.ToList()[2],
+                    Title = "Title 1",
+                    CommentDate = new DateTime(2013, 3, 5),
+                    IsApproved = true
+                },
+                new BlogCommentDto {
+                    Id = 6,
+                    BlogPost = blogPosts.ToList()[2],
+                    Title = "Title 1",
+                    CommentDate = new DateTime(2013, 3, 4),
+                    IsApproved = false 
+                },
+                new BlogCommentDto {
+                    Id = 7,
+                    BlogPost = blogPosts.ToList()[2],
+                    Title = "Title 1",
+                    CommentDate = new DateTime(2013, 3, 5),
+                    IsApproved = false 
+                },
+                new BlogCommentDto {
+                    Id = 8,
+                    BlogPost = blogPosts.ToList()[2],
+                    Title = "Title 1",
+                    CommentDate = new DateTime(2013, 3, 4),
+                    IsApproved = false 
+                },
+                new BlogCommentDto {
+                    Id = 9,
+                    BlogPost = blogPosts.ToList()[2],
+                    Title = "Title 1",
+                    CommentDate = new DateTime(2013, 3, 5),
+                    IsApproved = false 
                 }
             }.AsQueryable();
         }
@@ -444,7 +511,7 @@ namespace WR.Blog.Tests.Business.ServiceTests
 
             var result = blogger.GetBlogPostsByDate(year, month, day);
 
-            mockBlogRepository.Verify((br => br.GetBlogPosts()), Times.Exactly(1));
+            mockBlogRepository.Verify((br => br.GetBlogPosts()), Times.Once());
         }
         #endregion
 
@@ -712,7 +779,7 @@ namespace WR.Blog.Tests.Business.ServiceTests
 
             var result = blogger.GetBlogPosts(skip, take, published, content);
 
-            mockBlogRepository.Verify((br => br.GetBlogPosts()), Times.Exactly(1));
+            mockBlogRepository.Verify((br => br.GetBlogPosts()), Times.Once());
         }
         #endregion
 
@@ -806,7 +873,7 @@ namespace WR.Blog.Tests.Business.ServiceTests
 
             var result = blogger.GetBlogPostByUrlSegment(urlSegment, isContentPage);
 
-            mockBlogRepository.Verify((br => br.GetBlogPosts()), Times.Exactly(1));
+            mockBlogRepository.Verify((br => br.GetBlogPosts()), Times.Once());
         }
         #endregion
 
@@ -922,7 +989,7 @@ namespace WR.Blog.Tests.Business.ServiceTests
 
             var result = blogger.GetBlogPostByPermalink(year, month, day, urlSegment, isPublished);
 
-            mockBlogRepository.Verify((br => br.GetBlogPosts()), Times.Exactly(1));
+            mockBlogRepository.Verify((br => br.GetBlogPosts()), Times.Once());
         }
         #endregion
 
@@ -934,7 +1001,7 @@ namespace WR.Blog.Tests.Business.ServiceTests
 
             blogger.AddBlogPost(blogPost);
 
-            mockBlogRepository.Verify((br => br.AddBlogPost(blogPost)), Times.Exactly(1));
+            mockBlogRepository.Verify((br => br.AddBlogPost(blogPost)), Times.Once());
         }
         #endregion
 
@@ -946,7 +1013,7 @@ namespace WR.Blog.Tests.Business.ServiceTests
 
             blogger.UpdateBlogPost(blogPost);
 
-            mockBlogRepository.Verify((br => br.UpdateBlogPost(blogPost)), Times.Exactly(1));
+            mockBlogRepository.Verify((br => br.UpdateBlogPost(blogPost)), Times.Once());
         }
         #endregion
 
@@ -958,7 +1025,7 @@ namespace WR.Blog.Tests.Business.ServiceTests
 
             blogger.DeleteBlogPost(id);
 
-            mockBlogRepository.Verify((br => br.DeleteBlogPost(id)), Times.Exactly(1));
+            mockBlogRepository.Verify((br => br.DeleteBlogPost(id)), Times.Once());
         }
         #endregion
 
@@ -999,12 +1066,53 @@ namespace WR.Blog.Tests.Business.ServiceTests
 
             var result = blogger.SaveBlogPostAsVersion(blogPost);
 
-            mockBlogRepository.Verify((br => br.AddBlogPostVersion(Moq.It.IsAny<BlogVersionDto>())), Times.Exactly(1));
+            mockBlogRepository.Verify((br => br.AddBlogPostVersion(Moq.It.IsAny<BlogVersionDto>())), Times.Once());
         }
         #endregion
 
         #region SaveBlogPostAsVersion(int blogPostId)
-        // TODO: Write tests for SaveBlogPostAsVersion(int blogPostId)
+        [Test]
+        public void SaveBlogPostAsVersion_int_should_return_an_int()
+        {
+            int blogPostId = blogPosts.ToList()[0].Id;
+            int expectedResult = 1;
+
+            mockBlogRepository.Setup(br => br.AddBlogPostVersion(Moq.It.IsAny<BlogVersionDto>())).Returns(expectedResult);
+            mockBlogRepository.Setup(br => br.GetBlogPostById(blogPostId)).Returns(blogPosts.ToList()[0]);
+
+            var result = blogger.SaveBlogPostAsVersion(blogPostId);
+
+            Assert.IsInstanceOf<int>(result);
+        }
+
+        [Test]
+        public void SaveBlogPostAsVersion_int_should_return_the_expected_int_value()
+        {
+            int blogPostId = blogPosts.ToList()[0].Id;
+            int expectedResult = 3527;
+
+            mockBlogRepository.Setup(br => br.AddBlogPostVersion(Moq.It.IsAny<BlogVersionDto>())).Returns(expectedResult);
+            mockBlogRepository.Setup(br => br.GetBlogPostById(blogPostId)).Returns(blogPosts.ToList()[0]);
+
+            var result = blogger.SaveBlogPostAsVersion(blogPostId);
+
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void SaveBlogPostAsVersion_int_should_call_BlogRepository_AddBlogPostVersion()
+        {
+            int blogPostId = blogPosts.ToList()[0].Id;
+            int expectedResult = 1;
+
+            mockBlogRepository.Setup(br => br.AddBlogPostVersion(Moq.It.IsAny<BlogVersionDto>())).Returns(expectedResult);
+            mockBlogRepository.Setup(br => br.GetBlogPostById(blogPostId)).Returns(blogPosts.ToList()[0]);
+
+            var result = blogger.SaveBlogPostAsVersion(blogPostId);
+
+            mockBlogRepository.Verify((br => br.AddBlogPostVersion(Moq.It.IsAny<BlogVersionDto>())), Times.Once());
+            mockBlogRepository.Verify((br => br.GetBlogPostById(blogPostId)), Times.Once());
+        }
         #endregion
 
         #region PublishVersion(BlogPostVersion version) Tests
@@ -1030,7 +1138,7 @@ namespace WR.Blog.Tests.Business.ServiceTests
 
             blogger.PublishVersion(version);
 
-            mockBlogRepository.Verify((br => br.UpdateBlogPostVersion(Moq.It.IsAny<BlogVersionDto>())), Times.Exactly(1));
+            mockBlogRepository.Verify((br => br.UpdateBlogPostVersion(Moq.It.IsAny<BlogVersionDto>())), Times.Once());
         }
         #endregion
 
@@ -1060,7 +1168,7 @@ namespace WR.Blog.Tests.Business.ServiceTests
         }
 
         [Test]
-        public void GetVersion_should_return_the_null_when_a_version_is_not_found()
+        public void GetVersion_should_return_null_when_a_version_is_not_found()
         {
             int versionId = 27;
 
@@ -1081,7 +1189,7 @@ namespace WR.Blog.Tests.Business.ServiceTests
 
             var result = blogger.GetVersion(versionId);
 
-            mockBlogRepository.Verify((br => br.GetBlogPostVersionById(Moq.It.IsAny<int>())), Times.Exactly(1));
+            mockBlogRepository.Verify((br => br.GetBlogPostVersionById(Moq.It.IsAny<int>())), Times.Once());
         }
         #endregion
 
@@ -1165,7 +1273,7 @@ namespace WR.Blog.Tests.Business.ServiceTests
 
             var result = blogger.GetVersionsByBlogPost(blogPostId);
 
-            mockBlogRepository.Verify((br => br.GetBlogPostVersions()), Times.Exactly(1));
+            mockBlogRepository.Verify((br => br.GetBlogPostVersions()), Times.Once());
         }
         #endregion
 
@@ -1220,7 +1328,7 @@ namespace WR.Blog.Tests.Business.ServiceTests
 
             blogger.UpdateVersion(version);
 
-            mockBlogRepository.Verify((br => br.UpdateBlogPostVersion(version)), Times.Exactly(1));
+            mockBlogRepository.Verify((br => br.UpdateBlogPostVersion(version)), Times.Once());
         }
         #endregion
 
@@ -1232,7 +1340,622 @@ namespace WR.Blog.Tests.Business.ServiceTests
 
             blogger.DeleteVersion(id);
 
-            mockBlogRepository.Verify((br => br.DeleteBlogPostVersion(id)), Times.Exactly(1));
+            mockBlogRepository.Verify((br => br.DeleteBlogPostVersion(id)), Times.Once());
+        }
+        #endregion
+
+        #region GetComment(int commentId)
+        [Test]
+        public void GetComment_should_return_an_object_of_type_BlogCommentDto()
+        {
+            int commentId = 1;
+
+            mockBlogRepository.Setup(br => br.GetBlogCommentById(commentId)).Returns(blogComments.Where(v => v.Id == commentId).SingleOrDefault());
+
+            var result = blogger.GetComment(commentId);
+
+            Assert.IsInstanceOf<BlogCommentDto>(result);
+        }
+
+        [Test]
+        public void GetComment_should_return_the_correct_comment()
+        {
+            int commentId = 1;
+
+            mockBlogRepository.Setup(br => br.GetBlogCommentById(commentId)).Returns(blogComments.Where(v => v.Id == commentId).SingleOrDefault());
+
+            var result = blogger.GetComment(commentId);
+
+            Assert.IsInstanceOf<BlogCommentDto>(result);
+        }
+
+        [Test]
+        public void GetComment_should_return_the_null_when_a_comment_is_not_found()
+        {
+            int commentId = 55;
+
+            mockBlogRepository.Setup(br => br.GetBlogCommentById(commentId)).Returns(blogComments.Where(v => v.Id == commentId).SingleOrDefault());
+
+            var result = blogger.GetComment(commentId);
+
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public void GetComment_should_call_BlogRepository_GetBlogCommentById_one_time()
+        {
+            int commentId = 27;
+
+            mockBlogRepository.Setup(br => br.GetBlogCommentById(Moq.It.IsAny<int>()))
+                .Returns((BlogCommentDto)null);
+
+            var result = blogger.GetComment(commentId);
+
+            mockBlogRepository.Verify((br => br.GetBlogCommentById(Moq.It.IsAny<int>())), Times.Once());
+        }
+        #endregion
+
+        #region GetCommentsByBlogPost(int blogPostId, bool isApproved = true)
+        [Test]
+        public void GetCommentsByBlogPost_should_return_an_object_of_type_IEnumerable_BlogCommentDto()
+        {
+            int blogPostId = 1;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetCommentsByBlogPost(blogPostId);
+
+            Assert.IsInstanceOf<IEnumerable<BlogCommentDto>>(result);
+        }
+
+        [Test]
+        public void GetCommentsByBlogPost_should_return_the_correct_approved_blog_comments()
+        {
+            int blogPostId = 1;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetCommentsByBlogPost(blogPostId);
+
+            Assert.AreEqual(2, result.Count(), "Wrong number of results");
+
+            foreach (var comment in result)
+            {
+                Assert.AreEqual(blogPostId, comment.BlogPost.Id, "BlogPostId is not the same");
+                Assert.IsTrue(comment.IsApproved, "Comment is not approved");
+            }
+        }
+
+        [Test]
+        public void GetCommentsByBlogPost_should_return_the_correct_approved_or_unapproved_blog_comments()
+        {
+            int blogPostId = 1;
+            bool isApproved = false;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetCommentsByBlogPost(blogPostId, isApproved);
+
+            Assert.AreEqual(3, result.Count(), "Wrong number of results");
+
+            foreach (var comment in result)
+            {
+                Assert.AreEqual(blogPostId, comment.BlogPost.Id, "BlogPostId is not the same");
+            }
+        }
+
+        [Test]
+        public void GetCommentsByBlogPost_should_return_a_non_empty_collection()
+        {
+            int blogPostId = 1;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetCommentsByBlogPost(blogPostId);
+
+            Assert.IsTrue(result.Count() > 0, "No results returned.");
+        }
+
+        [Test]
+        public void GetCommentsByBlogPost_should_return_an_empty_collection()
+        {
+            int blogPostId = 55;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetCommentsByBlogPost(blogPostId);
+
+            Assert.IsTrue(result.Count() == 0);
+        }
+
+        [Test]
+        public void GetCommentsByBlogPost_should_return_the_list_of_comments_in_descending_order_by_CommentDate()
+        {
+            int blogPostId = 1;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetCommentsByBlogPost(blogPostId);
+
+            Assert.IsTrue(result.Count() > 0, "No results returned.");
+
+            bool isOrderedDescending = true;
+            DateTime laterDate = DateTime.MaxValue;
+            foreach (var version in result)
+            {
+                if (version.CommentDate > laterDate)
+                {
+                    isOrderedDescending = false;
+                }
+                laterDate = version.CommentDate;
+            }
+            Assert.IsTrue(isOrderedDescending, "Results are not in descending order by date modified.");
+        }
+
+        [Test]
+        public void GetCommentsByBlogPost_should_call_BlogRepository_GetBlogComments_one_time()
+        {
+            int blogPostId = 27;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments())
+                .Returns(blogComments);
+
+            var result = blogger.GetCommentsByBlogPost(blogPostId);
+
+            mockBlogRepository.Verify((br => br.GetBlogComments()), Times.Once());
+        }
+        #endregion
+        
+        #region GetCommentsByBlogPost(BlogPost blogPost, bool isApproved = true)
+        [Test]
+        public void GetCommentsByBlogPost_BlogPost_should_return_an_object_of_type_IEnumerable_BlogCommentDto()
+        {
+            BlogPostDto blogPost = blogPosts.ToList()[0];
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetCommentsByBlogPost(blogPost);
+
+            Assert.IsInstanceOf<IEnumerable<BlogCommentDto>>(result);
+        }
+
+        [Test]
+        public void GetCommentsByBlogPost_BlogPost_should_return_the_correct_approved_blog_comments()
+        {
+            BlogPostDto blogPost = blogPosts.ToList()[0];
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetCommentsByBlogPost(blogPost);
+
+            Assert.AreEqual(2, result.Count(), "Wrong number of results");
+
+            foreach (var comment in result)
+            {
+                Assert.AreEqual(blogPost.Id, comment.BlogPost.Id, "BlogPostId is not the same");
+                Assert.IsTrue(comment.IsApproved, "Comment is not approved.");
+            }
+        }
+
+        [Test]
+        public void GetCommentsByBlogPost_BlogPost_should_return_the_correct_approved_or_unapproved_blog_comments()
+        {
+            BlogPostDto blogPost = blogPosts.ToList()[0];
+            bool isApproved = false;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetCommentsByBlogPost(blogPost, isApproved);
+
+            Assert.AreEqual(3, result.Count(), "Wrong number of results");
+
+            foreach (var comment in result)
+            {
+                Assert.AreEqual(blogPost.Id, comment.BlogPost.Id, "BlogPostId is not the same");
+            }
+        }
+
+        [Test]
+        public void GetCommentsByBlogPost_BlogPost_should_return_a_non_empty_collection_of_blog_comments()
+        {
+            BlogPostDto blogPost = blogPosts.ToList()[0];
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetCommentsByBlogPost(blogPost);
+
+            Assert.IsTrue(result.Count() > 0, "Empty collection");
+        }
+
+        [Test]
+        public void GetCommentsByBlogPost_BlogPost_should_return_an_empty_collection()
+        {
+            BlogPostDto blogPost = blogPosts.ToList()[6];
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetCommentsByBlogPost(blogPost);
+
+            Assert.IsTrue(result.Count() == 0);
+        }
+
+        [Test]
+        public void GetCommentsByBlogPost_BlogPost_should_return_the_list_of_comments_in_descending_order_by_CommentDate()
+        {
+            BlogPostDto blogPost = blogPosts.ToList()[0];
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetCommentsByBlogPost(blogPost);
+
+            Assert.IsTrue(result.Count() > 0, "No results returned.");
+
+            bool isOrderedDescending = true;
+            DateTime laterDate = DateTime.MaxValue;
+            foreach (var version in result)
+            {
+                if (version.CommentDate > laterDate)
+                {
+                    isOrderedDescending = false;
+                }
+                laterDate = version.CommentDate;
+            }
+            Assert.IsTrue(isOrderedDescending, "Results are not in descending order by date modified.");
+        }
+
+        [Test]
+        public void GetCommentsByBlogPost_BlogPost_should_call_BlogRepository_GetBlogComments_one_time()
+        {
+            BlogPostDto blogPost = blogPosts.ToList()[0];
+
+            mockBlogRepository.Setup(br => br.GetBlogComments())
+                .Returns(blogComments);
+
+            var result = blogger.GetCommentsByBlogPost(blogPost);
+
+            mockBlogRepository.Verify((br => br.GetBlogComments()), Times.Once());
+        }
+        #endregion
+
+        #region GetCommentCount(int blogPostId, bool isApproved = true)
+        [Test]
+        public void GetCommentCount_should_return_an_integer()
+        {
+            int blogPostId = 1;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetCommentCount(blogPostId);
+
+            Assert.IsInstanceOf<int>(result);
+        }
+
+        [Test]
+        public void GetCommentCount_should_return_the_correct_count_of_approved_comments()
+        {
+            int blogPostId = 1;
+            bool isApproved = true;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetCommentCount(blogPostId, isApproved);
+
+            Assert.AreEqual(2, result, "Wrong number of results");
+        }
+
+        [Test]
+        public void GetCommentCount_should_return_the_correct_count_of_approved_or_unapproved_comments()
+        {
+            int blogPostId = 1;
+            bool isApproved = false;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetCommentCount(blogPostId, isApproved);
+
+            Assert.AreEqual(3, result, "Wrong number of results");
+        }
+
+        [Test]
+        public void GetCommentCount_should_return_a_count_of_zero()
+        {
+            int blogPostId = 55;
+            bool isApproved = false;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetCommentCount(blogPostId, isApproved);
+
+            Assert.AreEqual(0, result, "Wrong number of results");
+        }
+
+        [Test]
+        public void GetCommentCount_should_call_BlogRepository_GetBlogComments_one_time()
+        {
+            int blogPostId = 27;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments())
+                .Returns(blogComments);
+
+            var result = blogger.GetCommentCount(blogPostId);
+
+            mockBlogRepository.Verify((br => br.GetBlogComments()), Times.Once());
+        }
+        #endregion
+
+        #region GetUnapprovedComments() Tests
+        [Test]
+        public void GetUnapprovedComments_should_return_an_object_of_type_IEnumerable_BlogCommentDto()
+        {
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetUnapprovedComments();
+
+            Assert.IsInstanceOf<IEnumerable<BlogCommentDto>>(result);
+        }
+
+        [Test]
+        public void GetUnapprovedComments_should_return_a_non_empty_collection_of_comments()
+        {
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetUnapprovedComments();
+
+            Assert.IsTrue(result.Count() > 0, "No results returned.");
+        }
+
+        [Test]
+        public void GetUnapprovedComments_should_return_an_empty_collection_of_comments()
+        {
+            foreach (var comment in blogComments)
+            {
+                comment.IsApproved = true;
+            }
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetUnapprovedComments();
+
+            Assert.IsTrue(result.Count() == 0, "Results were returned.");
+        }
+
+        [Test]
+        public void GetUnapprovedComments_should_return_only_unapproved_comments()
+        {
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetUnapprovedComments();
+
+            Assert.IsTrue(result.Count() > 0, "No results returned.");
+
+            foreach (var comment in result)
+            {
+                Assert.IsFalse(comment.IsApproved);
+            }
+        }
+
+        [Test]
+        public void GetUnapprovedComments_should_call_BlogRepository_GetBlogComments_one_time()
+        {
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetUnapprovedComments();
+
+            mockBlogRepository.Verify((br => br.GetBlogComments()), Times.Once());
+        }
+        #endregion
+
+        #region GetUnapprovedComments(int blogPostId) Tests
+        [Test]
+        public void GetUnapprovedCommentsInt_should_return_an_object_of_type_IEnumerable_BlogCommentDto()
+        {
+            int blogPostId = 1;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetUnapprovedComments(blogPostId);
+
+            Assert.IsInstanceOf<IEnumerable<BlogCommentDto>>(result);
+        }
+
+        [Test]
+        public void GetUnapprovedCommentsInt_should_return_a_non_empty_collection_of_comments()
+        {
+            int blogPostId = 1;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetUnapprovedComments(blogPostId);
+
+            Assert.IsTrue(result.Count() > 0, "No results returned.");
+        }
+
+        [Test]
+        public void GetUnapprovedCommentsInt_should_return_an_empty_collection_of_comments()
+        {
+            int blogPostId = 1;
+
+            foreach (var comment in blogComments)
+            {
+                comment.IsApproved = true;
+            }
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetUnapprovedComments(blogPostId);
+
+            Assert.IsTrue(result.Count() == 0, "Results were returned.");
+        }
+
+        [Test]
+        public void GetUnapprovedCommentsInt_should_return_only_unapproved_comments()
+        {
+            int blogPostId = 1;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetUnapprovedComments(blogPostId);
+
+            Assert.IsTrue(result.Count() > 0, "No results returned.");
+
+            foreach (var comment in result)
+            {
+                Assert.IsFalse(comment.IsApproved);
+            }
+        }
+
+        [Test]
+        public void GetUnapprovedCommentsInt_should_return_only_unapproved_comments_of_the_specified_blog_post()
+        {
+            int blogPostId = 3;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetUnapprovedComments(blogPostId);
+
+            Assert.AreEqual(4, result.Count(), "Unexpected number of results.");
+
+            foreach (var comment in result)
+            {
+                Assert.IsFalse(comment.IsApproved, "Comment is approved");
+                Assert.AreEqual(blogPostId, comment.BlogPost.Id, "Comment with wrong blog post ID.");
+            }
+        }
+
+        [Test]
+        public void GetUnapprovedCommentsInt_should_call_BlogRepository_GetBlogComments_one_time()
+        {
+            int blogPostId = 3;
+
+            mockBlogRepository.Setup(br => br.GetBlogComments()).Returns(blogComments);
+
+            var result = blogger.GetUnapprovedComments(blogPostId);
+
+            mockBlogRepository.Verify((br => br.GetBlogComments()), Times.Once());
+        }
+        #endregion
+
+        #region ApproveComment(int commentId) Tests
+        [Test]
+        public void ApproveComment_should_call_BlogRepository_GetComment_and_UpdateComment_one_time_each()
+        {
+            int commentId = 2;
+
+            mockBlogRepository.Setup(br => br.GetBlogCommentById(commentId))
+                .Returns(blogComments.Where(v => v.Id == commentId).SingleOrDefault());
+            mockBlogRepository.Setup(br => br.UpdateBlogComment(Moq.It.IsAny<BlogCommentDto>()));
+
+            blogger.ApproveComment(commentId);
+
+            mockBlogRepository.Verify((br => br.GetBlogCommentById(commentId)), Times.Once());
+            mockBlogRepository.Verify((br => br.UpdateBlogComment(Moq.It.IsAny<BlogCommentDto>())), Times.Once());
+        }
+
+        [Test]
+        public void ApproveComment_should_call_BlogRepository_GetComment_one_time_and_UpdateComment_zero_times_comment_already_approved()
+        {
+            int commentId = 1;
+
+            mockBlogRepository.Setup(br => br.GetBlogCommentById(commentId))
+                .Returns(blogComments.Where(v => v.Id == commentId).SingleOrDefault());
+            mockBlogRepository.Setup(br => br.UpdateBlogComment(Moq.It.IsAny<BlogCommentDto>()));
+
+            blogger.ApproveComment(commentId);
+
+            mockBlogRepository.Verify((br => br.GetBlogCommentById(commentId)), Times.Once());
+            mockBlogRepository.Verify((br => br.UpdateBlogComment(Moq.It.IsAny<BlogCommentDto>())), Times.Never());
+        }
+
+        [Test]
+        public void ApproveComment_should_call_BlogRepository_GetComment_and_UpdateComment_one_time_each_to_unapprove_a_comment()
+        {
+            int commentId = 1;
+            bool isApproved = false;
+
+            mockBlogRepository.Setup(br => br.GetBlogCommentById(commentId))
+                .Returns(blogComments.Where(v => v.Id == commentId).SingleOrDefault());
+            mockBlogRepository.Setup(br => br.UpdateBlogComment(Moq.It.IsAny<BlogCommentDto>()));
+
+            blogger.ApproveComment(commentId, isApproved);
+
+            mockBlogRepository.Verify((br => br.GetBlogCommentById(commentId)), Times.Once());
+            mockBlogRepository.Verify((br => br.UpdateBlogComment(Moq.It.IsAny<BlogCommentDto>())), Times.Once());
+        }
+
+        [Test]
+        public void ApproveComment_should_call_BlogRepository_GetComment_one_time_and_UpdateComment_zero_times_to_comment_already_unapproved()
+        {
+            int commentId = 2;
+            bool isApproved = false;
+
+            mockBlogRepository.Setup(br => br.GetBlogCommentById(commentId))
+                .Returns(blogComments.Where(v => v.Id == commentId).SingleOrDefault());
+            mockBlogRepository.Setup(br => br.UpdateBlogComment(Moq.It.IsAny<BlogCommentDto>()));
+
+            blogger.ApproveComment(commentId, isApproved);
+
+            mockBlogRepository.Verify((br => br.GetBlogCommentById(commentId)), Times.Once());
+            mockBlogRepository.Verify((br => br.UpdateBlogComment(Moq.It.IsAny<BlogCommentDto>())), Times.Never());
+        }
+        #endregion
+
+        #region AddComment(BlogCommentDto comment) Tests
+        [Test]
+        public void AddComment_should_return_an_int()
+        {
+            BlogCommentDto comment = new BlogCommentDto { Id = 1 };
+
+            mockBlogRepository.Setup(br => br.AddBlogComment(comment)).Returns(comment.Id);
+
+            var result = blogger.AddComment(comment);
+
+            Assert.IsInstanceOf<int>(result);
+        }
+
+        [Test]
+        public void AddComment_should_return_the_correct_id_number()
+        {
+            BlogCommentDto comment = new BlogCommentDto { Id = 1 };
+
+            mockBlogRepository.Setup(br => br.AddBlogComment(comment)).Returns(comment.Id);
+
+            var result = blogger.AddComment(comment);
+
+            Assert.AreEqual(comment.Id, result);
+        }
+
+        [Test]
+        public void AddComment_should_call_BlogRepository_AddBlogComment()
+        {
+            BlogCommentDto comment = new BlogCommentDto();
+
+            blogger.AddComment(comment);
+
+            mockBlogRepository.Verify((br => br.AddBlogComment(comment)), Times.Once());
+        }
+        #endregion
+
+        #region UpdateComment(BlogCommentDto comment) Tests
+        [Test]
+        public void UpdateComment_should_call_BlogRepository_UpdateBlogComment()
+        {
+            BlogCommentDto comment = new BlogCommentDto();
+
+            blogger.UpdateComment(comment);
+
+            mockBlogRepository.Verify((br => br.UpdateBlogComment(comment)), Times.Once());
+        }
+        #endregion
+
+        #region DeleteComment(int id) Tests
+        [Test]
+        public void DeleteComment_should_call_BlogRepository_DeleteBlogComment()
+        {
+            int commentId = 0;
+
+            blogger.DeleteComment(commentId);
+
+            mockBlogRepository.Verify((br => br.DeleteBlogComment(commentId)), Times.Once());
         }
         #endregion
     }

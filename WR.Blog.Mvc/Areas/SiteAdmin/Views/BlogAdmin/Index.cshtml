@@ -7,7 +7,7 @@
 <h1>Blog Pages</h1>
 
 <p>
-    @Html.ActionLink("Create New Post", "Create", routeValues: null, htmlAttributes: new { @class = "button" })
+    @Html.IconLink(" Create New Post", "Create", null, fragment: null, routeValues: null, htmlAttributes: new { @class = "button" }, iconHtmlAttributes: new { @class = "icon-createfile" })
 </p>
 <table class="index">
     <tr>
@@ -29,19 +29,19 @@
         <th>
             @Html.DisplayNameFor(model => model.Author)
         </th>
-        <th></th>
+        <th>Actions</th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>            
-            @Html.ActionLink(item.Title, "Index", "Blog", routeValues: new { year = item.PublishedDate.Year, month = item.PublishedDate.Month, day = item.PublishedDate.Day, urlSegment = item.UrlSegment, Area = "" }, htmlAttributes: null)
+            @Html.ActionLink(item.Title.Shorten(30, appendEllipse: true), "Index", "Blog", routeValues: new { year = item.PublishedDate.Year, month = item.PublishedDate.Month, day = item.PublishedDate.Day, urlSegment = item.UrlSegment, Area = "" }, htmlAttributes: null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.IsPublished)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PublishedDate)
+            @Html.ValueFor(modelItem => item.PublishedDate, "{0:MM/dd/yyyy hh:mm tt}")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.LastModifiedDate)
@@ -53,9 +53,10 @@
             @Html.DisplayFor(modelItem => item.Author)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Versions", "Versions", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            @Html.IconLink(null, "Edit", null, null, new { id = item.Id }, new { @class = "half-right", title = "Edit Post"}, new { @class = "icon-quill" }) 
+            @Html.IconLink(null, "Versions", null, null, new { id = item.Id }, new { @class = "half-right", title = "Version List"}, new { @class = "icon-copy" }) 
+            @Html.IconLink(null, "Comments", null, null, new { id = item.Id }, new { @class = "half-right", title = "Comment List"}, new { @class = "icon-bubbles" }) 
+            @Html.IconLink(null, "Delete", null, null, new { id = item.Id }, new { title = "Delete Post"}, new { @class = "icon-remove" })
         </td>
     </tr>
 }

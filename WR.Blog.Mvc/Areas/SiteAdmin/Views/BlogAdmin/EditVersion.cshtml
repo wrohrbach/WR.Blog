@@ -16,14 +16,14 @@
     <span class="em small">Last Modified: @Model.LastModifiedDate</span>
     <hr />
     <div class="input-buttons">
-        <input type="submit" name="submitButton" value="Save Version" />&nbsp;
-        <input type="submit" name="submitButton" value="Save and Preview" />&nbsp;
-        <input type="submit" name="submitButton" value="Save and Publish" />&nbsp;
-        @Html.ActionLink("Cancel", "Versions", routeValues: new { id = Model.VersionOfId }, htmlAttributes: new { @class = "button" })
+        <button type="submit" name="submitButton" value="Save Version" data-icon="&#xe083;"> Save Version</button>&nbsp;
+        <button type="submit" name="submitButton" value="Save and Preview" data-icon="&#xf330;"> Save and Preview</button>&nbsp;
+        <button type="submit" name="submitButton" value="Save and Publish" data-icon="&#xf32e;"> Save and Publish</button>&nbsp;
+        @Html.IconLink(" Cancel", "Versions", null, fragment: null, routeValues: new { id = Model.VersionOfId }, htmlAttributes: new { @class = "button" }, iconHtmlAttributes: new { @class = "icon-cancel-circle" })
     </div>
 }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/tiny_mce/tiny_mce_js")
+    @Scripts.Render("~/Scripts/ckeditor/ckeditor_js")
 }

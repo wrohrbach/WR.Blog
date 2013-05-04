@@ -11,6 +11,7 @@ using WR.Blog.Mvc.Helpers;
 using WR.Blog.Data.Models;
 using WR.Blog.Business.Services;
 using AutoMapper;
+using WR.Blog.Mvc.Models;
 
 namespace WR.Blog.Mvc.Areas.SiteAdmin.Controllers
 {
@@ -203,6 +204,7 @@ namespace WR.Blog.Mvc.Areas.SiteAdmin.Controllers
         #region Version Actions
         public ActionResult Versions(int? id, int? page)
         {
+            // TODO: Version paging
             int blogPostId = id ?? 0;
 
             var blogPostDto = blogger.GetBlogPost(blogPostId);
@@ -348,6 +350,52 @@ namespace WR.Blog.Mvc.Areas.SiteAdmin.Controllers
 
             return RedirectToAction("Versions", routeValues: new { id = versionOfId });
         } 
+        #endregion
+
+        #region Comment Actions
+        public ActionResult Comments(int? id, int? page)
+        {
+            // TODO: Comment Paging
+            int blogPostId = id ?? 0;
+
+            var commentDtos = blogger.GetCommentsByBlogPost(blogPostId, isApproved: false);
+            var comments = Mapper.Map<IEnumerable<BlogCommentDto>, List<BlogComment>>(commentDtos);
+
+            return View(comments);
+        }
+
+        public ActionResult ViewComment(int? id)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Approves the comment to display.
+        /// </summary>
+        /// <param name="id">The comment id.</param>
+        /// <param name="isApproved">Set to false to unapprove a comment. Leave as true to approve.</param>
+        /// <returns>
+        /// Returns a JsonResult saying whether this was successfully approved or not.
+        /// </returns>
+        [HttpPost]
+        public JsonResult ApproveComment(int id, bool isApproved = true)
+        {
+            blogger.ApproveComment(id, isApproved);
+
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public JsonResult ApproveAllComments()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public JsonResult DeleteComment(int id)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         protected override void Dispose(bool disposing)

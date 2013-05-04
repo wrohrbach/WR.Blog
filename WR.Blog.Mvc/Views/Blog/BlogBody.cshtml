@@ -1,6 +1,23 @@
 ﻿@model WR.Blog.Mvc.Areas.SiteAdmin.Models.BlogPost
-
-<div class="blog-title"><h1>@Model.Title</h1></div>
+@if ((bool)ViewData["IsSummarized"] == false)
+{
+    <div class="blog-title"><h1>@Model.Title</h1></div>
+}
+else
+{ 
+    <div class="blog-title"><h1>@Html.ActionLink(Model.Title, "Index", "Blog", routeValues: new { year = Model.PublishedDate.Year, month = Model.PublishedDate.Month, day = Model.PublishedDate.Day, urlSegment = Model.UrlSegment, Area = "" }, htmlAttributes: null)</h1></div>
+}
 <div class="blog-byline">By @Model.Author</div>
-<div class="blog-publish-date">@Model.PublishedDate</div>
-<div class="blog-content">@Html.Raw(Model.Text)</div>
+<div class="blog-publish-date">@Html.DisplayFor(m => Model.PublishedDate)</div>
+<div class="blog-content">@Html.Raw((bool)ViewData["IsSummarized"] == true ? Model.AboveTheFold : Model.Text)</div>
+@if ((bool)ViewData["IsSummarized"] == true)
+{    
+    <div class="blog-actions">
+        @Html.IconLink(" Read More", "Index", "Blog", fragment: "", routeValues: new { year = Model.PublishedDate.Year, month = Model.PublishedDate.Month, day = Model.PublishedDate.Day, urlSegment = Model.UrlSegment, Area = "" }, htmlAttributes: null, iconHtmlAttributes: new { @class = "icon-newspaper"})
+        @Html.IconLink(" " + @Model.CommentCount + " Comment" + (Model.CommentCount == 1 ? "" : "s"), "Index", "Blog", fragment: "comments", routeValues: new { year = Model.PublishedDate.Year, month = Model.PublishedDate.Month, day = Model.PublishedDate.Day, urlSegment = Model.UrlSegment, Area = "" }, htmlAttributes: null, iconHtmlAttributes: new { @class = "icon-bubbles"})
+        @if ((bool)ViewData["IsAdmin"])
+        {
+            @Html.IconLink(" Edit", "Edit", "BlogAdmin", fragment: null, routeValues: new { Area = "SiteAdmin", id = Model.Id }, htmlAttributes: null, iconHtmlAttributes: new { @class = "icon-quill"})
+        }
+    </div>
+}

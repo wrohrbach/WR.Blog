@@ -3,7 +3,7 @@
 }
 
 @section asides{
-                <div class="four columns">
+                <div class="four columns inner-shadow-left">
                     <aside>
                         @Html.Partial("_AsidesPartial")
                         @RenderSection("aside", required: false)
@@ -11,3 +11,7 @@
                 </div>
 }
 @RenderBody()
+
+@section scripts {
+    @RenderSection("scripts", required: false)
+}

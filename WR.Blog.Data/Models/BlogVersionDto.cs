@@ -12,16 +12,6 @@ namespace WR.Blog.Data.Models
 {
     public class BlogVersionDto : BlogPostBaseDto
     {
-        public BlogVersionDto()
-            : base()
-        { }
-
-        public BlogVersionDto(BlogPostDto blogPage)
-            : base()
-        {
-            
-        }
-        
         public virtual BlogPostDto VersionOf { get; set; }
     }
 }

@@ -4,23 +4,16 @@
     ViewBag.Title = "Yet Another Web Log";
 }
 
-@if (@ViewBag.IsAdmin)
+@if (@ViewBag.BlogSettings.IsAdmin)
 {
-    <p class="float-right">@Html.ActionLink("Create New Post »", "Create", "BlogAdmin", routeValues: new { Area = "SiteAdmin" }, htmlAttributes: new { @class = "button" })</p>
+    <p class="centered">
+        @Html.IconLink(" Create New Post", "Create", "BlogAdmin", fragment: null, routeValues: new { Area = "SiteAdmin" }, htmlAttributes: new { @class = "button" }, iconHtmlAttributes: new { @class = "icon-createfile" })
+        @Html.IconLink(" Blog Admin", "Index", "BlogAdmin", fragment: null, routeValues: new { Area = "SiteAdmin" }, htmlAttributes: new { @class = "button" }, iconHtmlAttributes: new { @class = "icon-book" })
+    </p>
 }
 
 @foreach (var item in Model) {
-    <div class="blog-title"><h1>@Html.ActionLink(@item.Title, "Index", "Blog", routeValues: new { year = item.PublishedDate.Year, month = item.PublishedDate.Month, day = item.PublishedDate.Day, urlSegment = item.UrlSegment, Area = "" }, htmlAttributes: new { @class = "" })</h1></div>
-    <div class="blog-byline">By @item.Author</div>
-    <div class="blog-publish-date">@item.PublishedDate</div>
-    <div class="blog-content">@Html.Raw(item.AboveTheFold)</div>
-    <div>
-        @Html.ActionLink("Read More »", "Index", "Blog", routeValues: new { year = item.PublishedDate.Year, month = item.PublishedDate.Month, day = item.PublishedDate.Day, urlSegment = item.UrlSegment, Area = "" }, htmlAttributes: new { @class = "" })
-        @if (ViewBag.IsAdmin)
-        {
-            @:| @Html.ActionLink("Edit", "Edit", "BlogAdmin", routeValues: new { Area = "SiteAdmin", id = item.Id }, htmlAttributes: null)
-        }
-    </div>
+    @Html.Partial("BlogBody", item, new ViewDataDictionary{ { "IsSummarized", true }, { "IsAdmin", ViewBag.BlogSettings.IsAdmin } })
     <hr />
 }
 

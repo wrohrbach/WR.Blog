@@ -15,14 +15,14 @@ namespace WR.Blog.Business.Services
 
         #region Site Settings Methods
         /// <summary>
-        /// Gets the site settings.
+        /// Gets the blog settings.
         /// </summary>
         /// <returns>
-        /// Returns site settings.
+        /// Returns blog settings.
         /// </returns>
-        public SiteSettingsDto GetSiteSettings()
+        public BlogSettingsDto GetBlogSettings()
         {
-                return br.GetSiteSettings() ?? new SiteSettingsDto
+                return br.GetBlogSettings() ?? new BlogSettingsDto
                                                         {
                                                             Id = 0,
                                                             SiteTitle = "Your Site Title",
@@ -33,13 +33,13 @@ namespace WR.Blog.Business.Services
         }
 
         /// <summary>
-        /// Adds the settings if they do not exist or updates site settings if they do.
+        /// Adds the settings if they do not exist or updates blog settings if they do.
         /// </summary>
         /// <param name="settings">The settings to add or update.</param>
         /// <exception cref="System.UnauthorizedAccessException">Throws unauthorized exception if user is not found.</exception>
-        public void AddOrUpdateSiteSettings(SiteSettingsDto settings)
+        public void AddOrUpdateBlogSettings(BlogSettingsDto settings)
         {
-                br.AddOrUpdateSiteSettings(settings); 
+                br.AddOrUpdateBlogSettings(settings); 
         }
         #endregion
     }

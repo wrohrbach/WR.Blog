@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 
 namespace WR.Blog.Data.Models
 {
@@ -11,20 +10,7 @@ namespace WR.Blog.Data.Models
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string UserName { get; set; }
-        public string DisplayName
-        {
-            get;
-            set;
-            //get
-            //{
-            //    return string.IsNullOrWhiteSpace(DisplayName) ? UserName : DisplayName;
-            //}
-            //set
-            //{
-            //   DisplayName = value; 
-            //}
-        }
-
+        public string DisplayName { get; set; }
         public string EmailAddress { get; set; }
         public string WebSite { get; set; }
         public bool Active { get; set; }

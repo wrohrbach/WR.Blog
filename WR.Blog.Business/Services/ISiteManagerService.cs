@@ -10,18 +10,18 @@ namespace WR.Blog.Business.Services
 {
     public interface ISiteManagerService : IBaseService, IDisposable
     {
-        #region Site Settings Methods
+        #region Blog Settings Methods
         /// <summary>
-        /// Gets the site settings.
+        /// Gets the blog settings.
         /// </summary>
-        /// <returns>Returns site settings.</returns>
-        SiteSettingsDto GetSiteSettings();
+        /// <returns>Returns blog settings.</returns>
+        BlogSettingsDto GetBlogSettings();
 
         /// <summary>
-        /// Adds the settings if they do not exist or updates site settings if they do.
+        /// Adds the settings if they do not exist or updates blog settings if they do.
         /// </summary>
         /// <param name="settings">The settings to add or update.</param>
-        void AddOrUpdateSiteSettings(SiteSettingsDto settings);
+        void AddOrUpdateBlogSettings(BlogSettingsDto settings);
         #endregion
     }
 }

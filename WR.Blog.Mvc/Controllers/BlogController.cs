@@ -4,11 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using AutoMapper;
+using PoliteCaptcha;
+using WR.Blog.Business.Services;
+using WR.Blog.Business.Helpers;
 using WR.Blog.Data.Models;
 using WR.Blog.Mvc.Helpers;
-using WR.Blog.Business.Services;
-using AutoMapper;
 using WR.Blog.Mvc.Areas.SiteAdmin.Models;
+using WR.Blog.Mvc.Models;
+using System.Text.RegularExpressions;
 
 namespace WR.Blog.Mvc.Controllers
 {
@@ -47,7 +51,7 @@ namespace WR.Blog.Mvc.Controllers
             }
 
             // Get permalinked blog post
-            var blogPostDto = blogger.GetBlogPostByPermalink(year, month, day, urlSegment, isPublished: !(bool)ViewBag.IsAdmin);
+            var blogPostDto = blogger.GetBlogPostByPermalink(year, month, day, urlSegment, isPublished: !ViewBag.BlogSettings.IsAdmin);
 
             if (blogPostDto == null)
             {
@@ -55,6 +59,12 @@ namespace WR.Blog.Mvc.Controllers
             }
 
             var blogPost = Mapper.Map<BlogPostDto, BlogPost>(blogPostDto);
+            blogPost.Comment = new BlogComment
+            {
+                BlogPostId = blogPost.Id,
+                BlogPostPublishedDate = blogPost.PublishedDate,
+                BlogPostUrlSegment = blogPost.UrlSegment
+            };
 
             return View(blogPost);
         }
@@ -70,7 +80,7 @@ namespace WR.Blog.Mvc.Controllers
 
             var blogPostDto = blogger.GetBlogPostByUrlSegment(urlSegment, isContentPage: true);
 
-            if (blogPostDto == null || !(ViewBag.IsAdmin || (blogPostDto.IsPublished && blogPostDto.PublishedDate < DateTime.Now)))
+            if (blogPostDto == null || !(ViewBag.BlogSettings.IsAdmin || (blogPostDto.IsPublished && blogPostDto.PublishedDate < DateTime.Now)))
             {
                 throw new HttpException(404, "Not found");
             }
@@ -91,6 +101,57 @@ namespace WR.Blog.Mvc.Controllers
             var blogPosts = Mapper.Map<IEnumerable<BlogPostDto>, List<BlogPost>>(blogPostDtos);
 
             return View("List", blogPosts);
+        }
+
+        public PartialViewResult Comments(int? id)
+        {
+            int blogPostId = id ?? 0;
+
+            var commentDtos = blogger.GetCommentsByBlogPost(blogPostId, ((BlogSettings)ViewBag.BlogSettings).ModerateComments);
+
+            var comments = Mapper.Map<IEnumerable<BlogCommentDto>, List<BlogComment>>(commentDtos);
+
+            return PartialView(comments);
+        }
+
+        [HttpPost, ValidateSpamPrevention]
+        [ValidateInput(false)]
+        public ActionResult AddComment()
+        {
+            BlogComment comment = new BlogComment();
+            TryUpdateModel(comment);
+
+            if (ModelState.IsValid)
+            {
+                BlogCommentDto commentDto = Mapper.Map<BlogCommentDto>(comment);
+
+                if (comment.ReplyToCommentId != 0)
+                {
+                    commentDto.ReplyToComment = blogger.GetComment(comment.ReplyToCommentId);
+                }
+
+                commentDto.BlogPost = blogger.GetBlogPost(comment.BlogPostId);
+                commentDto.CommentDate = DateTime.Now;
+                commentDto.IsApproved = !ViewBag.BlogSettings.ModerateComments || ViewBag.BlogSettings.IsAdmin;
+                commentDto.GravatarHash = commentDto.Email.GravatarHash();
+                commentDto.Homepage = commentDto.Homepage.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? commentDto.Homepage : "http://" + commentDto.Homepage;
+                commentDto.Comment = commentDto.Comment.ToSafeHtml();
+
+                blogger.AddComment(commentDto);
+                
+                return RedirectToAction("Index", 
+                    routeValues: new { 
+                        year = comment.BlogPostPublishedDate.Year,
+                        month = comment.BlogPostPublishedDate.Month,
+                        day = comment.BlogPostPublishedDate.Day, 
+                        urlSegment = comment.BlogPostUrlSegment
+                    });
+            }
+
+            BlogPost blogPost = Mapper.Map<BlogPost>(blogger.GetBlogPost(comment.BlogPostId));
+            blogPost.Comment = comment;
+
+            return View("Index", blogPost);
         }
     }
 }

@@ -15,6 +15,7 @@ using System.Web;
 using System.Security.Principal;
 using WR.Blog.Tests.Mvc.Fakes;
 using System.Web.Routing;
+using WR.Blog.Mvc.Areas.SiteAdmin.Models;
 
 namespace WR.Blog.Tests.Mvc.FilterTests
 {
@@ -22,14 +23,14 @@ namespace WR.Blog.Tests.Mvc.FilterTests
     public class LoadSiteSettingsFilterTest
     {
         private Mock<ISiteManagerService> mockSiteManagerService;
-        private IQueryable<SiteSettingsDto> siteSettings;
+        private IQueryable<BlogSettingsDto> blogSettings;
 
         #region Setup Methods
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
-            siteSettings = new List<SiteSettingsDto>{
-                new SiteSettingsDto {
+            blogSettings = new List<BlogSettingsDto>{
+                new BlogSettingsDto {
                     Id = 1,
                     SiteTitle = "My Site Title",
                     Tagline = "Tagline",
@@ -83,31 +84,31 @@ namespace WR.Blog.Tests.Mvc.FilterTests
 
         #region OnActionExecuting() Tests
         [Test]
-        public void OnActionExecuting_ViewBag_SiteSettings_should_not_contain_null_value()
+        public void OnActionExecuting_ViewBag_BlogSettings_should_not_contain_null_value()
         {
             bool isAdmin = true;
             var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
             var filterContext = GetFilterContext(isAdmin);
-            mockSiteManagerService.Setup(br => br.GetSiteSettings()).Returns(siteSettings.FirstOrDefault());
+            mockSiteManagerService.Setup(br => br.GetBlogSettings()).Returns(blogSettings.FirstOrDefault());
 
             attribute.OnActionExecuting(filterContext);
             var viewBag = filterContext.Controller.ViewBag;
 
-            Assert.IsNotNull(viewBag.SiteSettings);
+            Assert.IsNotNull(viewBag.BlogSettings);
         }
 
         [Test]
-        public void OnActionExecuting_ViewBag_SiteSettings_should_be_an_object_of_type_SiteSettings()
+        public void OnActionExecuting_ViewBag_BlogSettings_should_be_an_object_of_type_BlogSettings()
         {
             bool isAdmin = true;
             var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
             var filterContext = GetFilterContext(isAdmin);
-            mockSiteManagerService.Setup(br => br.GetSiteSettings()).Returns(siteSettings.FirstOrDefault());
+            mockSiteManagerService.Setup(br => br.GetBlogSettings()).Returns(blogSettings.FirstOrDefault());
 
             attribute.OnActionExecuting(filterContext);
             var viewBag = filterContext.Controller.ViewBag;
 
-            Assert.IsInstanceOf(typeof(SiteSettingsDto), viewBag.SiteSettings);
+            Assert.IsInstanceOf(typeof(BlogSettings), viewBag.BlogSettings);
         }
 
         [Test]
@@ -116,10 +117,10 @@ namespace WR.Blog.Tests.Mvc.FilterTests
             bool isAdmin = true;
             var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
             var filterContext = GetFilterContext(isAdmin);
-            mockSiteManagerService.Setup(br => br.GetSiteSettings()).Returns((SiteSettingsDto)null);
+            mockSiteManagerService.Setup(br => br.GetBlogSettings()).Returns((BlogSettingsDto)null);
 
             attribute.OnActionExecuting(filterContext);
-            var result = (SiteSettingsDto) filterContext.Controller.ViewBag.SiteSettings;
+            var result = (BlogSettings) filterContext.Controller.ViewBag.BlogSettings;
 
             Assert.AreEqual("Site Title", result.SiteTitle);
             Assert.AreEqual("Your blog's tagline.", result.Tagline);
@@ -136,10 +137,10 @@ namespace WR.Blog.Tests.Mvc.FilterTests
             bool isAdmin = true;
             var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
             var filterContext = GetFilterContext(isAdmin);
-            mockSiteManagerService.Setup(br => br.GetSiteSettings()).Returns(siteSettings.FirstOrDefault());
+            mockSiteManagerService.Setup(br => br.GetBlogSettings()).Returns(blogSettings.FirstOrDefault());
 
             attribute.OnActionExecuting(filterContext);
-            var result = (SiteSettingsDto) filterContext.Controller.ViewBag.SiteSettings;
+            var result = (BlogSettings) filterContext.Controller.ViewBag.BlogSettings;
 
             Assert.AreEqual("My Site Title", result.SiteTitle);
             Assert.AreEqual("Tagline", result.Tagline);
@@ -156,12 +157,12 @@ namespace WR.Blog.Tests.Mvc.FilterTests
             bool isAdmin = true;
             var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
             var filterContext = GetFilterContext(isAdmin);
-            mockSiteManagerService.Setup(br => br.GetSiteSettings()).Returns((SiteSettingsDto)null);
+            mockSiteManagerService.Setup(br => br.GetBlogSettings()).Returns((BlogSettingsDto)null);
 
             attribute.OnActionExecuting(filterContext);
             var viewBag = filterContext.Controller.ViewBag;
 
-            Assert.IsTrue(viewBag.IsAdmin);
+            Assert.IsTrue(viewBag.BlogSettings.IsAdmin, "User is not admin");
         }
 
         [Test]
@@ -170,12 +171,26 @@ namespace WR.Blog.Tests.Mvc.FilterTests
             bool isAdmin = false;
             var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
             var filterContext = GetFilterContext(isAdmin);
-            mockSiteManagerService.Setup(br => br.GetSiteSettings()).Returns((SiteSettingsDto)null);
+            mockSiteManagerService.Setup(br => br.GetBlogSettings()).Returns((BlogSettingsDto)null);
 
             attribute.OnActionExecuting(filterContext);
             var viewBag = filterContext.Controller.ViewBag;
 
-            Assert.IsFalse(viewBag.IsAdmin);
+            Assert.IsFalse(viewBag.BlogSettings.IsAdmin, "User is admin");
+        }
+
+        [Test]
+        public void OnActionExecuting_ViewBag_should_contain_gravatar_url()
+        {
+            bool isAdmin = false;
+            var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
+            var filterContext = GetFilterContext(isAdmin);
+            mockSiteManagerService.Setup(br => br.GetBlogSettings()).Returns((BlogSettingsDto)null);
+
+            attribute.OnActionExecuting(filterContext);
+            var viewBag = filterContext.Controller.ViewBag;
+
+            Assert.IsTrue(((string)viewBag.BlogSettings.GravatarUrl).StartsWith("http://gravatar.com/avatar/"), "Does not contain gravatar url");
         }
         #endregion
     }

@@ -15,13 +15,13 @@
     <span class="em small">Last Modified: @Model.LastModifiedDate</span>
     <hr />
     <div class="input-buttons">
-        <input type="submit" name="submitButton" value="Publish Changes" />&nbsp;
-        <input type="submit" name="submitButton" value="Save and Preview" />&nbsp;
-        @Html.ActionLink("Cancel", "Index", routeValues: null, htmlAttributes: new { @class = "button" })
+        <button type="submit" name="submitButton" value="Publish Changes" data-icon="&#xf32e;"> Publish Changes</button>&nbsp;
+        <button type="submit" name="submitButton" value="Save and Preview" data-icon="&#xf330;"> Save and Preview</button>&nbsp;
+        @Html.IconLink(" Cancel", "Index", null, fragment: null, routeValues: null, htmlAttributes: new { @class = "button" }, iconHtmlAttributes: new { @class = "icon-cancel-circle" })
     </div>
 }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/tiny_mce/tiny_mce_js")
+    @Scripts.Render("~/Scripts/ckeditor/ckeditor_js")
 }

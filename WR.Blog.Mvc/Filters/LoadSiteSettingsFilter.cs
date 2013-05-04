@@ -1,6 +1,8 @@
 ﻿using System.Web.Mvc;
 using WR.Blog.Business.Services;
 using WR.Blog.Data.Models;
+using WR.Blog.Mvc.Areas.SiteAdmin.Models;
+using AutoMapper;
 
 namespace WR.Blog.Mvc.Filters
 {
@@ -18,28 +20,29 @@ namespace WR.Blog.Mvc.Filters
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            SiteSettingsDto settings = manager.GetSiteSettings();
+            BlogSettingsDto settingsDto = manager.GetBlogSettings();
+            var settings = Mapper.Map<BlogSettings>(settingsDto);
 
             var viewBag = filterContext.Controller.ViewBag;
 
             if (settings == null)
             {
-                viewBag.SiteSettings = new SiteSettingsDto{
+                settings = new BlogSettings{
                     SiteTitle = "Site Title",
                     Tagline = "Your blog's tagline.",
                     AltTagline = "Alternate Tagline",
                     MenuLinks = "",
                     PostsPerPage = 10,
                     AllowComments = true,
+                    ModerateComments = true,
                     GoogleAccount = ""
                 };
             }
-            else
-            {
-                viewBag.SiteSettings = settings;
-            }
 
-            viewBag.IsAdmin = filterContext.HttpContext.User.IsInRole(System.Configuration.ConfigurationManager.AppSettings["AdministratorRole"]);
+            settings.GravatarUrl = System.Configuration.ConfigurationManager.AppSettings["GravatarUrl"];
+            settings.IsAdmin = filterContext.HttpContext.User.IsInRole(System.Configuration.ConfigurationManager.AppSettings["AdministratorRole"]);
+
+            viewBag.BlogSettings = settings;
 
             base.OnActionExecuting(filterContext);
         }

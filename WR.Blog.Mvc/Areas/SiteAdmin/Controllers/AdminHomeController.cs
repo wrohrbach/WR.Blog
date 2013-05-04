@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Mvc;
-
-using WR.Blog.Data.Models;
-using System.Data;
-using WR.Blog.Business.Services;
 using AutoMapper;
+using WR.Blog.Business.Services;
+using WR.Blog.Data.Models;
+using WR.Blog.Mvc.Areas.SiteAdmin.Models;
 
 namespace WR.Blog.Mvc.Areas.SiteAdmin.Controllers
 {
@@ -25,21 +23,23 @@ namespace WR.Blog.Mvc.Areas.SiteAdmin.Controllers
 
         public ActionResult Settings()
         {
-            SiteSettingsDto settings = manager.GetSiteSettings();
+            BlogSettingsDto settingsDto = manager.GetBlogSettings();
 
-            return View(settings);
+            BlogSettings settingsModel = Mapper.Map<BlogSettings>(settingsDto);
+
+            return View(settingsModel);
         }
 
         [HttpPost, ActionName("Settings")]
         public ActionResult SettingsPost()
         {
-            var settingsModel = new SiteSettingsDto();
+            var settingsModel = new BlogSettings();
             TryUpdateModel(settingsModel);
 
             if (ModelState.IsValid)
             {
-                var settings = manager.GetSiteSettings();
-                Mapper.Map<SiteSettingsDto, SiteSettingsDto>(settingsModel, settings);
+                var settingsDto = manager.GetBlogSettings();
+                Mapper.Map<BlogSettings, BlogSettingsDto>(settingsModel, settingsDto);
 
                 var user = manager.GetUser(User.Identity.Name);
                 
@@ -48,10 +48,10 @@ namespace WR.Blog.Mvc.Areas.SiteAdmin.Controllers
                     return new HttpUnauthorizedResult();
                 }
 
-                settings.LastModifiedBy = user;
-                settings.LastModifiedDate = DateTime.Now;                
+                settingsDto.LastModifiedBy = user;
+                settingsDto.LastModifiedDate = DateTime.Now;                
 
-                manager.AddOrUpdateSiteSettings(settings);
+                manager.AddOrUpdateBlogSettings(settingsDto);
 
                 return RedirectToAction("Index");
             }

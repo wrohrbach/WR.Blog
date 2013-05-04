@@ -4,11 +4,12 @@
 
 <h1>Site Admin</h1>
 
-<ul>
-    <li>@Html.ActionLink("Blog Admin", "Index", "BlogAdmin")</li>
-    <li>@Html.ActionLink("Site Settings", "Settings")</li>
+<ul style="list-style-type: none">
+    <li>
+        @Html.IconLink(" Blog Admin", "Index", "BlogAdmin", fragment: null, routeValues: null, htmlAttributes: null, iconHtmlAttributes: new { @class = "icon-book" })</li>
+    <li>@Html.IconLink(" Site Settings", "Settings", "AdminHome", fragment: null, routeValues: null, htmlAttributes: null, iconHtmlAttributes: new { @class = "icon-cogs" })</li>
     <li>@using (Html.BeginForm("LogOff", "Account", new { Area = "SiteAdmin" }, FormMethod.Post, new { id = "logoutForm" })) {
             @Html.AntiForgeryToken()
-            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+            <a href="javascript:document.getElementById('logoutForm').submit()"><span class="icon-removefriend"></span> Log off</a>
         }</li>
 </ul>

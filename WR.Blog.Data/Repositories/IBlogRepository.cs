@@ -15,9 +15,9 @@ namespace WR.Blog.Data.Repositories
         /// <summary>
         /// Gets the blog post by id.
         /// </summary>
-        /// <param name="id">The blog post id.</param>
+        /// <param name="blogPostId">The blog post id.</param>
         /// <returns>A blog post with the specified id.</returns>
-        BlogPostDto GetBlogPostById(int id);
+        BlogPostDto GetBlogPostById(int blogPostId);
 
         /// <summary>
         /// Gets all blog posts.
@@ -40,17 +40,17 @@ namespace WR.Blog.Data.Repositories
         /// <summary>
         /// Deletes the blog post.
         /// </summary>
-        /// <param name="id">The id of the blog post to delete.</param>
-        void DeleteBlogPost(int id);
+        /// <param name="blogPostId">The id of the blog post to delete.</param>
+        void DeleteBlogPost(int blogPostId);
         #endregion
 
         #region Blog Version Methods
         /// <summary>
         /// Gets the blog post version by id.
         /// </summary>
-        /// <param name="id">The blog post version id.</param>
+        /// <param name="blogVersionId">The blog post version id.</param>
         /// <returns>The version with the specified id.</returns>
-        BlogVersionDto GetBlogPostVersionById(int id);
+        BlogVersionDto GetBlogPostVersionById(int blogVersionId);
 
         /// <summary>
         /// Gets all blog post versions.
@@ -74,28 +74,68 @@ namespace WR.Blog.Data.Repositories
         /// <summary>
         /// Deletes the blog post version.
         /// </summary>
-        /// <param name="id">The id of the version to delete.</param>
-        void DeleteBlogPostVersion(int id);
+        /// <param name="blogVersionId">The id of the version to delete.</param>
+        void DeleteBlogPostVersion(int blogVersionId);
 
         /// <summary>
         /// Deletes all versions for this blog post.
         /// </summary>
-        /// <param name="id">The blog post id.</param>
-        void DeleteAllBlogPostVersions(int id);
+        /// <param name="blogPostId">The blog post id.</param>
+        void DeleteAllBlogPostVersions(int blogPostId);
         #endregion
 
-        #region Site Settings Methods
+        #region Blog Comment Methods
         /// <summary>
-        /// Gets the site settings.
+        /// Gets the blog comment by id.
         /// </summary>
-        /// <returns>Returns site setttings.</returns>
-        SiteSettingsDto GetSiteSettings();
+        /// <param name="blogCommentId">The blog comment id.</param>
+        /// <returns>The comment with the specified id.</returns>
+        BlogCommentDto GetBlogCommentById(int blogCommentId);
 
         /// <summary>
-        /// Adds the settings if they do not exist or updates site settings if they do.
+        /// Gets all blog comments.
+        /// </summary>
+        /// <returns>Returns all blog comments</returns>
+        IQueryable<BlogCommentDto> GetBlogComments();
+
+        /// <summary>
+        /// Adds the blog comment.
+        /// </summary>
+        /// <param name="version">The blog comment to add.</param>
+        /// <returns>Returns the id of the blog comment.</returns>
+        int AddBlogComment(BlogCommentDto comment);
+
+        /// <summary>
+        /// Updates and saves the blog comment.
+        /// </summary>
+        /// <param name="version">The comment to update.</param>
+        void UpdateBlogComment(BlogCommentDto comment);
+
+        /// <summary>
+        /// Deletes the blog comment.
+        /// </summary>
+        /// <param name="blogCommentId">The id of the comment to delete.</param>
+        void DeleteBlogComment(int blogCommentId);
+
+        /// <summary>
+        /// Deletes all comments for this blog post.
+        /// </summary>
+        /// <param name="blogPostId">The blog post id.</param>
+        void DeleteAllBlogPostComments(int blogPostId);
+        #endregion
+
+        #region Blog Settings Methods
+        /// <summary>
+        /// Gets the blog settings.
+        /// </summary>
+        /// <returns>Returns site setttings.</returns>
+        BlogSettingsDto GetBlogSettings();
+
+        /// <summary>
+        /// Adds the settings if they do not exist or updates blog settings if they do.
         /// </summary>
         /// <param name="settings">The settings to add or update.</param>
-        void AddOrUpdateSiteSettings(SiteSettingsDto settings);
+        void AddOrUpdateBlogSettings(BlogSettingsDto settings);
         #endregion
 
         #region User Profile Methods

@@ -46,7 +46,11 @@
     table {
         border-collapse: collapse;
         border-spacing: 0; }
-
+    pre, code, kbd, samp, tt {
+      font-family: Consolas, "Lucida Console", Monaco, monospace, monospace;
+      font-size: .9em;
+      line-height: 1.2em;
+    }
 
 /* #Basic Styles
 ================================================== */
@@ -139,9 +143,8 @@
         display: inline-block;
         width: auto;
         padding: 4px 12px;
-        margin-bottom: 0;
-        font-size: 14px;
-        line-height: 20px;
+        font-size: 16px;
+        line-height: 21px;
         color: #333 !important;
         text-align: center;
         text-shadow: 0 1px 1px rgba(255,255,255,0.75);
@@ -276,5 +279,9 @@
     .remove-top { margin-top: 0 !important; }
     .half-top { margin-top: 10px !important; }
     .add-top { margin-top: 20px !important; }
+    .add-right { margin-right: 10px !important; }
+    .half-right { margin-right: 5px !important; }
+    .add-left { margin-right: 10px !important; }
+    .half-left { margin-right: 5px !important; }
 
 

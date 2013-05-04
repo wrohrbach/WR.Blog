@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WR.Blog.Data</RootNamespace>
     <AssemblyName>WR.Blog.Data</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,40 +31,109 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contexts\BlogDatabaseContext.cs" />
+    <Compile Include="Migrations\201304251459333_Initial.cs" />
+    <Compile Include="Migrations\201304251459333_Initial.Designer.cs">
+      <DependentUpon>201304251459333_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201304251503468_BlogComments.cs" />
+    <Compile Include="Migrations\201304251503468_BlogComments.Designer.cs">
+      <DependentUpon>201304251503468_BlogComments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201304251518505_Rename_SiteSettings_to_BlogSettings.cs" />
+    <Compile Include="Migrations\201304251518505_Rename_SiteSettings_to_BlogSettings.Designer.cs">
+      <DependentUpon>201304251518505_Rename_SiteSettings_to_BlogSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201304251623544_BlogSettings_Add_ModerateComments.cs" />
+    <Compile Include="Migrations\201304251623544_BlogSettings_Add_ModerateComments.Designer.cs">
+      <DependentUpon>201304251623544_BlogSettings_Add_ModerateComments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201304251955316_BlogComment_HomePage_NotRequired.cs" />
+    <Compile Include="Migrations\201304251955316_BlogComment_HomePage_NotRequired.Designer.cs">
+      <DependentUpon>201304251955316_BlogComment_HomePage_NotRequired.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201304260325062_Rename_BlogComment_BlogCommentId_to_Id.cs" />
+    <Compile Include="Migrations\201304260325062_Rename_BlogComment_BlogCommentId_to_Id.Designer.cs">
+      <DependentUpon>201304260325062_Rename_BlogComment_BlogCommentId_to_Id.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201305020327154_BlogComment_Add_IsDeleted.cs" />
+    <Compile Include="Migrations\201305020327154_BlogComment_Add_IsDeleted.Designer.cs">
+      <DependentUpon>201305020327154_BlogComment_Add_IsDeleted.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201305020356147_BlogComment_Add_IpAddress.cs" />
+    <Compile Include="Migrations\201305020356147_BlogComment_Add_IpAddress.Designer.cs">
+      <DependentUpon>201305020356147_BlogComment_Add_IpAddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201305021717481_BlogPostDto_AddCommentCollection.cs" />
+    <Compile Include="Migrations\201305021717481_BlogPostDto_AddCommentCollection.Designer.cs">
+      <DependentUpon>201305021717481_BlogPostDto_AddCommentCollection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\BlogCommentDto.cs" />
     <Compile Include="Models\BlogPostDto.cs" />
     <Compile Include="Models\BlogPostBaseDto.cs" />
     <Compile Include="Models\BlogVersionDto.cs" />
-    <Compile Include="Models\SiteSettingsDto.cs" />
+    <Compile Include="Models\BlogSettingsDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BlogRepository.cs" />
-    <Compile Include="Repositories\IUserProfilesRepository.cs" />
-    <Compile Include="Repositories\UserProfilesRepository.cs" />
     <Compile Include="Repositories\IBlogRepository.cs" />
-    <Compile Include="Repositories\ISiteSettingsRepository.cs" />
-    <Compile Include="Repositories\SiteSettingsRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201304251459333_Initial.resx">
+      <DependentUpon>201304251459333_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201304251503468_BlogComments.resx">
+      <DependentUpon>201304251503468_BlogComments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201304251518505_Rename_SiteSettings_to_BlogSettings.resx">
+      <DependentUpon>201304251518505_Rename_SiteSettings_to_BlogSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201304251623544_BlogSettings_Add_ModerateComments.resx">
+      <DependentUpon>201304251623544_BlogSettings_Add_ModerateComments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201304251955316_BlogComment_HomePage_NotRequired.resx">
+      <DependentUpon>201304251955316_BlogComment_HomePage_NotRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201304260325062_Rename_BlogComment_BlogCommentId_to_Id.resx">
+      <DependentUpon>201304260325062_Rename_BlogComment_BlogCommentId_to_Id.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201305020327154_BlogComment_Add_IsDeleted.resx">
+      <DependentUpon>201305020327154_BlogComment_Add_IsDeleted.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201305020356147_BlogComment_Add_IpAddress.resx">
+      <DependentUpon>201305020356147_BlogComment_Add_IpAddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201305021717481_BlogPostDto_AddCommentCollection.resx">
+      <DependentUpon>201305021717481_BlogPostDto_AddCommentCollection.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

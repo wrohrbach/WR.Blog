@@ -132,8 +132,84 @@ namespace WR.Blog.Business.Services
         /// <summary>
         /// Deletes the specified version.
         /// </summary>
-        /// <param name="id">The id of the version to delete.</param>
-        void DeleteVersion(int id);
+        /// <param name="versionId">The id of the version to delete.</param>
+        void DeleteVersion(int versionId);
+        #endregion
+
+        #region Blog Comment Methods
+        /// <summary>
+        /// Gets the comment by id.
+        /// </summary>
+        /// <param name="commentId">The comment id.</param>
+        /// <returns>Returns the comment.</returns>
+        BlogCommentDto GetComment(int commentId);
+
+        /// <summary>
+        /// Gets the comments by blog post.
+        /// </summary>
+        /// <param name="blogPost">The blog post to get comments for.</param>
+        /// <param name="isApproved">If true, only return comments that have been approved by a moderator.</param>
+        /// <returns>Returns a collection of blog comments associated with a blog post.</returns>
+        IEnumerable<BlogCommentDto> GetCommentsByBlogPost(BlogPostDto blogPost, bool isApproved = true);
+
+        /// <summary>
+        /// Gets the comments by blog post.
+        /// </summary>
+        /// <param name="blogPostId">The blog post id to get comments for.</param>
+        /// <param name="isApproved">If true, only return comments that have been approved by a moderator.</param>
+        /// <returns>
+        /// Returns a collection of blog comments associated with a blog post.
+        /// </returns>
+        IEnumerable<BlogCommentDto> GetCommentsByBlogPost(int blogPostId, bool isApproved = true);
+
+        /// <summary>
+        /// Gets the number of comments for a blog post.
+        /// </summary>
+        /// <param name="blogPostId">The id of the blog post to count comments.</param>
+        /// <param name="isApproved">If true, only count comments that have been approved by a moderator.</param>
+        /// <returns>
+        /// The number of comments for this blog post.
+        /// </returns>
+        int GetCommentCount(int blogPostId, bool isApproved = true);
+
+        /// <summary>
+        /// Gets all comments that have not been approved yet.
+        /// </summary>
+        /// <returns>Returns a collection of blog comments.</returns>
+        IEnumerable<BlogCommentDto> GetUnapprovedComments();
+
+        /// <summary>
+        /// Gets comments that have not been approved yet filtered by blog post id.
+        /// </summary>
+        /// <param name="blogPostId">Filter the unapproved comments by the blog post id.</param>
+        /// <returns>Returns a collection of blog comments filtered by blog post id.</returns>
+        IEnumerable<BlogCommentDto> GetUnapprovedComments(int blogPostId);
+
+        /// <summary>
+        /// Approves the comment for publishing.
+        /// </summary>
+        /// <param name="commentId">The id of the comment to approve.</param>
+        /// <param name="isApproved">Set to false to unapprove a comment. Leave as true to approve.</param>
+        void ApproveComment(int commentId, bool isApproved = true);
+
+        /// <summary>
+        /// Adds the comment.
+        /// </summary>
+        /// <param name="comment">The comment to add.</param>
+        /// <returns>The id of the newly added comment.</returns>
+        int AddComment(BlogCommentDto comment);
+
+        /// <summary>
+        /// Updates the comment.
+        /// </summary>
+        /// <param name="comment">The comment to update.</param>
+        void UpdateComment(BlogCommentDto comment);
+
+        /// <summary>
+        /// Marks the comment as deleted.
+        /// </summary>
+        /// <param name="commentId">The id of the comment to mark as deleted.</param>
+        void DeleteComment(int commentId);
         #endregion
     }
 }

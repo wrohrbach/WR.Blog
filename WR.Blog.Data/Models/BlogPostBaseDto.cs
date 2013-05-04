@@ -27,24 +27,6 @@ namespace WR.Blog.Data.Models
         [DisplayName("Post Content")]
         public string Text { get; set; }
 
-        [NotMapped]
-        public string AboveTheFold
-        {
-            get
-            {
-                return Text.Split(new string[] { "<!--more-->" }, StringSplitOptions.None).First();
-            }
-        }
-
-        [NotMapped]
-        public bool IsSummarized
-        {
-            get
-            {
-                return Text.IndexOf("<!--more-->", StringComparison.OrdinalIgnoreCase) >= 0;
-            }
-        }
-
         public virtual UserProfileDto Author { get; set; }
 
         [DataType(DataType.DateTime)]

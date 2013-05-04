@@ -1,5 +1,5 @@
 ﻿@{
-    var siteSettings = (WR.Blog.Data.Models.SiteSettingsDto)ViewBag.SiteSettings;
+    var blogSettings = (WR.Blog.Mvc.Areas.SiteAdmin.Models.BlogSettings)ViewBag.BlogSettings;
 }
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>@ViewBag.Title | @siteSettings.SiteTitle</title>
+        <title>@ViewBag.Title | @blogSettings.SiteTitle</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         
@@ -29,9 +29,9 @@
             <header>
                 <div id="header" class="sixteen columns half-bottom">
                     <p class="site-title">
-                        @Html.ActionLink(siteSettings.SiteTitle, "List", "Blog", routeValues: new { Area = "" }, htmlAttributes: null)<br />
-                        <span class="caption">@siteSettings.Tagline</span>
-                        <span class="caption alternate">@siteSettings.AltTagline</span>
+                        @Html.ActionLink(blogSettings.SiteTitle, "List", "Blog", routeValues: new { Area = "" }, htmlAttributes: null)<br />
+                        <span class="caption">@blogSettings.Tagline</span>
+                        <span class="caption alternate">@blogSettings.AltTagline</span>
                     </p>
                 </div>
             </header>
@@ -39,11 +39,11 @@
                 <div class="two columns">
                     <nav>
                         <div class="left-nav">
-                            <ul class="menu nodisc">
+                            <ul class="menu nodisc inner-shadow-right">
                                     <li><h3>@Html.ActionLink("Home", "List", "Blog", new { Area = "" }, null)</h3></li>
-                                @if (!string.IsNullOrWhiteSpace(siteSettings.MenuLinks))
+                                @if (!string.IsNullOrWhiteSpace(blogSettings.MenuLinks))
                                 {
-                                    foreach (var link in (siteSettings.MenuLinks).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                                    foreach (var link in (blogSettings.MenuLinks).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                                     {
                                         if (!string.IsNullOrWhiteSpace(link))
                                         {
@@ -51,7 +51,7 @@
                                         }                                    
                                     }                                    
                                 }
-                                @if (User.IsInRole(System.Configuration.ConfigurationManager.AppSettings["AdministratorRole"]))
+                                @if (ViewBag.BlogSettings.IsAdmin)
                                 {                                
                                     <li><h3>@Html.ActionLink("Admin", "Index", "AdminHome", new { Area = "SiteAdmin" }, null)</h3></li>
                                 }
@@ -73,13 +73,13 @@
 
         </div> <!-- /container -->
 
-        @if (!string.IsNullOrWhiteSpace(siteSettings.GoogleAccount))
+        @if (!string.IsNullOrWhiteSpace(blogSettings.GoogleAccount))
         {
             @Html.Partial("_GoogleAnalyticsPartial")
         }
 
         @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/syntax")
+        <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sons-of-obsidian"></script>
         @RenderSection("scripts", required: false)
     </body>
 </html>

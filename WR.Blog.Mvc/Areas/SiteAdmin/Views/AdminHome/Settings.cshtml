@@ -1,4 +1,4 @@
-﻿@model WR.Blog.Data.Models.SiteSettingsDto
+﻿@model WR.Blog.Mvc.Areas.SiteAdmin.Models.BlogSettings
 
 @{
     ViewBag.Title = "Settings";
@@ -60,6 +60,14 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.AllowComments)
             @Html.ValidationMessageFor(model => model.AllowComments)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ModerateComments)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ModerateComments)
+            @Html.ValidationMessageFor(model => model.ModerateComments)
         </div>
 
         <div class="editor-label">

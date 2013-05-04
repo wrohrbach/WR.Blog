@@ -18,5 +18,13 @@ namespace WR.Blog.Data.Models
             IsPublished = false;
             AllowComments = true;
         }
+
+        /// <summary>
+        /// Gets or sets this blog post's comment collection.
+        /// </summary>
+        /// <value>
+        /// The comments on this blog post.
+        /// </value>
+        public virtual ICollection<BlogCommentDto> Comments { get; set; }
     }
 }

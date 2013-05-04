@@ -11,9 +11,10 @@ namespace WR.Blog.Data.Contexts
     public class BlogDatabaseContext : DbContext
     {
         public DbSet<UserProfileDto> UserProfiles { get; set; }
-        public DbSet<SiteSettingsDto> SiteSettings { get; set; }
+        public DbSet<BlogSettingsDto> SiteSettings { get; set; }
         public DbSet<BlogPostDto> BlogPosts { get; set; }
         public DbSet<BlogVersionDto> BlogVersions { get; set; }
+        public DbSet<BlogCommentDto> BlogComments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -29,9 +30,14 @@ namespace WR.Blog.Data.Contexts
                 e.ToTable("BlogVersions");
             });
 
-            modelBuilder.Entity<SiteSettingsDto>().Map(e =>
+            modelBuilder.Entity<BlogCommentDto>().Map(e =>
             {
-                e.ToTable("SiteSettings");
+                e.ToTable("BlogComments");
+            });
+
+            modelBuilder.Entity<BlogSettingsDto>().Map(e =>
+            {
+                e.ToTable("BlogSettings");
             });
 
             modelBuilder.Entity<UserProfileDto>().Map(e =>
