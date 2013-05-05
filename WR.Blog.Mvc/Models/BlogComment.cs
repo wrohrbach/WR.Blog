@@ -46,7 +46,10 @@ namespace WR.Blog.Mvc.Models
         [DisplayName("Date of Comment"), DisplayFormat(DataFormatString = "{0: dddd, MMMM d, yyyy} at {0:h:mm tt}")]
         public DateTime CommentDate { get; set; }
 
-        [DisplayName("Approved?")]
+        [DisplayName("App?")]
         public bool IsApproved { get; set; }
+
+        [DisplayName("Del?")]
+        public bool IsDeleted { get; set; }
     }
 }

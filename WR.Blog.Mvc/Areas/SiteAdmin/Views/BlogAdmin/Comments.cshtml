@@ -11,7 +11,7 @@
 <h1>Comments</h1>
 
 <p>
-    @Html.IconLink(" Back to Blog Post List", "Index", null, fragment: null, routeValues: null, htmlAttributes: new { @class = "button" }, iconHtmlAttributes: new { @class = "icon-uniF472" })
+    @Html.IconLink(" Back to Blog Post List", "Index", null, fragment: null, routeValues: null, htmlAttributes: new { @class = "button" }, iconHtmlAttributes: new { @class = "icon-arrow-left" })
 </p>
 
 <table class="index">
@@ -30,6 +30,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.IsApproved)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsDeleted)
         </th>
         <th>Actions</th>
     </tr>
@@ -50,6 +53,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => comment.IsApproved)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => comment.IsDeleted)
         </td>
         <td>
             @Ajax.ActionLink(" ", "ApproveComment",

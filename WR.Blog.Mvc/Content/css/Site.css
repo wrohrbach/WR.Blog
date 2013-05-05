@@ -64,6 +64,7 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover, .site-ti
     float: right;
 }
 
+.center { margin-left: auto !important; margin-right: auto !important; }
 .centered { text-align: center; }
 .align-right { text-align: right; }
 .align-left{ text-align: left; }
@@ -145,7 +146,7 @@ div#header { margin: 0; }
 .comment-date {
     color: #c0c0c0;
     overflow: hidden;
-    padding: 5px 10px;
+    padding: 1px 10px 5px;
     position: absolute;
     right: 0;
     font-size: 80%;
@@ -319,32 +320,47 @@ input[type="checkbox"] {
     .comment-form .editor-labels { height: 450px; }
     .comment-form .editor-label { margin: 6px 0 29px; padding-right: 7px; }
     .comment-form .editor-fields { margin: 0; padding-top: 3px; }
-    .comment-form textarea { width: 400px; height: 225px; }
+    .comment-form .field-validation-error { position: absolute; left: 26%; margin-top: -17px; }
+    .comment-form .gravatar-message { position: absolute; margin-top: 4px; margin-left: 5px; }
+    .comment-form #Comment { width: 400px; height: 225px; }
 
 /* info and errors */
-.message-info {
-    border: 1px solid;
-    clear: both;
-    padding: 10px 20px;
+.message-box {
+    display: block;
+    margin: 20px 0 10px 0;
+    font-size: 1em;
+    height: 0;
+    opacity: 0;
 }
 
-.message-error {
-    clear: both;
-    color: #e80c4d;
-    font-size: 1.1em;
-    font-weight: bold;
-    margin: 20px 0 10px 0;
-}
+    .message {
+        display: inline-block;
+        border: 1px solid;
+        color: #333;
+        height: auto;
+        padding: 10px 20px;
+        max-width: 65%;
+    }
+        .message a
+        {
+            text-shadow: none;
+        }
 
-.message-success {
-    color: #7ac0da;
-    font-size: 1.3em;
-    font-weight: bold;
-    margin: 20px 0 10px 0;
-}
+    .message-info {
+    }
+
+    .message-error {
+        border-color: #e80c22;
+        background-color: #ffd7d7;
+        box-shadow: inset 0px -1px 1px rgba(255,160,160,.4);
+    }
+
+    .message-success {
+        color: #7ac0da;
+    }
 
 .error {
-    color: #e80c4d;
+    color: #e80c22;
 }
 
 /* styles for validation helpers */
@@ -375,4 +391,45 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
+/* Fade-in animations*/
+.fadein {
+    height: auto;
+    opacity: 1;
+    -moz-animation: fadein 2s ease-in;
+    -webkit-animation: fadein 2s ease-in;
+    -o-animation: fadein 2s ease-in;
+    animation: fadein 2s ease-in;
+}
 
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-o-keyframes fadein { /* Opera */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity: 1;
+    }
+}​

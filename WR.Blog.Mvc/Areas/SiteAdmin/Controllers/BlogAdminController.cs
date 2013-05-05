@@ -394,7 +394,9 @@ namespace WR.Blog.Mvc.Areas.SiteAdmin.Controllers
         [HttpPost]
         public JsonResult DeleteComment(int id)
         {
-            throw new NotImplementedException();
+            blogger.DeleteComment(id);
+
+            return Json(new { success = true });
         }
         #endregion
 

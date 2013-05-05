@@ -36,6 +36,9 @@
                 </div>
             </header>
             <article>
+                <div class="centered message-box @(!string.IsNullOrEmpty(ViewBag.MessageClass) ? "fadein" : "")">
+                    <div class="message @(ViewBag.MessageClass)">@Html.Raw(ViewBag.Message)</div>
+                </div>
                 <div class="two columns">
                     <nav>
                         <div class="left-nav">

@@ -10,9 +10,9 @@
 
 @using (Html.BeginForm()) {
     <div class="input-buttons">
-        <input type="submit" value="Delete" />&nbsp;
+        <button type="submit" name="submitButton" value="Delete" data-icon="&#xe051;"> Delete</button>&nbsp;
         @Html.HiddenFor(m => Model.VersionOfId)
-        @Html.ActionLink("Cancel", "Versions", routeValues: new { id = Model.VersionOfId }, htmlAttributes: new { @class = "button" })
+        @Html.IconLink(" Cancel", "Versions", null, fragment: null, routeValues: new { id = Model.VersionOfId }, htmlAttributes: new { @class = "button" }, iconHtmlAttributes: new { @class = "icon-cancel-circle" })
     </div>
 }
 <hr />

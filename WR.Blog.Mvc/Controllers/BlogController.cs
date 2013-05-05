@@ -138,18 +138,30 @@ namespace WR.Blog.Mvc.Controllers
                 commentDto.Comment = commentDto.Comment.ToSafeHtml();
 
                 blogger.AddComment(commentDto);
-                
-                return RedirectToAction("Index", 
-                    routeValues: new { 
+
+                return Redirect(Url.RouteUrl(routeValues: new { 
+                        controller = "Blog",
+                        action = "Index",
                         year = comment.BlogPostPublishedDate.Year,
                         month = comment.BlogPostPublishedDate.Month,
                         day = comment.BlogPostPublishedDate.Day, 
                         urlSegment = comment.BlogPostUrlSegment
-                    });
+                    }) + "#comment" + commentDto.Id);
+
+                //return RedirectToAction("Index", 
+                //    routeValues: new { 
+                //        year = comment.BlogPostPublishedDate.Year,
+                //        month = comment.BlogPostPublishedDate.Month,
+                //        day = comment.BlogPostPublishedDate.Day, 
+                //        urlSegment = comment.BlogPostUrlSegment
+                //    });
             }
 
             BlogPost blogPost = Mapper.Map<BlogPost>(blogger.GetBlogPost(comment.BlogPostId));
             blogPost.Comment = comment;
+
+            ViewBag.MessageClass = "message-error";
+            ViewBag.Message = "There was a problem with your comment. See the error message(s) <a href=\"#addcomment\">below</a>.";
 
             return View("Index", blogPost);
         }
