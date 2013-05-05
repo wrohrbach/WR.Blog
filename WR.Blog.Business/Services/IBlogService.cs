@@ -149,18 +149,20 @@ namespace WR.Blog.Business.Services
         /// </summary>
         /// <param name="blogPost">The blog post to get comments for.</param>
         /// <param name="isApproved">If true, only return comments that have been approved by a moderator.</param>
+        /// <param name="isDeleted">If false, only return comments that are not marked as deleted.</param>
         /// <returns>Returns a collection of blog comments associated with a blog post.</returns>
-        IEnumerable<BlogCommentDto> GetCommentsByBlogPost(BlogPostDto blogPost, bool isApproved = true);
+        IEnumerable<BlogCommentDto> GetCommentsByBlogPost(BlogPostDto blogPost, bool isApproved = true, bool isDeleted = false);
 
         /// <summary>
         /// Gets the comments by blog post.
         /// </summary>
         /// <param name="blogPostId">The blog post id to get comments for.</param>
         /// <param name="isApproved">If true, only return comments that have been approved by a moderator.</param>
+        /// <param name="isDeleted">If false, only return comments that are not marked as deleted.</param>
         /// <returns>
         /// Returns a collection of blog comments associated with a blog post.
         /// </returns>
-        IEnumerable<BlogCommentDto> GetCommentsByBlogPost(int blogPostId, bool isApproved = true);
+        IEnumerable<BlogCommentDto> GetCommentsByBlogPost(int blogPostId, bool isApproved = true, bool isDeleted = false);
 
         /// <summary>
         /// Gets the number of comments for a blog post.

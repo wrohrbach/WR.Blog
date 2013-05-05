@@ -325,12 +325,13 @@ namespace WR.Blog.Business.Services
         /// </summary>
         /// <param name="blogPost">The blog post to get comments for.</param>
         /// <param name="isApproved">If true, only return comments that have been approved by a moderator.</param>
+        /// <param name="isDeleted">If false, only return comments that are not marked as deleted.</param>
         /// <returns>
         /// Returns a collection of blog comments associated with a blog post.
         /// </returns>
-        public IEnumerable<BlogCommentDto> GetCommentsByBlogPost(BlogPostDto blogPost, bool isApproved = true)
+        public IEnumerable<BlogCommentDto> GetCommentsByBlogPost(BlogPostDto blogPost, bool isApproved = true, bool isDeleted = false)
         {
-            return GetCommentsByBlogPost(blogPost.Id, isApproved);
+            return GetCommentsByBlogPost(blogPost.Id, isApproved, isDeleted);
         }
 
         /// <summary>
@@ -338,16 +339,23 @@ namespace WR.Blog.Business.Services
         /// </summary>
         /// <param name="blogPostId">The blog post id to get comments for.</param>
         /// <param name="isApproved">If true, only return comments that have been approved by a moderator.</param>
+        /// <param name="isDeleted">If false, only return comments that are not marked as deleted.</param>
         /// <returns>
         /// Returns a collection of blog comments associated with a blog post.
         /// </returns>
-        public IEnumerable<BlogCommentDto> GetCommentsByBlogPost(int blogPostId, bool isApproved = true)
+        public IEnumerable<BlogCommentDto> GetCommentsByBlogPost(int blogPostId, bool isApproved = true, bool isDeleted = false)
         {
+            // TODO: Write tests for GetCommentsByBlogPost() where isDeleted == false
             var comments = br.GetBlogComments().Where(c => c.BlogPost.Id == blogPostId);
 
             if (isApproved)
             {
                 comments = comments.Where(c => c.IsApproved == isApproved);
+            }
+
+            if (!isDeleted)
+            {
+                comments = comments.Where(c => c.IsDeleted == isDeleted);
             }
 
             return comments.OrderBy(c => c.CommentDate)

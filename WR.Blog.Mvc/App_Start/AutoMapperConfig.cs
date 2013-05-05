@@ -22,7 +22,7 @@ namespace WR.Blog.Mvc
             // Blog post domain / view model mappings
             Mapper.CreateMap<BlogPostDto, BlogPost>()
                 .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author.DisplayName))
-                .ForMember(dest => dest.CommentCount, opt => opt.MapFrom(src => src.Comments.Count()));
+                .ForMember(dest => dest.CommentCount, opt => opt.MapFrom(src => src.Comments.Where(c => c.IsApproved && !c.IsDeleted).Count()));
             Mapper.CreateMap<BlogPost, BlogPostDto>();
 
             // Blog version domain / view model mappings
