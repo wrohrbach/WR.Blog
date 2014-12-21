@@ -391,7 +391,7 @@ namespace WR.Blog.Business.Services
         public IEnumerable<BlogCommentDto> GetUnapprovedComments()
         {
             return br.GetBlogComments()
-                .Where(c => c.IsApproved == false)
+                .Where(c => c.IsApproved == false && c.IsDeleted == false)
                 .OrderByDescending(c => c.CommentDate)
                 .ToList();
         }
@@ -406,9 +406,38 @@ namespace WR.Blog.Business.Services
         public IEnumerable<BlogCommentDto> GetUnapprovedComments(int blogPostId)
         {
             return br.GetBlogComments()
-                .Where(c => c.BlogPost.Id == blogPostId && c.IsApproved == false)
+                .Where(c => c.BlogPost.Id == blogPostId && c.IsApproved == false && c.IsDeleted == false)
                 .OrderByDescending(c => c.CommentDate)
                 .ToList();
+        }
+
+        /// <summary>
+        /// Gets the number of unapproved comments.
+        /// </summary>
+        /// <returns>Returns how many comments have not been approved.</returns>
+        public int GetUnapprovedCommentCount()
+        {
+            // TODO: Write Tests for GetUnapprovedCommentCount()
+            return br.GetBlogComments()
+                .Where(c => c.IsApproved == false && c.IsDeleted == false)
+                .OrderByDescending(c => c.CommentDate)
+                .Count();
+        }
+
+        /// <summary>
+        /// Gets the number of unapproved comments.
+        /// </summary>
+        /// <param name="blogPostId">The id of the blog post to count comments.</param>
+        /// <returns>
+        /// Returns how many comments have not been approved.
+        /// </returns>
+        public int GetUnapprovedCommentCount(int blogPostId)
+        {
+            // TODO: Write Tests for GetUnapprovedCommentCount(int blogPostid)
+            return br.GetBlogComments()
+                .Where(c => c.BlogPost.Id == blogPostId && c.IsApproved == false && c.IsDeleted == false)
+                .OrderByDescending(c => c.CommentDate)
+                .Count();
         }
 
         /// <summary>

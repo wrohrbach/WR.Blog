@@ -67,7 +67,7 @@ namespace WR.Blog.Mvc.Helpers
                 var properties = System.ComponentModel.TypeDescriptor.GetProperties(withProperties);
                 foreach (System.ComponentModel.PropertyDescriptor property in properties)
                 {
-                    dict.Add(property.Name, property.GetValue(withProperties));
+                    dict.Add(property.Name.Replace('_', '-'), property.GetValue(withProperties));
                 }
             }
             catch

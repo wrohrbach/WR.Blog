@@ -21,7 +21,7 @@
 /* #Base 960 Grid
 ================================================== */   
 
-    div.container {
+    /*div.container {
         -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.1);
         -moz-box-shadow: 0 0 10px rgba(0,0,0,0.1);
         box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -31,10 +31,11 @@
     .site-title a                               { font-size: 2.8em; }
     .site-title .caption.alternate              { display: none }
 
-    /* menu */
-    ul.menu { margin: 10px 0 0; padding: 15px 0; /*border: 1px solid #e0e0e0; border-width: 0 1px 0 0;*/ } 
+    .blog-content img { max-width: 560px; height: auto !important; }
+    
+    ul.menu { margin: 10px 0 0; padding: 15px 0;  } 
 
-    aside { /*border: 1px solid #e0e0e0; border-width: 0 0 0 1px;*/ padding-left: 10px; }
+    aside {  padding-left: 10px; }*/
     
     .container                                  { position: relative; width: 960px; margin: 0 auto; padding: 0; }
     .container .column,
@@ -92,15 +93,16 @@
     /* Note: Design for a width of 768px */
 
     @media only screen and (min-width: 768px) and (max-width: 959px) {
-        div#header                                  { background-image: url('/Content/img/header_tab.jpg'); height: 120px; }
+        /*div#header                                  { background-image: url('/Content/img/header_tab.jpg'); height: 120px; }
         .site-title                                 { padding: 18px 0 0; width: 45%; }
         .site-title a                               { font-size: 2.2em; }
         .site-title .caption                        { font-size: .95em; }
 
-        /* menu */
+        .blog-content img { max-width: 430px; height: auto !important; }
+
         ul.menu { margin: 10px 0 0; padding: 10px 0; }
         
-        img.so-flair { width: 160px; height: 45px; }
+        img.so-flair { width: 160px; height: 45px; }*/
     
         .container                                  { width: 768px; }
         .container .column,
@@ -156,7 +158,7 @@
 
     @media only screen and (max-width: 767px) {
 
-        div.container {
+        /*div.container {
             -webkit-box-shadow: none;
             -moz-box-shadow: none;
             box-shadow: none;
@@ -170,9 +172,10 @@
         ul.menu                             { border-width: 0; clear: left; float: left; position: relative; left: 50%; margin: 0; padding: 0;}
         ul.menu li                          { float: left; position: relative; right: 50%;}
         aside                               { border-width: 0; padding-left: 0; }
+        .blog-content img                   { max-width: 270px; height: auto !important; }*/
         
         /* turn header links into buttons */
-        ul.menu > li  a {
+        /*ul.menu > li  a {
             display: inline-block;
             padding: 4px 7px;
             margin-bottom: 0;
@@ -224,7 +227,7 @@
             background-color: #e6e6e6;
             }
         
-        ul.menu li { float: left; padding-right: 10px; }
+        ul.menu li { float: left; padding-right: 10px; }*/
         
         .container { width: 300px; }
         .container .columns,
@@ -276,16 +279,16 @@
     /* Note: Design for a width of 480px */
 
     @media only screen and (min-width: 480px) and (max-width: 767px) {
-        div#header                                  { background-image: url('/Content/img/header_mobile_landscape.jpg'); height: 100px; }
-        .site-title                                 { padding: 7px 0 0; }
-        .site-title a                               { font-size: 1.5em; }
-        ul.menu li { float: left; padding-right: 20px; }
-        ul.menu > li  a {
-            padding: 4px 12px; }
+        /*div#header              { background-image: url('/Content/img/header_mobile_landscape.jpg'); height: 100px; }
+        .site-title             { padding: 7px 0 0; }
+        .site-title a           { font-size: 1.5em; }
+        ul.menu li              { float: left; padding-right: 20px; }
+        ul.menu > li  a         { padding: 4px 12px; }
+        .blog-content img       { max-width: 390px; height: auto !important; }*/
         
-        .container { width: 420px; }
+        .container              { width: 420px; }
         .container .columns,
-        .container .column { margin: 0; }
+        .container .column      { margin: 0; }
 
         .container .one.column,
         .container .one.columns,

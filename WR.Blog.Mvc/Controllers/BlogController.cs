@@ -13,6 +13,7 @@ using WR.Blog.Mvc.Helpers;
 using WR.Blog.Mvc.Areas.SiteAdmin.Models;
 using WR.Blog.Mvc.Models;
 using System.Text.RegularExpressions;
+using WR.Blog.Mvc.Filters;
 
 namespace WR.Blog.Mvc.Controllers
 {
@@ -47,6 +48,8 @@ namespace WR.Blog.Mvc.Controllers
 
                 var blogPosts = Mapper.Map<IEnumerable<BlogPostDto>, List<BlogPost>>(blogPostDtos);
 
+                ViewBag.Location = "Home";
+
                 return View("List", blogPosts);
             }
 
@@ -71,6 +74,7 @@ namespace WR.Blog.Mvc.Controllers
 
         [OutputCache(Location = System.Web.UI.OutputCacheLocation.Client,
                      Duration = 600)]
+        [NotificationFilter]
         public ActionResult ContentPage(string urlSegment)
         {
             if (string.IsNullOrWhiteSpace(urlSegment))
@@ -87,6 +91,8 @@ namespace WR.Blog.Mvc.Controllers
 
             var blogPost = Mapper.Map<BlogPostDto, BlogPost>(blogPostDto);
 
+            ViewBag.Location = blogPost.UrlSegment;
+
             return View(blogPost);
         }
 
@@ -99,6 +105,8 @@ namespace WR.Blog.Mvc.Controllers
             var blogPostDtos = blogger.GetBlogPosts(page, null, published: true);
 
             var blogPosts = Mapper.Map<IEnumerable<BlogPostDto>, List<BlogPost>>(blogPostDtos);
+
+            ViewBag.Location = "Home";
 
             return View("List", blogPosts);
         }
@@ -134,7 +142,7 @@ namespace WR.Blog.Mvc.Controllers
                 commentDto.CommentDate = DateTime.Now;
                 commentDto.IsApproved = !ViewBag.BlogSettings.ModerateComments || ViewBag.BlogSettings.IsAdmin;
                 commentDto.GravatarHash = commentDto.Email.GravatarHash();
-                commentDto.Homepage = commentDto.Homepage.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? commentDto.Homepage : "http://" + commentDto.Homepage;
+                commentDto.Homepage = commentDto.Homepage.StartsWith("http", StringComparison.OrdinalIgnoreCase) || string.IsNullOrWhiteSpace(commentDto.Homepage) ? commentDto.Homepage : "http://" + commentDto.Homepage;
                 commentDto.Comment = commentDto.Comment.ToSafeHtml();
 
                 blogger.AddComment(commentDto);
@@ -147,14 +155,6 @@ namespace WR.Blog.Mvc.Controllers
                         day = comment.BlogPostPublishedDate.Day, 
                         urlSegment = comment.BlogPostUrlSegment
                     }) + "#comment" + commentDto.Id);
-
-                //return RedirectToAction("Index", 
-                //    routeValues: new { 
-                //        year = comment.BlogPostPublishedDate.Year,
-                //        month = comment.BlogPostPublishedDate.Month,
-                //        day = comment.BlogPostPublishedDate.Day, 
-                //        urlSegment = comment.BlogPostUrlSegment
-                //    });
             }
 
             BlogPost blogPost = Mapper.Map<BlogPost>(blogger.GetBlogPost(comment.BlogPostId));

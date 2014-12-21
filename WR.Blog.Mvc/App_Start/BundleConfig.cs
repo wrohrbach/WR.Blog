@@ -33,27 +33,33 @@ namespace WR.Blog.Mvc
                 "~/content/css/skeleton.css",
                 "~/content/css/layout.css",
                 "~/Content/css/font.css",
-                "~/Content/css/Site.css",
-                "~/Content/css/prettify/sons-of-obsidian.css"));
+                "~/Content/css/Site.css"));
 
+            // Bootstrap
+            bundles.Add(new StyleBundle("~/Content/bootstrap/styles").Include(
+                "~/content/bootstrap/css/bootstrap.css",
+                "~/content/bootstrap/css/bootstrap-responsive.css",
+                "~/content/bootstrap/css/bootstrap-custom.css",
+                "~/Content/css/font.css",
+                "~/Content/css/Site.css"));
 
-            bundles.Add(new StyleBundle("~/Content/css/syntax").Include(
-                        "~/Scripts/syntaxhighlighter/styles/shCoreRDark.css",
-                        "~/Scripts/syntaxhighlighter/styles/shThemeRDark.css"));
-
-            bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
-                        "~/Content/themes/base/jquery.ui.core.css",
-                        "~/Content/themes/base/jquery.ui.resizable.css",
-                        "~/Content/themes/base/jquery.ui.selectable.css",
-                        "~/Content/themes/base/jquery.ui.accordion.css",
-                        "~/Content/themes/base/jquery.ui.autocomplete.css",
-                        "~/Content/themes/base/jquery.ui.button.css",
-                        "~/Content/themes/base/jquery.ui.dialog.css",
-                        "~/Content/themes/base/jquery.ui.slider.css",
-                        "~/Content/themes/base/jquery.ui.tabs.css",
-                        "~/Content/themes/base/jquery.ui.datepicker.css",
-                        "~/Content/themes/base/jquery.ui.progressbar.css",
-                        "~/Content/themes/base/jquery.ui.theme.css"));
+            bundles.Add(new ScriptBundle("~/Content/bootstrap/scripts").Include(
+                "~/content/bootstrap/js/bootstrap.js",
+                "~/Scripts/wrblog.js"));
+            
+            //bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
+            //            "~/Content/themes/base/jquery.ui.core.css",
+            //            "~/Content/themes/base/jquery.ui.resizable.css",
+            //            "~/Content/themes/base/jquery.ui.selectable.css",
+            //            "~/Content/themes/base/jquery.ui.accordion.css",
+            //            "~/Content/themes/base/jquery.ui.autocomplete.css",
+            //            "~/Content/themes/base/jquery.ui.button.css",
+            //            "~/Content/themes/base/jquery.ui.dialog.css",
+            //            "~/Content/themes/base/jquery.ui.slider.css",
+            //            "~/Content/themes/base/jquery.ui.tabs.css",
+            //            "~/Content/themes/base/jquery.ui.datepicker.css",
+            //            "~/Content/themes/base/jquery.ui.progressbar.css",
+            //            "~/Content/themes/base/jquery.ui.theme.css"));
         }
     }
 }

@@ -4,6 +4,7 @@ using AutoMapper;
 using WR.Blog.Business.Services;
 using WR.Blog.Data.Models;
 using WR.Blog.Mvc.Areas.SiteAdmin.Models;
+using WR.Blog.Mvc.Config;
 
 namespace WR.Blog.Mvc.Areas.SiteAdmin.Controllers
 {
@@ -23,9 +24,7 @@ namespace WR.Blog.Mvc.Areas.SiteAdmin.Controllers
 
         public ActionResult Settings()
         {
-            BlogSettingsDto settingsDto = manager.GetBlogSettings();
-
-            BlogSettings settingsModel = Mapper.Map<BlogSettings>(settingsDto);
+            BlogSettings settingsModel = Mapper.Map<BlogSettings>(SettingsManager.Instance.Settings);
 
             return View(settingsModel);
         }
@@ -52,6 +51,9 @@ namespace WR.Blog.Mvc.Areas.SiteAdmin.Controllers
                 settingsDto.LastModifiedDate = DateTime.Now;                
 
                 manager.AddOrUpdateBlogSettings(settingsDto);
+
+                // Update settings instance
+                SettingsManager.UpdateSettings(settingsModel);
 
                 return RedirectToAction("Index");
             }

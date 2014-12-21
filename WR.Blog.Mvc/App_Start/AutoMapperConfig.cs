@@ -8,6 +8,7 @@ using WR.Blog.Mvc.Areas.SiteAdmin.Models;
 
 using AutoMapper;
 using WR.Blog.Mvc.Models;
+using WR.Blog.Mvc.Config;
 
 namespace WR.Blog.Mvc
 {
@@ -35,10 +36,16 @@ namespace WR.Blog.Mvc
             Mapper.CreateMap<BlogSettingsDto, BlogSettingsDto>();
             Mapper.CreateMap<BlogSettingsDto, BlogSettings>();
             Mapper.CreateMap<BlogSettings, BlogSettingsDto>();
+            Mapper.CreateMap<BlogSettingsDto, Settings>();
+            Mapper.CreateMap<Settings, BlogSettings>();
+            Mapper.CreateMap<BlogSettings, Settings>();
 
             // Blog comment domain / view model mappings
-            Mapper.CreateMap<BlogCommentDto, BlogComment>();
-            Mapper.CreateMap<BlogComment, BlogCommentDto>();
+            Mapper.CreateMap<BlogCommentDto, BlogComment>()
+                .ForMember(dest => dest.BlogPostId, opt => opt.MapFrom(src => src.BlogPost.Id))
+                .ForMember(dest => dest.BlogPostTitle, opt => opt.MapFrom(src => src.BlogPost.Title));
+            Mapper.CreateMap<BlogComment, BlogCommentDto>()
+                .ForMember(dest => dest.Homepage, opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.Homepage) ? src.Homepage : ""));
         }
     }
 }

@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "~/Views/Shared/_MainLayout_bootstrap.cshtml";
+}
+
+@section asides{
+                <div class="span4 aside inner-shadow-left">
+                    <aside>
+                        @Html.Partial("_AsidesPartial")
+                        @RenderSection("aside", required: false)
+                    </aside>                    
+                </div>
+}
+@RenderBody()
+
+@section scripts {
+    @RenderSection("scripts", required: false)
+}

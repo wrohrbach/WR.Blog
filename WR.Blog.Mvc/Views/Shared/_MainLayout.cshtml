@@ -15,9 +15,7 @@
         <meta name="viewport" content="width=device-width">
         
         @Styles.Render("~/Content/css/styles")
-        @Styles.Render("~/Content/css/syntax")
         @Scripts.Render("~/bundles/modernizr")
-
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -36,7 +34,7 @@
                 </div>
             </header>
             <article>
-                <div class="centered message-box @(!string.IsNullOrEmpty(ViewBag.MessageClass) ? "fadein" : "")">
+                <div class="centered message-box @(!string.IsNullOrEmpty(ViewBag.MessageClass) ? "fadein" : "hidden")">
                     <div class="message @(ViewBag.MessageClass)">@Html.Raw(ViewBag.Message)</div>
                 </div>
                 <div class="two columns">

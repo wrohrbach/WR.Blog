@@ -7,45 +7,47 @@
 <h1>Versions of "@ViewBag.BlogPostTitle"</h1>
 
 <p>
-    @Html.IconLink(" Back to Blog Post List", "Index", null, fragment: null, routeValues: null, htmlAttributes: new { @class = "button" }, iconHtmlAttributes: new { @class = "icon-arrow-left" })
+    @Html.IconLink(" Back to Blog Post List", "Index", null, fragment: null, routeValues: null, htmlAttributes: new { @class = "btn" }, iconHtmlAttributes: new { @class = "icon-arrow-left" })
 </p>
 
-<table class="index">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastModifiedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsContentPage)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Author)
-        </th>
-        <th>Actions</th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink(item.Title.Shorten(30, appendEllipse: true), "PreviewVersion", "BlogAdmin", routeValues: new { id = item.Id, Area = "SiteAdmin" }, htmlAttributes: null)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastModifiedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsContentPage)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Author)
-        </td>
-        <td>
-            @Html.IconLink(null, "EditVersion", null, null, new { id = item.Id }, new { @class = "half-right", title = "Edit Version"}, new { @class = "icon-quill" }) 
-            @Html.IconLink(null, "DeleteVersion", null, null, new { id = item.Id }, new { title = "Delete Version"}, new { @class = "icon-remove" })
-        </td>
-    </tr>
-}
-
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsContentPage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Title.Shorten(30, appendEllipse: true), "PreviewVersion", "BlogAdmin", routeValues: new { id = item.Id, Area = "SiteAdmin" }, htmlAttributes: null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsContentPage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
+            </td>
+            <td>
+                @Html.IconLink(null, "EditVersion", null, null, new { id = item.Id }, new { @class = "half-right", title = "Edit Version"}, new { @class = "icon-quill" }) 
+                @Html.IconLink(null, "DeleteVersion", null, null, new { id = item.Id }, new { title = "Delete Version"}, new { @class = "icon-remove" })
+            </td>
+        </tr>
+    }
+    </tbody>
 </table>

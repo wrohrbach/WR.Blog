@@ -8,7 +8,7 @@
 @if (ViewBag.BlogSettings.IsAdmin)
 {
     <p class="centered">
-        @Html.IconLink(" Edit Post", "Edit", "BlogAdmin", fragment: null, routeValues: new { Area = "SiteAdmin", id = Model.Id }, htmlAttributes: new { @class = "button" }, iconHtmlAttributes: new { @class = "icon-quill" })
+        @Html.IconLink(" Edit Post", "Edit", "BlogAdmin", fragment: null, routeValues: new { Area = "SiteAdmin", id = Model.Id }, htmlAttributes: new { @class = "btn" }, iconHtmlAttributes: new { @class = "icon-quill" })
     </p>
 }
 
@@ -18,7 +18,7 @@
 
 <p class="centered">
     <a name="comments" id="comments"></a>
-    @if (ViewBag.BlogSettings.AllowComments && Model.AllowComments) { <a class="button" href="#addcomment"><span class="icon-bubble"></span> Add Comment</a> }
+    @if (ViewBag.BlogSettings.AllowComments && Model.AllowComments) { <a class="btn" href="#addcomment"><span class="icon-bubble"></span> Add Comment</a> }
     else { <span>Comments are closed.</span> }
 </p>
 
@@ -35,4 +35,10 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/ckeditor/ckeditor_js")
     @Html.SpamPreventionScript()
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.field-validation-error').tooltip();
+        });
+    </script>
 }

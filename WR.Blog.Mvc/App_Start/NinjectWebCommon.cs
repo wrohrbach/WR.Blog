@@ -1,19 +1,19 @@
-[assembly: WebActivator.PreApplicationStartMethod(typeof(WR.Blog.Mvc.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(WR.Blog.Mvc.App_Start.NinjectWebCommon), "Stop")]
+using System;
+using System.Web;
+using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+using Ninject;
+using Ninject.Modules;
+using Ninject.Web.Common;
+using Ninject.Web.Mvc.FilterBindingSyntax;
+using WR.Blog.Business.Services;
+using WR.Blog.Data.Repositories;
+using WR.Blog.Mvc.Filters;
+    
+[assembly: WebActivator.PreApplicationStartMethod(typeof(WR.Blog.Mvc.NinjectWebCommon), "Start")]
+[assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(WR.Blog.Mvc.NinjectWebCommon), "Stop")]
 
-namespace WR.Blog.Mvc.App_Start
+namespace WR.Blog.Mvc
 {
-    using System;
-    using System.Web;
-
-    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-
-    using Ninject;
-    using Ninject.Web.Common;
-    using Ninject.Web.Mvc.FilterBindingSyntax;
-    using WR.Blog.Business.Services;
-    using WR.Blog.Data.Repositories;
-    using WR.Blog.Mvc.Filters;
 
     public static class NinjectWebCommon 
     {
@@ -57,12 +57,32 @@ namespace WR.Blog.Mvc.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<IBaseService>().To<BaseService>().InRequestScope();
-            kernel.Bind<ISiteManagerService>().To<SiteManagerService>().InRequestScope();
-            kernel.Bind<IBlogService>().To<BlogService>().InRequestScope();
-            kernel.Bind<IBlogRepository>().To<BlogRepository>().InRequestScope();
-
-            kernel.BindFilter<LoadSiteSettingsFilter>(System.Web.Mvc.FilterScope.Global, 0).InRequestScope();
+            kernel.Load<BlogModule>();
         }        
+    }
+
+    public class BlogModule : NinjectModule
+    {
+        public override void Load()
+        {
+            this.Bind<IBaseService>().To<BaseService>().InRequestScope();
+            this.Bind<ISiteManagerService>().To<SiteManagerService>().InRequestScope();
+            this.Bind<IBlogService>().To<BlogService>().InRequestScope();
+            this.Bind<IBlogRepository>().To<BlogRepository>().InRequestScope();
+
+            this.BindFilter<LoadSiteSettingsFilter>(System.Web.Mvc.FilterScope.Global, 0)
+                .InRequestScope();
+            this.BindFilter<NotificationFilter>(System.Web.Mvc.FilterScope.Action, 0)
+                .WhenActionMethodHas<NotificationFilter>();
+        }
+    }
+
+    public class SiteManagerSingletonModule : NinjectModule
+    {
+        public override void Load()
+        {
+            this.Bind<ISiteManagerService>().To<SiteManagerService>().InSingletonScope();
+            this.Bind<IBlogRepository>().To<BlogRepository>().InSingletonScope();
+        }
     }
 }

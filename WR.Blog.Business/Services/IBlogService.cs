@@ -188,6 +188,21 @@ namespace WR.Blog.Business.Services
         IEnumerable<BlogCommentDto> GetUnapprovedComments(int blogPostId);
 
         /// <summary>
+        /// Gets the number of unapproved comments.
+        /// </summary>
+        /// <returns>Returns how many comments have not been approved.</returns>
+        int GetUnapprovedCommentCount();
+
+        /// <summary>
+        /// Gets the number of unapproved comments.
+        /// </summary>
+        /// <param name="blogPostId">The id of the blog post to count comments.</param>
+        /// <returns>
+        /// Returns how many comments have not been approved.
+        /// </returns>
+        int GetUnapprovedCommentCount(int blogPostId);
+
+        /// <summary>
         /// Approves the comment for publishing.
         /// </summary>
         /// <param name="commentId">The id of the comment to approve.</param>

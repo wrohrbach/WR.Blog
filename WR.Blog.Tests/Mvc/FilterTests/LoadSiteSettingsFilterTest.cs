@@ -75,7 +75,7 @@ namespace WR.Blog.Tests.Mvc.FilterTests
         [Test]
         public void LoadSiteSettingsFilter_should_create_an_instance_of_LoadSiteSettingsFilter()
         {
-            var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
+            var attribute = new LoadSiteSettingsFilter();
 
             Assert.IsNotNull(attribute);
             Assert.IsInstanceOf(typeof(LoadSiteSettingsFilter), attribute);
@@ -87,7 +87,7 @@ namespace WR.Blog.Tests.Mvc.FilterTests
         public void OnActionExecuting_ViewBag_BlogSettings_should_not_contain_null_value()
         {
             bool isAdmin = true;
-            var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
+            var attribute = new LoadSiteSettingsFilter();
             var filterContext = GetFilterContext(isAdmin);
             mockSiteManagerService.Setup(br => br.GetBlogSettings()).Returns(blogSettings.FirstOrDefault());
 
@@ -101,7 +101,7 @@ namespace WR.Blog.Tests.Mvc.FilterTests
         public void OnActionExecuting_ViewBag_BlogSettings_should_be_an_object_of_type_BlogSettings()
         {
             bool isAdmin = true;
-            var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
+            var attribute = new LoadSiteSettingsFilter();
             var filterContext = GetFilterContext(isAdmin);
             mockSiteManagerService.Setup(br => br.GetBlogSettings()).Returns(blogSettings.FirstOrDefault());
 
@@ -115,7 +115,7 @@ namespace WR.Blog.Tests.Mvc.FilterTests
         public void OnActionExecuting_ViewBag_should_contain_default_site_settings_values()
         {
             bool isAdmin = true;
-            var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
+            var attribute = new LoadSiteSettingsFilter();
             var filterContext = GetFilterContext(isAdmin);
             mockSiteManagerService.Setup(br => br.GetBlogSettings()).Returns((BlogSettingsDto)null);
 
@@ -135,7 +135,7 @@ namespace WR.Blog.Tests.Mvc.FilterTests
         public void OnActionExecuting_ViewBag_should_NOT_contain_default_site_settings_values()
         {
             bool isAdmin = true;
-            var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
+            var attribute = new LoadSiteSettingsFilter();
             var filterContext = GetFilterContext(isAdmin);
             mockSiteManagerService.Setup(br => br.GetBlogSettings()).Returns(blogSettings.FirstOrDefault());
 
@@ -155,7 +155,7 @@ namespace WR.Blog.Tests.Mvc.FilterTests
         public void OnActionExecuting_ViewBag_should_contain_true_for_ViewBagIsAdmin()
         {
             bool isAdmin = true;
-            var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
+            var attribute = new LoadSiteSettingsFilter();
             var filterContext = GetFilterContext(isAdmin);
             mockSiteManagerService.Setup(br => br.GetBlogSettings()).Returns((BlogSettingsDto)null);
 
@@ -169,7 +169,7 @@ namespace WR.Blog.Tests.Mvc.FilterTests
         public void OnActionExecuting_ViewBag_should_contain_false_for_ViewBagIsAdmin()
         {
             bool isAdmin = false;
-            var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
+            var attribute = new LoadSiteSettingsFilter();
             var filterContext = GetFilterContext(isAdmin);
             mockSiteManagerService.Setup(br => br.GetBlogSettings()).Returns((BlogSettingsDto)null);
 
@@ -183,7 +183,7 @@ namespace WR.Blog.Tests.Mvc.FilterTests
         public void OnActionExecuting_ViewBag_should_contain_gravatar_url()
         {
             bool isAdmin = false;
-            var attribute = new LoadSiteSettingsFilter(mockSiteManagerService.Object);
+            var attribute = new LoadSiteSettingsFilter();
             var filterContext = GetFilterContext(isAdmin);
             mockSiteManagerService.Setup(br => br.GetBlogSettings()).Returns((BlogSettingsDto)null);
 

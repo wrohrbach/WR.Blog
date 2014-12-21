@@ -1,0 +1,87 @@
+﻿@model IEnumerable<WR.Blog.Mvc.Models.BlogComment>
+
+@{
+    ViewBag.Title = "All Unapproved Comments";
+}
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<h1>@ViewBag.Title</h1>
+
+<p>
+    @Html.IconLink(" Back to Blog Post List", "Index", null, fragment: null, routeValues: null, htmlAttributes: new { @class = "btn" }, iconHtmlAttributes: new { @class = "icon-arrow-left" })
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogPostTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CommentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsApproved)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var comment in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => comment.BlogPostTitle).ToString().Shorten(30, appendEllipse: true)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => comment.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => comment.Email).ToString().Shorten(30, appendEllipse: true)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => comment.Comment).ToString().Shorten(30, appendEllipse: true)
+            </td>
+            <td>
+                @Html.ValueFor(modelItem => comment.CommentDate, "{0:MM/dd/yyyy hh:mm tt}")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => comment.IsApproved)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => comment.IsDeleted)
+            </td>
+            <td>
+                @Ajax.ActionLink(" ", "ApproveComment",
+                    routeValues: new { id = comment.Id },
+                    ajaxOptions: new AjaxOptions
+                    {
+                        HttpMethod = "POST"
+                    }, 
+                    htmlAttributes: new { @class = "icon-checkmark-circle half-right", title = "Approve Comment" })
+                @Ajax.ActionLink(" ", "DeleteComment",
+                    routeValues: new { id = comment.Id },
+                    ajaxOptions: new AjaxOptions
+                    {
+                        HttpMethod = "POST"
+                    }, 
+                    htmlAttributes: new { @class = "icon-remove half-right", title = "Delete Comment" })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -358,10 +358,20 @@ namespace WR.Blog.Mvc.Areas.SiteAdmin.Controllers
             // TODO: Comment Paging
             int blogPostId = id ?? 0;
 
-            var commentDtos = blogger.GetCommentsByBlogPost(blogPostId, isApproved: false);
-            var comments = Mapper.Map<IEnumerable<BlogCommentDto>, List<BlogComment>>(commentDtos);
+            if (blogPostId > 0)
+            {
+                var commentDtos = blogger.GetCommentsByBlogPost(blogPostId, isApproved: false, isDeleted: true);
+                var comments = Mapper.Map<IEnumerable<BlogCommentDto>, List<BlogComment>>(commentDtos);
 
-            return View(comments);
+                return View(comments);
+            }
+            else
+            {
+                var commentDtos = blogger.GetUnapprovedComments();
+                var comments = Mapper.Map<IEnumerable<BlogCommentDto>, List<BlogComment>>(commentDtos);
+
+                return View("UnapprovedComments", comments);
+            }
         }
 
         public ActionResult ViewComment(int? id)

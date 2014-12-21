@@ -1,6 +1,8 @@
 ﻿$(document).ready(function () {
     if ($('textarea#Text').length > 0) {
-        CKEDITOR.replace('Text');
+        CKEDITOR.replace('Text', {
+            extraAllowedContent: 'span(*){*}[*]'
+        });
     }
 
     if ($('textarea#Comment').length > 0) {

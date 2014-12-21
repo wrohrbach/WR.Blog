@@ -49,23 +49,26 @@ namespace WR.Blog.Mvc
                     }
                 }
 
+                string administratorRole = System.Configuration.ConfigurationManager.AppSettings["AdministratorRole"];
+                string defaultUser = System.Configuration.ConfigurationManager.AppSettings["DefaultUser"];
+                string defaultPassword = System.Configuration.ConfigurationManager.AppSettings["DefaultPassword"];
+
                 WebSecurity.InitializeDatabaseConnection("BlogDatabaseContext", "UserProfile", "UserId", "UserName", autoCreateTables: true);
-                
-                if (!Roles.RoleExists("Administrator"))
+
+                if (!Roles.RoleExists(administratorRole))
                 {
-                    Roles.CreateRole("Administrator");
+                    Roles.CreateRole(administratorRole);
                 }
 
-                if (!WebSecurity.UserExists("admin"))
+                if (!WebSecurity.UserExists(defaultUser))
                 {
-                    WebSecurity.CreateUserAndAccount("admin", "changeme", new { DisplayName = "Admin", Active = true, EmailAddress = "" });
+                    WebSecurity.CreateUserAndAccount(defaultUser, defaultPassword, new { DisplayName = defaultUser, Active = true, EmailAddress = "" });
                 }
 
-                var roles = Roles.GetRolesForUser("admin");
-                if (!Roles.GetRolesForUser("admin").Contains("Administrator"))
+                if (!Roles.GetRolesForUser(defaultUser).Contains(administratorRole))
                 {
-                    Roles.AddUsersToRoles(new[] { "admin" }, new[] { "Administrator" });
-                }
+                    Roles.AddUsersToRoles(new[] { defaultUser }, new[] { administratorRole });
+                }                
             }
             catch (Exception ex)
             {

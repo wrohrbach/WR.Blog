@@ -7,58 +7,72 @@
 <h1>Blog Pages</h1>
 
 <p>
-    @Html.IconLink(" Create New Post", "Create", null, fragment: null, routeValues: null, htmlAttributes: new { @class = "button" }, iconHtmlAttributes: new { @class = "icon-createfile" })
+    @Html.IconLink(" Create New Post", "Create", null, fragment: null, routeValues: null, htmlAttributes: new { @class = "btn" }, iconHtmlAttributes: new { @class = "icon-createfile" })
 </p>
-<table class="index">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsPublished)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PublishedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastModifiedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AllowComments)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Author)
-        </th>
-        <th>Actions</th>
-    </tr>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsPublished)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublishedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AllowComments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td> 
+                @{
+                    var link = Html.Bootstrap()
+                        .ActionLink(item.Title.Shorten(30, appendEllipse: true), "Index", "Blog")
+                        .RouteValues(new { year = item.PublishedDate.Year, month = item.PublishedDate.Month, day = item.PublishedDate.Day, urlSegment = item.UrlSegment, Area = "" });
 
-@foreach (var item in Model) {
-    <tr>
-        <td>            
-            @Html.ActionLink(item.Title.Shorten(30, appendEllipse: true), "Index", "Blog", routeValues: new { year = item.PublishedDate.Year, month = item.PublishedDate.Month, day = item.PublishedDate.Day, urlSegment = item.UrlSegment, Area = "" }, htmlAttributes: null)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsPublished)
-        </td>
-        <td>
-            @Html.ValueFor(modelItem => item.PublishedDate, "{0:MM/dd/yyyy hh:mm tt}")
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastModifiedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AllowComments)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Author)
-        </td>
-        <td>
-            @Html.IconLink(null, "Edit", null, null, new { id = item.Id }, new { @class = "half-right", title = "Edit Post"}, new { @class = "icon-quill" }) 
-            @Html.IconLink(null, "Versions", null, null, new { id = item.Id }, new { @class = "half-right", title = "Version List"}, new { @class = "icon-copy" }) 
-            @Html.IconLink(null, "Comments", null, null, new { id = item.Id }, new { @class = "half-right", title = "Comment List"}, new { @class = "icon-bubbles" }) 
-            @Html.IconLink(null, "Delete", null, null, new { id = item.Id }, new { title = "Delete Post"}, new { @class = "icon-remove" })
-        </td>
-    </tr>
-}
+                    if (item.Title.Length > 30)
+                    {
+                        link.HtmlAttributes(new { data_placement = "top", data_title = item.Title, rel = "tooltip" });
+                    }
+                }
+                @link
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPublished)
+            </td>
+            <td>
+                @Html.ValueFor(modelItem => item.PublishedDate, "{0:MM/dd/yyyy hh:mm tt}")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AllowComments)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
+            </td>
+            <td>
+                @Html.IconLink(null, "Edit", null, null, new { id = item.Id }, new { @class = "half-right", data_placement="top", data_title="Edit " + item.Title.Shorten(30, appendEllipse: true), rel="tooltip"}, new { @class = "icon-quill" }) 
+                @Html.IconLink(null, "Versions", null, null, new { id = item.Id }, new { @class = "half-right", data_placement="top", data_title="Version List", rel="tooltip"}, new { @class = "icon-copy" }) 
+                @Html.IconLink(null, "Comments", null, null, new { id = item.Id }, new { @class = "half-right", data_placement="top", data_title="Comment List", rel="tooltip"}, new { @class = "icon-bubbles" }) 
+                @Html.IconLink(null, "Delete", null, null, new { id = item.Id }, new { data_placement="top", data_title="Delete " + item.Title.Shorten(30, appendEllipse: true), rel="tooltip"}, new { @class = "icon-remove" })                     
+            </td>
+        </tr>
+    }
+    </tbody>
 
 </table>

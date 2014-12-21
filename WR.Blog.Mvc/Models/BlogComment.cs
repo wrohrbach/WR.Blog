@@ -15,6 +15,9 @@ namespace WR.Blog.Mvc.Models
 
         public int BlogPostId { get; set; }
 
+        [DisplayName("Blog Post")]
+        public string BlogPostTitle { get; set; }
+
         public DateTime BlogPostPublishedDate { get; set; }
 
         public string BlogPostUrlSegment { get; set; }

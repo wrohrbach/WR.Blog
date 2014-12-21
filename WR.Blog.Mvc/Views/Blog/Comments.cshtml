@@ -10,7 +10,14 @@
             <span class="comment-gravatar-block">
                 <img class="comment-gravatar" src="@(String.Format(ViewBag.BlogSettings.GravatarUrl, item.GravatarHash))">
             </span>
-            <a class="comment-permalink" rel="nofollow" href="@(item.Homepage)">@item.Name</a>
+            @if (!string.IsNullOrWhiteSpace(item.Homepage))
+            {
+                <a class="comment-permalink" rel="nofollow" href="@(item.Homepage)">@item.Name</a>
+            }
+            else
+            {
+                <span class="comment-permalink">@item.Name</span>
+            }
         </div>
     </div>
     <hr />

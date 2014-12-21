@@ -135,6 +135,12 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="T4MVCExtensions">
+      <HintPath>..\packages\T4MVCExtensions.3.6.5\lib\net40\T4MVCExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="TwitterBootstrapMVC">
+      <HintPath>..\packages\TwitterBootstrapMVC.2.5.1\lib\net40\TwitterBootstrapMVC.dll</HintPath>
+    </Reference>
     <Reference Include="WebActivator">
       <HintPath>..\packages\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
     </Reference>
@@ -199,9 +205,11 @@
     <Compile Include="Areas\SiteAdmin\Models\BlogSettings.cs" />
     <Compile Include="Areas\SiteAdmin\SiteAdminAreaRegistration.cs" />
     <Compile Include="Areas\SiteAdmin\Controllers\AccountController.cs" />
+    <Compile Include="Config\Settings.cs" />
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Filters\NotificationFilter.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\LoadSiteSettingsFilter.cs" />
     <Compile Include="Global.asax.cs">
@@ -210,15 +218,25 @@
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\HtmlSanitizerStringExtension.cs" />
     <Compile Include="Helpers\IconLinkHelper.cs" />
+    <Compile Include="Config\SettingsManager.cs" />
     <Compile Include="Models\BlogComment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap\css\bootstrap-responsive.css" />
+    <Content Include="Content\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="Content\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\css\bootstrap-custom.css" />
+    <Content Include="Content\bootstrap\css\bootstrap-custom.min.css" />
+    <Content Include="Content\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="Content\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\bootstrap\js\bootstrap.min.js" />
     <Content Include="Content\css\base.css" />
     <Content Include="Content\css\font.css" />
     <Content Include="Content\css\layout.css" />
     <Content Include="Content\css\skeleton.css" />
-    <Content Include="Content\css\prettify\sons-of-obsidian.css" />
     <Content Include="Content\fonts\icomoon.dev.svg" />
     <Content Include="Content\fonts\icomoon.svg" />
     <Content Include="Content\img\glyphicons-halflings-white.png" />
@@ -583,6 +601,7 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.6.2-respond-1.1.0.js" />
+    <Content Include="Scripts\wrblog.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -625,7 +644,9 @@
     <Content Include="Areas\SiteAdmin\Views\BlogAdmin\Edit.cshtml" />
     <Content Include="Areas\SiteAdmin\Views\BlogAdmin\Delete.cshtml" />
     <Content Include="Areas\SiteAdmin\Views\AdminHome\Index.cshtml" />
-    <Content Include="Areas\SiteAdmin\Views\Web.config" />
+    <Content Include="Areas\SiteAdmin\Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Areas\SiteAdmin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\SiteAdmin\Views\BlogAdmin\EditForm.cshtml" />
     <Content Include="Areas\SiteAdmin\Views\AdminHome\Settings.cshtml" />
@@ -637,6 +658,7 @@
     <Content Include="Content\fonts\icomoon.eot" />
     <Content Include="Content\fonts\icomoon.ttf" />
     <Content Include="Content\fonts\icomoon.woff" />
+    <Content Include="Areas\SiteAdmin\Views\BlogAdmin\UnapprovedComments.cshtml" />
     <None Include="Properties\PublishProfiles\deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
@@ -661,6 +683,8 @@
     <Content Include="Views\Blog\BlogBody.cshtml" />
     <Content Include="Views\Blog\Comments.cshtml" />
     <Content Include="Views\Blog\CommentForm.cshtml" />
+    <Content Include="Views\Shared\_MainLayout_bootstrap.cshtml" />
+    <Content Include="Views\Shared\_MainLayoutWithAsides_bootstrap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WR.Blog.Business\WR.Blog.Business.csproj">
@@ -671,6 +695,9 @@
       <Project>{C9F9C3A0-97C0-40AF-9D29-0533EFC63B7A}</Project>
       <Name>WR.Blog.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

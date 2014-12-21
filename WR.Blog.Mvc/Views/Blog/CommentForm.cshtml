@@ -5,40 +5,44 @@
 <div class="comment-form">
     <a id="addcomment" name="addcomment" ></a>
     @using (Html.BeginForm("AddComment", "Blog")) {
-        @Html.ValidationSummary(true)
+        @Html.Bootstrap().ValidationSummary(true)
         @Html.HiddenFor(model => model.BlogPostId)
         @Html.HiddenFor(model => model.BlogPostPublishedDate)
         @Html.HiddenFor(model => model.BlogPostUrlSegment)
         @Html.HiddenFor(model => model.BlogPostId)
         @Html.HiddenFor(model => model.ReplyToCommentId)
     
-            <div class="editor-labels two columns align-right inner-shadow-right">
+            <div class="editor-labels span2 add-right align-right inner-shadow-right">
                 <div class="editor-label">@Html.LabelFor(model => model.Name)</div>
                 <div class="editor-label">@Html.LabelFor(model => model.Email)</div>
                 <div class="editor-label">@Html.LabelFor(model => model.Homepage)</div>
                 <div class="editor-label">@Html.LabelFor(model => model.Comment)</div>
             </div>
 
-            <div class="editor-fields eight columns">
+            <div class="editor-fields span5">
+                <div class="alt-label">@Html.LabelFor(model => model.Name)</div>
                 <div class="editor-field">
                     @Html.EditorFor(model => model.Name)
                     @Html.ValidationMessageFor(model => model.Name)
                 </div>
+                <div class="alt-label">@Html.LabelFor(model => model.Email)</div>
                 <div class="editor-field">
-                    @Html.EditorFor(model => model.Email) <span class="gravatar-message">(will show your <a href="http://gravatar.com">gravatar</a>)</span>
+                    @Html.TextBoxFor(model => model.Email, htmlAttributes: new { rel = "popover", data_html = "true", data_trigger = "focus", data_delay = "200", data_content = "Will be used to show your <a href=\"http://gravatar.com\">gravatar</a>" })
                     @Html.ValidationMessageFor(model => model.Email)
                 </div>
+                <div class="alt-label">@Html.LabelFor(model => model.Homepage)</div>
                 <div class="editor-field">
                     @Html.EditorFor(model => model.Homepage)
                     @Html.ValidationMessageFor(model => model.Homepage)
                 </div>
+                <div class="alt-label">@Html.LabelFor(model => model.Comment)</div>
                 <div class="editor-field">
                     @Html.TextAreaFor(model => model.Comment, new { })
                     @Html.ValidationMessageFor(model => model.Comment)
                 </div>
                 <div class="add-top">
                     @Html.SpamPreventionFields()
-                    <button type="submit" value="Post Comment" class="button" data-icon="&#xe005;" > Post Comment</button>
+                    <button type="submit" value="Post Comment" class="btn" data-icon="&#xe005;" > Post Comment</button>
                 </div>
             </div>    
     }
